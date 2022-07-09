@@ -4790,7 +4790,7 @@ const VAlert = defineComponent({
             "class": "v-alert__prepend"
           }, [slots.prepend ? slots.prepend() : icon.value && createVNode(VIcon, null, null)])]
         }), createVNode("div", {
-          "class": "v-alert__content"
+          "class": "v-alert__content otro"
         }, [hasTitle && createVNode(VAlertTitle, null, {
           default: () => [slots.title ? slots.title() : props.title]
         }), hasText && (slots.text ? slots.text() : props.text), (_slots$default = slots.default) == null ? void 0 : _slots$default.call(slots)]), slots.append && createVNode("div", {
