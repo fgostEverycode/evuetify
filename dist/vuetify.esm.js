@@ -4765,7 +4765,7 @@ const VAlert = defineComponent({
       const hasText = !!(props.text || slots.text);
       const hasClose = !!(slots.close || props.closable);
       return isActive.value && createVNode(props.tag, {
-        "class": ['v-alert', 'myalert', props.border && {
+        "class": ['v-alert', props.border && {
           'v-alert--border': !!props.border,
           [`v-alert--border-${props.border === true ? 'start' : props.border}`]: true
         }, {
