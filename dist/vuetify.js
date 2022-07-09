@@ -4769,7 +4769,7 @@
         const hasText = !!(props.text || slots.text);
         const hasClose = !!(slots.close || props.closable);
         return isActive.value && vue.createVNode(props.tag, {
-          "class": ['v-alert', 'mialert', props.border && {
+          "class": ['v-alert', 'myalert', props.border && {
             'v-alert--border': !!props.border,
             [`v-alert--border-${props.border === true ? 'start' : props.border}`]: true
           }, {
