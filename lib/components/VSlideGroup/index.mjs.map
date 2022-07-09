@@ -1,1 +1,1 @@
-{"version":3,"file":"index.mjs","names":[],"sources":["../../../src/components/VSlideGroup/index.ts"],"sourcesContent":["export * from './VSlideGroup'\nexport * from './VSlideGroupItem'\n"],"mappings":""}
+{"version":3,"file":"index.mjs","names":["VSlideGroup","VSlideGroupItem"],"sources":["../../../src/components/VSlideGroup/index.ts"],"sourcesContent":["export { VSlideGroup } from './VSlideGroup'\nexport { VSlideGroupItem } from './VSlideGroupItem'\n"],"mappings":"SAASA,W;SACAC,e"}

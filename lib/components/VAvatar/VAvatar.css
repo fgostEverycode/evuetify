@@ -39,5 +39,5 @@
   width: calc(var(--v-avatar-height) + -8px);
 }
 .v-avatar--rounded {
-  @includes tools.rounded($avatar-rounded-border-radius);
+  border-radius: 4px;
 }

@@ -23,6 +23,7 @@
 }
 .v-selection-control--inline {
   display: inline-flex;
+  flex: 0 0 auto;
 }
 .v-selection-control--inline .v-label {
   width: auto;

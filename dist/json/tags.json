@@ -98,7 +98,9 @@
       "item-title",
       "item-value",
       "items",
+      "menu",
       "menu-icon",
+      "menu-props",
       "model-value",
       "multiple",
       "no-data-text",
@@ -180,34 +182,6 @@
     ],
     "description": ""
   },
-  "v-banner-avatar": {
-    "attributes": [
-      "color",
-      "density",
-      "end",
-      "icon",
-      "image",
-      "rounded",
-      "size",
-      "start",
-      "tag"
-    ],
-    "description": ""
-  },
-  "v-banner-icon": {
-    "attributes": [
-      "color",
-      "density",
-      "end",
-      "icon",
-      "image",
-      "rounded",
-      "size",
-      "start",
-      "tag"
-    ],
-    "description": ""
-  },
   "v-banner-text": {
     "attributes": [
       "tag"
@@ -265,7 +239,7 @@
       "href",
       "replace",
       "tag",
-      "text",
+      "title",
       "to"
     ],
     "description": ""
@@ -290,6 +264,7 @@
       "height",
       "href",
       "icon",
+      "loading",
       "location",
       "max-height",
       "max-width",
@@ -353,6 +328,7 @@
       "href",
       "image",
       "link",
+      "loading",
       "location",
       "max-height",
       "max-width",
@@ -379,33 +355,15 @@
     "attributes": [],
     "description": ""
   },
-  "v-card-avatar": {
+  "v-card-item": {
     "attributes": [
-      "tag"
-    ],
-    "description": ""
-  },
-  "v-card-content": {
-    "attributes": [
-      "tag"
-    ],
-    "description": ""
-  },
-  "v-card-header": {
-    "attributes": [
-      "tag"
-    ],
-    "description": ""
-  },
-  "v-card-header-text": {
-    "attributes": [
-      "tag"
-    ],
-    "description": ""
-  },
-  "v-card-img": {
-    "attributes": [
-      "tag"
+      "append-avatar",
+      "append-icon",
+      "density",
+      "prepend-avatar",
+      "prepend-icon",
+      "subtitle",
+      "title"
     ],
     "description": ""
   },
@@ -475,6 +433,34 @@
       "readonly",
       "ripple",
       "rules",
+      "theme",
+      "true-icon",
+      "true-value",
+      "type",
+      "validation-value",
+      "value",
+      "value-comparator"
+    ],
+    "description": ""
+  },
+  "v-checkbox-btn": {
+    "attributes": [
+      "color",
+      "density",
+      "disabled",
+      "error",
+      "false-icon",
+      "false-value",
+      "id",
+      "indeterminate",
+      "indeterminate-icon",
+      "inline",
+      "label",
+      "model-value",
+      "multiple",
+      "name",
+      "readonly",
+      "ripple",
       "theme",
       "true-icon",
       "true-value",
@@ -583,7 +569,9 @@
       "item-title",
       "item-value",
       "items",
+      "menu",
       "menu-icon",
+      "menu-props",
       "model-value",
       "multiple",
       "no-data-text",
@@ -755,6 +743,7 @@
       "show-size",
       "single-line",
       "theme",
+      "validation-value",
       "variant"
     ],
     "description": ""
@@ -903,7 +892,8 @@
       "name",
       "prepend-icon",
       "readonly",
-      "rules"
+      "rules",
+      "validation-value"
     ],
     "description": ""
   },
@@ -1004,13 +994,14 @@
     ],
     "description": ""
   },
-  "v-list-subheader": {
+  "v-list-group": {
     "attributes": [
+      "active-color",
+      "collapse-icon",
       "color",
-      "inset",
-      "sticky",
+      "expand-icon",
       "tag",
-      "title"
+      "value"
     ],
     "description": ""
   },
@@ -1116,14 +1107,13 @@
     ],
     "description": ""
   },
-  "v-list-group": {
+  "v-list-subheader": {
     "attributes": [
-      "active-color",
-      "collapse-icon",
       "color",
-      "expand-icon",
+      "inset",
+      "sticky",
       "tag",
-      "value"
+      "title"
     ],
     "description": ""
   },
@@ -1330,6 +1320,7 @@
       "true-icon",
       "true-value",
       "type",
+      "validation-value",
       "value",
       "value-comparator"
     ],
@@ -1369,7 +1360,8 @@
       "ticks",
       "track-color",
       "track-fill-color",
-      "track-size"
+      "track-size",
+      "validation-value"
     ],
     "description": ""
   },
@@ -1423,7 +1415,9 @@
       "item-title",
       "item-value",
       "items",
+      "menu",
       "menu-icon",
+      "menu-props",
       "model-value",
       "multiple",
       "no-data-text",
@@ -1492,10 +1486,6 @@
     ],
     "description": ""
   },
-  "v-slide-group-symbol": {
-    "attributes": [],
-    "description": ""
-  },
   "v-slide-group": {
     "attributes": [
       "center-active",
@@ -1555,7 +1545,8 @@
       "ticks",
       "track-color",
       "track-fill-color",
-      "track-size"
+      "track-size",
+      "validation-value"
     ],
     "description": ""
   },
@@ -1608,6 +1599,7 @@
       "true-icon",
       "true-value",
       "type",
+      "validation-value",
       "value",
       "value-comparator"
     ],
@@ -1730,6 +1722,7 @@
       "single-line",
       "suffix",
       "theme",
+      "validation-value",
       "variant"
     ],
     "description": ""
@@ -1776,6 +1769,7 @@
       "suffix",
       "theme",
       "type",
+      "validation-value",
       "variant"
     ],
     "description": ""
@@ -1805,6 +1799,7 @@
   },
   "v-timeline-item": {
     "attributes": [
+      "density",
       "dot-color",
       "elevation",
       "fill-dot",
@@ -1879,7 +1874,8 @@
       "model-value",
       "name",
       "readonly",
-      "rules"
+      "rules",
+      "validation-value"
     ],
     "description": ""
   },

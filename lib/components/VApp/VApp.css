@@ -3,17 +3,14 @@
   background: rgb(var(--v-theme-background));
   color: rgba(var(--v-theme-on-background), var(--v-high-emphasis-opacity));
 }
-.v-application a {
-  cursor: pointer;
-}
 
 .v-application__wrap {
-  flex: 1 1 auto;
   backface-visibility: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  flex: 1 1 auto;
   max-width: 100%;
+  min-height: 100vh;
   position: relative;
 }
 

@@ -41,10 +41,6 @@
 .v-icon--start {
   margin-inline-end: 8px;
 }
-.v-btn:not(.v-btn--icon) .v-icon--start {
-  margin-inline-start: calc(var(--v-btn-height) / -9);
-  margin-inline-end: calc(var(--v-btn-height) / 4.5);
-}
 .v-btn.v-btn--stacked .v-icon--start {
   margin-inline-start: 0;
   margin-inline-end: 0;
@@ -53,10 +49,6 @@
 
 .v-icon--end {
   margin-inline-start: 8px;
-}
-.v-btn:not(.v-btn--icon) .v-icon--end {
-  margin-inline-start: calc(var(--v-btn-height) / 4.5);
-  margin-inline-end: calc(var(--v-btn-height) / -9);
 }
 .v-btn.v-btn--stacked .v-icon--end {
   margin-inline-start: 0;

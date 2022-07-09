@@ -1,7 +1,9 @@
 .v-btn {
   align-items: center;
   border-radius: 4px;
-  display: inline-flex;
+  display: grid;
+  grid-template-areas: "prepend content append";
+  grid-template-columns: max-content auto max-content;
   font-weight: 500;
   justify-content: center;
   letter-spacing: 0.0892857143em;
@@ -63,7 +65,7 @@
 }
 
 .v-btn.v-btn--density-default {
-  height: calc(var(--v-btn-height) + 0px);
+  height: calc(var(--v-btn-height) + 4px);
 }
 
 .v-btn.v-btn--density-comfortable {
@@ -104,7 +106,7 @@
 .v-btn--active:focus > .v-btn__overlay, .v-btn[aria-haspopup=menu][aria-expanded=true]:focus > .v-btn__overlay {
   opacity: calc(0.16 * var(--v-theme-overlay-multiplier));
 }
-.v-btn--variant-plain, .v-btn--variant-outlined, .v-btn--variant-text, .v-btn--variant-contained-text {
+.v-btn--variant-plain, .v-btn--variant-outlined, .v-btn--variant-text, .v-btn--variant-tonal {
   background: transparent;
   color: inherit;
 }
@@ -117,14 +119,14 @@
 .v-btn--variant-plain .v-btn__overlay {
   display: none;
 }
-.v-btn--variant-contained, .v-btn--variant-contained-flat {
+.v-btn--variant-elevated, .v-btn--variant-flat {
   background: rgb(var(--v-theme-surface));
   color: rgba(var(--v-theme-on-surface), var(--v-high-emphasis-opacity));
 }
-.v-btn--variant-contained {
+.v-btn--variant-elevated {
   box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 }
-.v-btn--variant-contained-flat {
+.v-btn--variant-flat {
   box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
 }
 .v-btn--variant-outlined {
@@ -133,7 +135,7 @@
 .v-btn--variant-text .v-btn__overlay {
   background: currentColor;
 }
-.v-btn--variant-contained-text .v-btn__underlay {
+.v-btn--variant-tonal .v-btn__underlay {
   background: currentColor;
   opacity: var(--v-activated-opacity);
   border-radius: inherit;
@@ -170,12 +172,12 @@
   font-size: 1rem;
 }
 .v-btn--icon.v-btn--density-default {
-  width: calc(var(--v-btn-height) + 12px);
-  height: calc(var(--v-btn-height) + 12px);
+  width: calc(var(--v-btn-height) + 4px);
+  height: calc(var(--v-btn-height) + 4px);
 }
 .v-btn--icon.v-btn--density-comfortable {
-  width: calc(var(--v-btn-height) + 0px);
-  height: calc(var(--v-btn-height) + 0px);
+  width: calc(var(--v-btn-height) + -8px);
+  height: calc(var(--v-btn-height) + -8px);
 }
 .v-btn--icon.v-btn--density-compact {
   width: calc(var(--v-btn-height) + -8px);
@@ -203,14 +205,22 @@
   color: rgba(var(--v-theme-on-surface), 0.26);
   opacity: 1;
 }
-.v-btn--disabled.v-btn--variant-contained {
+.v-btn--disabled.v-btn--variant-elevated {
   background: rgb(var(--v-theme-surface));
   box-shadow: none;
 }
-.v-btn--disabled.v-btn--variant-contained .v-btn__overlay {
+.v-btn--disabled.v-btn--variant-elevated .v-btn__overlay {
   opacity: 0.4615384615;
 }
-.v-btn--stacked {
+.v-btn--loading {
+  pointer-events: none;
+}
+.v-btn--loading .v-btn__content,
+.v-btn--loading .v-btn__prepend,
+.v-btn--loading .v-btn__append {
+  opacity: 0;
+}
+.v-btn--stacked .v-btn__content {
   flex-direction: column;
   line-height: 1.25;
 }
@@ -279,9 +289,49 @@
   --v-icon-size-multiplier: 1.1428571429;
 }
 
-.v-btn__content {
+.v-btn__loader {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.v-btn__content,
+.v-btn__prepend,
+.v-btn__append {
+  align-items: center;
+  display: flex;
   transition: transform, opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.v-btn__prepend {
+  grid-area: prepend;
+  margin-inline-start: calc(var(--v-btn-height) / -9);
+  margin-inline-end: calc(var(--v-btn-height) / 4.5);
+}
+
+.v-btn__append {
+  grid-area: append;
+  margin-inline-start: calc(var(--v-btn-height) / 4.5);
+  margin-inline-end: calc(var(--v-btn-height) / -9);
+}
+
+.v-btn__content {
+  grid-area: content;
+  justify-content: center;
   white-space: nowrap;
+}
+.v-btn__content > .v-icon--start {
+  margin-inline-start: calc(var(--v-btn-height) / -9);
+  margin-inline-end: calc(var(--v-btn-height) / 4.5);
+}
+.v-btn__content > .v-icon--end {
+  margin-inline-start: calc(var(--v-btn-height) / 4.5);
+  margin-inline-end: calc(var(--v-btn-height) / -9);
 }
 .v-btn--stacked .v-btn__content {
   white-space: normal;

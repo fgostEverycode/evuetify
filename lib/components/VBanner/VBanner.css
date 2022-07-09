@@ -1,9 +1,8 @@
 .v-banner {
-  align-items: center;
   display: grid;
   flex: 1 1;
   font-size: 0.875rem;
-  grid-template-areas: "prepend text actions";
+  grid-template-areas: "prepend content actions";
   grid-template-columns: max-content auto max-content;
   grid-template-rows: max-content max-content;
   line-height: 1.375rem;
@@ -39,7 +38,7 @@
   border-radius: 4px;
 }
 .v-banner--stacked:not(.v-banner--one-line) {
-  grid-template-areas: "prepend text" ". actions";
+  grid-template-areas: "prepend content" ". actions";
 }
 .v-banner--stacked .v-banner-text {
   padding-inline-end: 36px;
@@ -117,8 +116,10 @@
   top: 0;
 }
 
-.v-banner-avatar,
-.v-banner-icon,
+.v-banner__content {
+  grid-area: content;
+}
+
 .v-banner__prepend {
   align-self: flex-start;
   grid-area: prepend;
@@ -139,9 +140,8 @@
 .v-banner-text {
   -webkit-box-orient: vertical;
   display: -webkit-box;
-  grid-area: text;
-  overflow: hidden;
   padding-inline-end: 90px;
+  overflow: hidden;
 }
 .v-banner--one-line .v-banner-text {
   -webkit-line-clamp: 1;

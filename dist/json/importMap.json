@@ -1,9 +1,5 @@
 {
   "components": {
-    "VApp": {
-      "from": "components/VApp/index.mjs",
-      "styles": []
-    },
     "VAppBar": {
       "from": "components/VAppBar/index.mjs",
       "styles": []
@@ -16,20 +12,20 @@
       "from": "components/VAppBar/index.mjs",
       "styles": []
     },
-    "VAlert": {
-      "from": "components/VAlert/index.mjs",
-      "styles": []
-    },
-    "VAlertTitle": {
-      "from": "components/VAlert/index.mjs",
-      "styles": []
-    },
     "VAutocomplete": {
       "from": "components/VAutocomplete/index.mjs",
       "styles": []
     },
     "VAvatar": {
       "from": "components/VAvatar/index.mjs",
+      "styles": []
+    },
+    "VAlert": {
+      "from": "components/VAlert/index.mjs",
+      "styles": []
+    },
+    "VAlertTitle": {
+      "from": "components/VAlert/index.mjs",
       "styles": []
     },
     "VBadge": {
@@ -41,14 +37,6 @@
       "styles": []
     },
     "VBannerActions": {
-      "from": "components/VBanner/index.mjs",
-      "styles": []
-    },
-    "VBannerAvatar": {
-      "from": "components/VBanner/index.mjs",
-      "styles": []
-    },
-    "VBannerIcon": {
       "from": "components/VBanner/index.mjs",
       "styles": []
     },
@@ -92,23 +80,7 @@
       "from": "components/VCard/index.mjs",
       "styles": []
     },
-    "VCardAvatar": {
-      "from": "components/VCard/index.mjs",
-      "styles": []
-    },
-    "VCardContent": {
-      "from": "components/VCard/index.mjs",
-      "styles": []
-    },
-    "VCardHeader": {
-      "from": "components/VCard/index.mjs",
-      "styles": []
-    },
-    "VCardHeaderText": {
-      "from": "components/VCard/index.mjs",
-      "styles": []
-    },
-    "VCardImg": {
+    "VCardItem": {
       "from": "components/VCard/index.mjs",
       "styles": []
     },
@@ -136,6 +108,10 @@
       "from": "components/VCheckbox/index.mjs",
       "styles": []
     },
+    "VCheckboxBtn": {
+      "from": "components/VCheckbox/index.mjs",
+      "styles": []
+    },
     "VChip": {
       "from": "components/VChip/index.mjs",
       "styles": []
@@ -152,16 +128,12 @@
       "from": "components/VColorPicker/index.mjs",
       "styles": []
     },
-    "VCombobox": {
-      "from": "components/VCombobox/index.mjs",
-      "styles": []
-    },
     "VCounter": {
       "from": "components/VCounter/index.mjs",
       "styles": []
     },
-    "VDefaultsProvider": {
-      "from": "components/VDefaultsProvider/index.mjs",
+    "VCombobox": {
+      "from": "components/VCombobox/index.mjs",
       "styles": []
     },
     "VDialog": {
@@ -202,30 +174,6 @@
     },
     "VFooter": {
       "from": "components/VFooter/index.mjs",
-      "styles": []
-    },
-    "VForm": {
-      "from": "components/VForm/index.mjs",
-      "styles": []
-    },
-    "VContainer": {
-      "from": "components/VGrid/index.mjs",
-      "styles": []
-    },
-    "VCol": {
-      "from": "components/VGrid/index.mjs",
-      "styles": []
-    },
-    "VRow": {
-      "from": "components/VGrid/index.mjs",
-      "styles": []
-    },
-    "VSpacer": {
-      "from": "components/VGrid/index.mjs",
-      "styles": []
-    },
-    "VHover": {
-      "from": "components/VHover/index.mjs",
       "styles": []
     },
     "VIcon": {
@@ -272,23 +220,11 @@
       "from": "components/VLabel/index.mjs",
       "styles": []
     },
-    "VLayout": {
-      "from": "components/VLayout/index.mjs",
-      "styles": []
-    },
-    "VLayoutItem": {
-      "from": "components/VLayout/index.mjs",
-      "styles": []
-    },
-    "VLazy": {
-      "from": "components/VLazy/index.mjs",
-      "styles": []
-    },
     "VList": {
       "from": "components/VList/index.mjs",
       "styles": []
     },
-    "VListSubheader": {
+    "VListGroup": {
       "from": "components/VList/index.mjs",
       "styles": []
     },
@@ -328,12 +264,8 @@
       "from": "components/VList/index.mjs",
       "styles": []
     },
-    "VListGroup": {
+    "VListSubheader": {
       "from": "components/VList/index.mjs",
-      "styles": []
-    },
-    "VLocaleProvider": {
-      "from": "components/VLocaleProvider/index.mjs",
       "styles": []
     },
     "VMain": {
@@ -352,20 +284,12 @@
       "from": "components/VNavigationDrawer/index.mjs",
       "styles": []
     },
-    "VNoSsr": {
-      "from": "components/VNoSsr/index.mjs",
-      "styles": []
-    },
     "VOverlay": {
       "from": "components/VOverlay/index.mjs",
       "styles": []
     },
     "VPagination": {
       "from": "components/VPagination/index.mjs",
-      "styles": []
-    },
-    "VParallax": {
-      "from": "components/VParallax/index.mjs",
       "styles": []
     },
     "VProgressCircular": {
@@ -376,24 +300,12 @@
       "from": "components/VProgressLinear/index.mjs",
       "styles": []
     },
-    "VRadio": {
-      "from": "components/VRadio/index.mjs",
-      "styles": []
-    },
     "VRadioGroup": {
       "from": "components/VRadioGroup/index.mjs",
       "styles": []
     },
-    "VRangeSlider": {
-      "from": "components/VRangeSlider/index.mjs",
-      "styles": []
-    },
     "VRating": {
       "from": "components/VRating/index.mjs",
-      "styles": []
-    },
-    "VResponsive": {
-      "from": "components/VResponsive/index.mjs",
       "styles": []
     },
     "VSelect": {
@@ -410,6 +322,14 @@
     },
     "VSheet": {
       "from": "components/VSheet/index.mjs",
+      "styles": []
+    },
+    "VSlideGroup": {
+      "from": "components/VSlideGroup/index.mjs",
+      "styles": []
+    },
+    "VSlideGroupItem": {
+      "from": "components/VSlideGroup/index.mjs",
       "styles": []
     },
     "VSlider": {
@@ -448,10 +368,6 @@
       "from": "components/VTextField/index.mjs",
       "styles": []
     },
-    "VThemeProvider": {
-      "from": "components/VThemeProvider/index.mjs",
-      "styles": []
-    },
     "VTimeline": {
       "from": "components/VTimeline/index.mjs",
       "styles": []
@@ -476,16 +392,88 @@
       "from": "components/VTooltip/index.mjs",
       "styles": []
     },
-    "VValidation": {
-      "from": "components/VValidation/index.mjs",
-      "styles": []
-    },
     "VWindow": {
       "from": "components/VWindow/index.mjs",
       "styles": []
     },
     "VWindowItem": {
       "from": "components/VWindow/index.mjs",
+      "styles": []
+    },
+    "VApp": {
+      "from": "components/VApp/index.mjs",
+      "styles": []
+    },
+    "VDefaultsProvider": {
+      "from": "components/VDefaultsProvider/index.mjs",
+      "styles": []
+    },
+    "VForm": {
+      "from": "components/VForm/index.mjs",
+      "styles": []
+    },
+    "VContainer": {
+      "from": "components/VGrid/index.mjs",
+      "styles": []
+    },
+    "VCol": {
+      "from": "components/VGrid/index.mjs",
+      "styles": []
+    },
+    "VRow": {
+      "from": "components/VGrid/index.mjs",
+      "styles": []
+    },
+    "VSpacer": {
+      "from": "components/VGrid/index.mjs",
+      "styles": []
+    },
+    "VHover": {
+      "from": "components/VHover/index.mjs",
+      "styles": []
+    },
+    "VLayout": {
+      "from": "components/VLayout/index.mjs",
+      "styles": []
+    },
+    "VLayoutItem": {
+      "from": "components/VLayout/index.mjs",
+      "styles": []
+    },
+    "VLazy": {
+      "from": "components/VLazy/index.mjs",
+      "styles": []
+    },
+    "VLocaleProvider": {
+      "from": "components/VLocaleProvider/index.mjs",
+      "styles": []
+    },
+    "VNoSsr": {
+      "from": "components/VNoSsr/index.mjs",
+      "styles": []
+    },
+    "VParallax": {
+      "from": "components/VParallax/index.mjs",
+      "styles": []
+    },
+    "VRadio": {
+      "from": "components/VRadio/index.mjs",
+      "styles": []
+    },
+    "VRangeSlider": {
+      "from": "components/VRangeSlider/index.mjs",
+      "styles": []
+    },
+    "VResponsive": {
+      "from": "components/VResponsive/index.mjs",
+      "styles": []
+    },
+    "VThemeProvider": {
+      "from": "components/VThemeProvider/index.mjs",
+      "styles": []
+    },
+    "VValidation": {
+      "from": "components/VValidation/index.mjs",
       "styles": []
     },
     "VCarouselTransition": {

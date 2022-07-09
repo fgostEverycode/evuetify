@@ -46,13 +46,17 @@ interface OnColors {
     'on-info': string;
 }
 interface ThemeInstance {
-    isDisabled: boolean;
-    name: Ref<string>;
-    themes: Ref<Record<string, InternalThemeDefinition>>;
+    readonly isDisabled: boolean;
+    readonly themes: Ref<Record<string, InternalThemeDefinition>>;
+    readonly name: Readonly<Ref<string>>;
     readonly current: DeepReadonly<Ref<InternalThemeDefinition>>;
     readonly computedThemes: DeepReadonly<Ref<Record<string, InternalThemeDefinition>>>;
-    themeClasses: Readonly<Ref<string | undefined>>;
-    styles: Readonly<Ref<string>>;
+    readonly themeClasses: Readonly<Ref<string | undefined>>;
+    readonly styles: Readonly<Ref<string>>;
+    readonly global: {
+        readonly name: Ref<string>;
+        readonly current: DeepReadonly<Ref<InternalThemeDefinition>>;
+    };
 }
 declare function useTheme(): ThemeInstance;
 
@@ -148,7 +152,7 @@ declare const VAppBar: vue.DefineComponent<{
         default: string;
         validator: (value: any) => boolean;
     };
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
     'update:modelValue': (value: boolean) => true;
 }, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     height: {
@@ -358,7 +362,7 @@ declare const VAppBarNavIcon: vue.DefineComponent<{
         type: vue.PropType<IconValue>;
         default: string;
     };
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     icon: {
         type: vue.PropType<IconValue>;
         default: string;
@@ -367,12 +371,12 @@ declare const VAppBarNavIcon: vue.DefineComponent<{
     icon: IconValue;
 }>;
 
-declare const VAppBarTitle: vue.DefineComponent<any, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<any>, {} | {
+declare const VAppBarTitle: vue.DefineComponent<any, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<any>, {} | {
     [x: string]: any;
 }>;
 
 declare const block: readonly ["top", "bottom"];
-declare const inline: readonly ["start", "end"];
+declare const inline: readonly ["start", "end", "left", "right"];
 declare type Tblock = typeof block[number];
 declare type Tinline = typeof inline[number];
 declare type Anchor = Tblock | Tinline | 'center' | 'center center' | `${Tblock} ${Tinline | 'center'}` | `${Tinline} ${Tblock | 'center'}`;
@@ -398,12 +402,12 @@ declare type ContextualType = typeof allowedTypes[number];
 declare const VAlert: vue.DefineComponent<{
     color: StringConstructor;
     variant: Omit<{
-        type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     }, "type" | "default"> & {
-        type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-        default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+        type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+        default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     };
     theme: StringConstructor;
     tag: {
@@ -468,12 +472,12 @@ declare const VAlert: vue.DefineComponent<{
 }, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     color: StringConstructor;
     variant: Omit<{
-        type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     }, "type" | "default"> & {
-        type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-        default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+        type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+        default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     };
     theme: StringConstructor;
     tag: {
@@ -541,7 +545,7 @@ declare const VAlert: vue.DefineComponent<{
     rounded: string | number | boolean;
     prominent: boolean;
     density: "default" | "compact" | "comfortable" | null;
-    variant: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+    variant: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     modelValue: boolean;
     closable: boolean;
     closeIcon: IconValue;
@@ -623,6 +627,7 @@ declare const VInput: {
                 default: () => never[];
             };
             modelValue: null;
+            validationValue: null;
             density: {
                 type: PropType<"default" | "compact" | "comfortable" | null>;
                 default: string;
@@ -680,6 +685,7 @@ declare const VInput: {
                 default: () => never[];
             };
             modelValue: null;
+            validationValue: null;
             density: {
                 type: PropType<"default" | "compact" | "comfortable" | null>;
                 default: string;
@@ -759,6 +765,7 @@ declare const VInput: {
             default: () => never[];
         };
         modelValue: null;
+        validationValue: null;
         density: {
             type: PropType<"default" | "compact" | "comfortable" | null>;
             default: string;
@@ -810,6 +817,7 @@ declare const VInput: {
         default: () => never[];
     };
     modelValue: null;
+    validationValue: null;
     density: {
         type: PropType<"default" | "compact" | "comfortable" | null>;
         default: string;
@@ -868,8 +876,8 @@ interface VFieldSlot extends DefaultInputSlot {
 }
 declare type VFieldSlots = MakeSlots<{
     clear: [];
-    prependInner: [DefaultInputSlot & VInputSlot];
-    appendInner: [DefaultInputSlot & VInputSlot];
+    'prepend-inner': [DefaultInputSlot & VInputSlot];
+    'append-inner': [DefaultInputSlot & VInputSlot];
     label: [DefaultInputSlot & VInputSlot];
     loader: [LoaderSlotProps];
     default: [VFieldSlot];
@@ -884,7 +892,7 @@ declare const VField: {
             active: boolean;
             loading: boolean;
             disabled: boolean;
-            variant: "filled" | "outlined" | "plain" | "contained" | "underlined";
+            variant: "filled" | "outlined" | "plain" | "underlined" | "solo";
             focused: boolean;
             clearable: boolean;
             clearIcon: IconValue;
@@ -912,7 +920,7 @@ declare const VField: {
             reverse: BooleanConstructor;
             singleLine: BooleanConstructor;
             variant: {
-                type: PropType<"filled" | "outlined" | "plain" | "contained" | "underlined">;
+                type: PropType<"filled" | "outlined" | "plain" | "underlined" | "solo">;
                 default: string;
                 validator: (v: any) => boolean;
             };
@@ -920,8 +928,8 @@ declare const VField: {
             id: StringConstructor;
         }, "onUpdate:modelValue" | "modelValue"> & SlotsToProps<MakeSlots<{
             clear: [];
-            prependInner: [DefaultInputSlot & VInputSlot];
-            appendInner: [DefaultInputSlot & VInputSlot];
+            'prepend-inner': [DefaultInputSlot & VInputSlot];
+            'append-inner': [DefaultInputSlot & VInputSlot];
             label: [DefaultInputSlot & VInputSlot];
             loader: [LoaderSlotProps];
             default: [VFieldSlot];
@@ -964,7 +972,7 @@ declare const VField: {
             reverse: BooleanConstructor;
             singleLine: BooleanConstructor;
             variant: {
-                type: PropType<"filled" | "outlined" | "plain" | "contained" | "underlined">;
+                type: PropType<"filled" | "outlined" | "plain" | "underlined" | "solo">;
                 default: string;
                 validator: (v: any) => boolean;
             };
@@ -972,8 +980,8 @@ declare const VField: {
             id: StringConstructor;
         }, "onUpdate:modelValue" | "modelValue"> & SlotsToProps<MakeSlots<{
             clear: [];
-            prependInner: [DefaultInputSlot & VInputSlot];
-            appendInner: [DefaultInputSlot & VInputSlot];
+            'prepend-inner': [DefaultInputSlot & VInputSlot];
+            'append-inner': [DefaultInputSlot & VInputSlot];
             label: [DefaultInputSlot & VInputSlot];
             loader: [LoaderSlotProps];
             default: [VFieldSlot];
@@ -994,7 +1002,7 @@ declare const VField: {
             active: boolean;
             loading: boolean;
             disabled: boolean;
-            variant: "filled" | "outlined" | "plain" | "contained" | "underlined";
+            variant: "filled" | "outlined" | "plain" | "underlined" | "solo";
             focused: boolean;
             clearable: boolean;
             clearIcon: IconValue;
@@ -1042,7 +1050,7 @@ declare const VField: {
         reverse: BooleanConstructor;
         singleLine: BooleanConstructor;
         variant: {
-            type: PropType<"filled" | "outlined" | "plain" | "contained" | "underlined">;
+            type: PropType<"filled" | "outlined" | "plain" | "underlined" | "solo">;
             default: string;
             validator: (v: any) => boolean;
         };
@@ -1050,8 +1058,8 @@ declare const VField: {
         id: StringConstructor;
     }, "onUpdate:modelValue" | "modelValue"> & SlotsToProps<MakeSlots<{
         clear: [];
-        prependInner: [DefaultInputSlot & VInputSlot];
-        appendInner: [DefaultInputSlot & VInputSlot];
+        'prepend-inner': [DefaultInputSlot & VInputSlot];
+        'append-inner': [DefaultInputSlot & VInputSlot];
         label: [DefaultInputSlot & VInputSlot];
         loader: [LoaderSlotProps];
         default: [VFieldSlot];
@@ -1086,7 +1094,7 @@ declare const VField: {
     reverse: BooleanConstructor;
     singleLine: BooleanConstructor;
     variant: {
-        type: PropType<"filled" | "outlined" | "plain" | "contained" | "underlined">;
+        type: PropType<"filled" | "outlined" | "plain" | "underlined" | "solo">;
         default: string;
         validator: (v: any) => boolean;
     };
@@ -1094,8 +1102,8 @@ declare const VField: {
     id: StringConstructor;
 }, "onUpdate:modelValue" | "modelValue"> & SlotsToProps<MakeSlots<{
     clear: [];
-    prependInner: [DefaultInputSlot & VInputSlot];
-    appendInner: [DefaultInputSlot & VInputSlot];
+    'prepend-inner': [DefaultInputSlot & VInputSlot];
+    'append-inner': [DefaultInputSlot & VInputSlot];
     label: [DefaultInputSlot & VInputSlot];
     loader: [LoaderSlotProps];
     default: [VFieldSlot];
@@ -1116,7 +1124,7 @@ declare const VField: {
     active: boolean;
     loading: boolean;
     disabled: boolean;
-    variant: "filled" | "outlined" | "plain" | "contained" | "underlined";
+    variant: "filled" | "outlined" | "plain" | "underlined" | "solo";
     focused: boolean;
     clearable: boolean;
     clearIcon: IconValue;
@@ -1132,6 +1140,41 @@ declare const VField: {
 });
 declare type VField = InstanceType<typeof VField>;
 
+interface ScrollStrategyData {
+    root: Ref<HTMLElement | undefined>;
+    contentEl: Ref<HTMLElement | undefined>;
+    activatorEl: Ref<HTMLElement | undefined>;
+    isActive: Ref<boolean>;
+    updateLocation: Ref<((e: Event) => void) | undefined>;
+}
+
+interface LocationStrategyData {
+    contentEl: Ref<HTMLElement | undefined>;
+    activatorEl: Ref<HTMLElement | undefined>;
+    isActive: Ref<boolean>;
+    isRtl: Ref<boolean>;
+}
+declare const locationStrategies: {
+    static: typeof staticLocationStrategy;
+    connected: typeof connectedLocationStrategy;
+};
+interface StrategyProps {
+    locationStrategy: keyof typeof locationStrategies | ((data: LocationStrategyData, props: StrategyProps, contentStyles: Ref<Record<string, string>>) => undefined | {
+        updateLocation: (e: Event) => void;
+    });
+    location: Anchor;
+    origin: Anchor | 'auto' | 'overlap';
+    offset?: number | string | number[];
+    maxHeight?: number | string;
+    maxWidth?: number | string;
+    minHeight?: number | string;
+    minWidth?: number | string;
+}
+declare function staticLocationStrategy(): void;
+declare function connectedLocationStrategy(data: LocationStrategyData, props: StrategyProps, contentStyles: Ref<Record<string, string>>): {
+    updateLocation: () => void;
+};
+
 interface InternalItem {
     title: string;
     value: any;
@@ -1141,7 +1184,7 @@ interface InternalItem {
         value: any;
     };
     children?: InternalItem[];
-    originalItem: any;
+    raw: any;
 }
 
 /**
@@ -1167,6 +1210,7 @@ declare const VAutocomplete: {
             transition: string | boolean | (vue.TransitionProps & {
                 component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
             });
+            menu: boolean;
             eager: boolean;
             noDataText: string;
             itemTitle: SelectItemKey;
@@ -1226,9 +1270,175 @@ declare const VAutocomplete: {
             eager: BooleanConstructor;
             hideNoData: BooleanConstructor;
             hideSelected: BooleanConstructor;
+            menu: BooleanConstructor;
             menuIcon: {
                 type: vue.PropType<IconValue>;
                 default: string;
+            };
+            menuProps: {
+                type: vue.PropType<Partial<{
+                    transition: string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    }) | {
+                        readonly component: vue.DefineComponent<{
+                            target: vue.PropType<HTMLElement>;
+                        }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                            target: vue.PropType<HTMLElement>;
+                        }>>, {}>;
+                    };
+                    modelValue: boolean;
+                }> & Omit<Readonly<vue.ExtractPropTypes<{
+                    transition: Omit<{
+                        type: vue.PropType<string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        })>;
+                        default: string;
+                        validator: (val: unknown) => boolean;
+                    }, "type" | "default"> & {
+                        type: vue.PropType<string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        }) | {
+                            readonly component: vue.DefineComponent<{
+                                target: vue.PropType<HTMLElement>;
+                            }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                                target: vue.PropType<HTMLElement>;
+                            }>>, {}>;
+                        }>;
+                        default: string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        }) | {
+                            readonly component: vue.DefineComponent<{
+                                target: vue.PropType<HTMLElement>;
+                            }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                                target: vue.PropType<HTMLElement>;
+                            }>>, {}>;
+                        };
+                    };
+                    modelValue: BooleanConstructor;
+                    id: StringConstructor;
+                } & SlotsToProps<MakeSlots<{
+                    default: [{
+                        isActive: vue.Ref<boolean>;
+                    }];
+                    activator: [{
+                        isActive: boolean;
+                        props: Record<string, any>;
+                    }];
+                }>>>> & {
+                    "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+                } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "transition" | "modelValue"> & Partial<{
+                    absolute: boolean;
+                    location: Anchor;
+                    origin: "auto" | Anchor | "overlap";
+                    transition: string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    });
+                    zIndex: string | number;
+                    eager: boolean;
+                    disabled: boolean;
+                    modelValue: boolean;
+                    activatorProps: Record<string, any>;
+                    openOnClick: boolean;
+                    openOnHover: boolean;
+                    openOnFocus: boolean;
+                    closeOnContentClick: boolean;
+                    locationStrategy: "connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                        updateLocation: (e: Event) => void;
+                    } | undefined);
+                    scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+                    contained: boolean;
+                    noClickAnimation: boolean;
+                    persistent: boolean;
+                    closeOnBack: boolean;
+                    scrim: string | boolean;
+                }> & Omit<Readonly<vue.ExtractPropTypes<{
+                    transition: {
+                        type: vue.PropType<string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        })>;
+                        default: string;
+                        validator: (val: unknown) => boolean;
+                    };
+                    theme: StringConstructor;
+                    scrollStrategy: {
+                        type: vue.PropType<"none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void)>;
+                        default: string;
+                        validator: (val: any) => boolean;
+                    };
+                    locationStrategy: {
+                        type: vue.PropType<"connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                            updateLocation: (e: Event) => void;
+                        } | undefined)>;
+                        default: string;
+                        validator: (val: any) => boolean;
+                    };
+                    location: {
+                        type: vue.PropType<Anchor>;
+                        default: string;
+                    };
+                    origin: {
+                        type: vue.PropType<"auto" | Anchor | "overlap">;
+                        default: string;
+                    };
+                    offset: vue.PropType<string | number | number[] | undefined>;
+                    eager: BooleanConstructor;
+                    height: (StringConstructor | NumberConstructor)[];
+                    maxHeight: (StringConstructor | NumberConstructor)[];
+                    maxWidth: (StringConstructor | NumberConstructor)[];
+                    minHeight: (StringConstructor | NumberConstructor)[];
+                    minWidth: (StringConstructor | NumberConstructor)[];
+                    width: (StringConstructor | NumberConstructor)[];
+                    closeDelay: (StringConstructor | NumberConstructor)[];
+                    openDelay: (StringConstructor | NumberConstructor)[];
+                    activator: vue.PropType<string | Element | vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | undefined>;
+                    activatorProps: {
+                        type: vue.PropType<Record<string, any>>;
+                        default: () => {};
+                    };
+                    openOnClick: {
+                        type: BooleanConstructor;
+                        default: undefined;
+                    };
+                    openOnHover: BooleanConstructor;
+                    openOnFocus: {
+                        type: BooleanConstructor;
+                        default: undefined;
+                    };
+                    closeOnContentClick: BooleanConstructor;
+                    absolute: BooleanConstructor;
+                    attach: vue.PropType<string | boolean | Element>;
+                    closeOnBack: {
+                        type: BooleanConstructor;
+                        default: boolean;
+                    };
+                    contained: BooleanConstructor;
+                    contentClass: null;
+                    contentProps: null;
+                    disabled: BooleanConstructor;
+                    noClickAnimation: BooleanConstructor;
+                    modelValue: BooleanConstructor;
+                    persistent: BooleanConstructor;
+                    scrim: {
+                        type: (StringConstructor | BooleanConstructor)[];
+                        default: boolean;
+                    };
+                    zIndex: {
+                        type: (StringConstructor | NumberConstructor)[];
+                        default: number;
+                    };
+                } & SlotsToProps<MakeSlots<{
+                    default: [{
+                        isActive: vue.Ref<boolean>;
+                    }];
+                    activator: [{
+                        isActive: boolean;
+                        props: Record<string, any>;
+                    }];
+                }>>>> & {
+                    onAfterLeave?: (() => any) | undefined;
+                    "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+                    "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
+                } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "contained" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">>;
             };
             modelValue: {
                 type: null;
@@ -1259,12 +1469,17 @@ declare const VAutocomplete: {
             details: [VInputSlot];
         }> & MakeSlots<{
             clear: [];
-            prependInner: [DefaultInputSlot & VInputSlot];
-            appendInner: [DefaultInputSlot & VInputSlot];
+            'prepend-inner': [DefaultInputSlot & VInputSlot];
+            'append-inner': [DefaultInputSlot & VInputSlot];
             label: [DefaultInputSlot & VInputSlot];
             loader: [LoaderSlotProps];
             default: [VFieldSlot];
         }> & MakeSlots<{
+            item: [{
+                item: unknown;
+                index: number;
+                props: Record<string, unknown>;
+            }];
             chip: [{
                 item: unknown;
                 index: number;
@@ -1277,8 +1492,9 @@ declare const VAutocomplete: {
             'no-data': [];
         }>>>> & {
             "onClick:clear"?: ((e: MouseEvent) => any) | undefined;
+            "onUpdate:menu"?: ((val: boolean) => any) | undefined;
             "onUpdate:search"?: ((val: any) => any) | undefined;
-        } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "transition" | "eager" | "noDataText" | "itemTitle" | "itemValue" | "itemChildren" | "itemProps" | "chips" | "closableChips" | "hideNoData" | "hideSelected" | "menuIcon" | "openOnClear" | "filterMode" | "noFilter" | "filterKeys">;
+        } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "transition" | "menu" | "eager" | "noDataText" | "itemTitle" | "itemValue" | "itemChildren" | "itemProps" | "chips" | "closableChips" | "hideNoData" | "hideSelected" | "menuIcon" | "openOnClear" | "filterMode" | "noFilter" | "filterKeys">;
         $attrs: {
             [x: string]: unknown;
         };
@@ -1290,7 +1506,7 @@ declare const VAutocomplete: {
         }>;
         $root: vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | null;
         $parent: vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | null;
-        $emit: ((event: "click:clear", e: MouseEvent) => void) & ((event: "update:search", val: any) => void);
+        $emit: ((event: "click:clear", e: MouseEvent) => void) & ((event: "update:menu", val: boolean) => void) & ((event: "update:search", val: any) => void);
         $el: any;
         $options: vue.ComponentOptionsBase<Readonly<vue.ExtractPropTypes<Omit<{
             transition: Omit<{
@@ -1336,9 +1552,175 @@ declare const VAutocomplete: {
             eager: BooleanConstructor;
             hideNoData: BooleanConstructor;
             hideSelected: BooleanConstructor;
+            menu: BooleanConstructor;
             menuIcon: {
                 type: vue.PropType<IconValue>;
                 default: string;
+            };
+            menuProps: {
+                type: vue.PropType<Partial<{
+                    transition: string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    }) | {
+                        readonly component: vue.DefineComponent<{
+                            target: vue.PropType<HTMLElement>;
+                        }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                            target: vue.PropType<HTMLElement>;
+                        }>>, {}>;
+                    };
+                    modelValue: boolean;
+                }> & Omit<Readonly<vue.ExtractPropTypes<{
+                    transition: Omit<{
+                        type: vue.PropType<string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        })>;
+                        default: string;
+                        validator: (val: unknown) => boolean;
+                    }, "type" | "default"> & {
+                        type: vue.PropType<string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        }) | {
+                            readonly component: vue.DefineComponent<{
+                                target: vue.PropType<HTMLElement>;
+                            }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                                target: vue.PropType<HTMLElement>;
+                            }>>, {}>;
+                        }>;
+                        default: string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        }) | {
+                            readonly component: vue.DefineComponent<{
+                                target: vue.PropType<HTMLElement>;
+                            }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                                target: vue.PropType<HTMLElement>;
+                            }>>, {}>;
+                        };
+                    };
+                    modelValue: BooleanConstructor;
+                    id: StringConstructor;
+                } & SlotsToProps<MakeSlots<{
+                    default: [{
+                        isActive: vue.Ref<boolean>;
+                    }];
+                    activator: [{
+                        isActive: boolean;
+                        props: Record<string, any>;
+                    }];
+                }>>>> & {
+                    "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+                } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "transition" | "modelValue"> & Partial<{
+                    absolute: boolean;
+                    location: Anchor;
+                    origin: "auto" | Anchor | "overlap";
+                    transition: string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    });
+                    zIndex: string | number;
+                    eager: boolean;
+                    disabled: boolean;
+                    modelValue: boolean;
+                    activatorProps: Record<string, any>;
+                    openOnClick: boolean;
+                    openOnHover: boolean;
+                    openOnFocus: boolean;
+                    closeOnContentClick: boolean;
+                    locationStrategy: "connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                        updateLocation: (e: Event) => void;
+                    } | undefined);
+                    scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+                    contained: boolean;
+                    noClickAnimation: boolean;
+                    persistent: boolean;
+                    closeOnBack: boolean;
+                    scrim: string | boolean;
+                }> & Omit<Readonly<vue.ExtractPropTypes<{
+                    transition: {
+                        type: vue.PropType<string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        })>;
+                        default: string;
+                        validator: (val: unknown) => boolean;
+                    };
+                    theme: StringConstructor;
+                    scrollStrategy: {
+                        type: vue.PropType<"none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void)>;
+                        default: string;
+                        validator: (val: any) => boolean;
+                    };
+                    locationStrategy: {
+                        type: vue.PropType<"connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                            updateLocation: (e: Event) => void;
+                        } | undefined)>;
+                        default: string;
+                        validator: (val: any) => boolean;
+                    };
+                    location: {
+                        type: vue.PropType<Anchor>;
+                        default: string;
+                    };
+                    origin: {
+                        type: vue.PropType<"auto" | Anchor | "overlap">;
+                        default: string;
+                    };
+                    offset: vue.PropType<string | number | number[] | undefined>;
+                    eager: BooleanConstructor;
+                    height: (StringConstructor | NumberConstructor)[];
+                    maxHeight: (StringConstructor | NumberConstructor)[];
+                    maxWidth: (StringConstructor | NumberConstructor)[];
+                    minHeight: (StringConstructor | NumberConstructor)[];
+                    minWidth: (StringConstructor | NumberConstructor)[];
+                    width: (StringConstructor | NumberConstructor)[];
+                    closeDelay: (StringConstructor | NumberConstructor)[];
+                    openDelay: (StringConstructor | NumberConstructor)[];
+                    activator: vue.PropType<string | Element | vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | undefined>;
+                    activatorProps: {
+                        type: vue.PropType<Record<string, any>>;
+                        default: () => {};
+                    };
+                    openOnClick: {
+                        type: BooleanConstructor;
+                        default: undefined;
+                    };
+                    openOnHover: BooleanConstructor;
+                    openOnFocus: {
+                        type: BooleanConstructor;
+                        default: undefined;
+                    };
+                    closeOnContentClick: BooleanConstructor;
+                    absolute: BooleanConstructor;
+                    attach: vue.PropType<string | boolean | Element>;
+                    closeOnBack: {
+                        type: BooleanConstructor;
+                        default: boolean;
+                    };
+                    contained: BooleanConstructor;
+                    contentClass: null;
+                    contentProps: null;
+                    disabled: BooleanConstructor;
+                    noClickAnimation: BooleanConstructor;
+                    modelValue: BooleanConstructor;
+                    persistent: BooleanConstructor;
+                    scrim: {
+                        type: (StringConstructor | BooleanConstructor)[];
+                        default: boolean;
+                    };
+                    zIndex: {
+                        type: (StringConstructor | NumberConstructor)[];
+                        default: number;
+                    };
+                } & SlotsToProps<MakeSlots<{
+                    default: [{
+                        isActive: vue.Ref<boolean>;
+                    }];
+                    activator: [{
+                        isActive: boolean;
+                        props: Record<string, any>;
+                    }];
+                }>>>> & {
+                    onAfterLeave?: (() => any) | undefined;
+                    "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+                    "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
+                } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "contained" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">>;
             };
             modelValue: {
                 type: null;
@@ -1369,12 +1751,17 @@ declare const VAutocomplete: {
             details: [VInputSlot];
         }> & MakeSlots<{
             clear: [];
-            prependInner: [DefaultInputSlot & VInputSlot];
-            appendInner: [DefaultInputSlot & VInputSlot];
+            'prepend-inner': [DefaultInputSlot & VInputSlot];
+            'append-inner': [DefaultInputSlot & VInputSlot];
             label: [DefaultInputSlot & VInputSlot];
             loader: [LoaderSlotProps];
             default: [VFieldSlot];
         }> & MakeSlots<{
+            item: [{
+                item: unknown;
+                index: number;
+                props: Record<string, unknown>;
+            }];
             chip: [{
                 item: unknown;
                 index: number;
@@ -1387,15 +1774,18 @@ declare const VAutocomplete: {
             'no-data': [];
         }>>>> & {
             "onClick:clear"?: ((e: MouseEvent) => any) | undefined;
+            "onUpdate:menu"?: ((val: boolean) => any) | undefined;
             "onUpdate:search"?: ((val: any) => any) | undefined;
         }, any, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Omit<{
             'click:clear': (e: MouseEvent) => boolean;
             'update:search': (val: any) => boolean;
             'update:modelValue': (val: any) => boolean;
+            'update:menu': (val: boolean) => boolean;
         }, "multiple" | "items" | "update:modelValue" | "modelValue" | "returnObject">, string, {
             transition: string | boolean | (vue.TransitionProps & {
                 component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
             });
+            menu: boolean;
             eager: boolean;
             noDataText: string;
             itemTitle: SelectItemKey;
@@ -1475,9 +1865,175 @@ declare const VAutocomplete: {
         eager: BooleanConstructor;
         hideNoData: BooleanConstructor;
         hideSelected: BooleanConstructor;
+        menu: BooleanConstructor;
         menuIcon: {
             type: vue.PropType<IconValue>;
             default: string;
+        };
+        menuProps: {
+            type: vue.PropType<Partial<{
+                transition: string | boolean | (vue.TransitionProps & {
+                    component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                }) | {
+                    readonly component: vue.DefineComponent<{
+                        target: vue.PropType<HTMLElement>;
+                    }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                        target: vue.PropType<HTMLElement>;
+                    }>>, {}>;
+                };
+                modelValue: boolean;
+            }> & Omit<Readonly<vue.ExtractPropTypes<{
+                transition: Omit<{
+                    type: vue.PropType<string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    })>;
+                    default: string;
+                    validator: (val: unknown) => boolean;
+                }, "type" | "default"> & {
+                    type: vue.PropType<string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    }) | {
+                        readonly component: vue.DefineComponent<{
+                            target: vue.PropType<HTMLElement>;
+                        }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                            target: vue.PropType<HTMLElement>;
+                        }>>, {}>;
+                    }>;
+                    default: string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    }) | {
+                        readonly component: vue.DefineComponent<{
+                            target: vue.PropType<HTMLElement>;
+                        }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                            target: vue.PropType<HTMLElement>;
+                        }>>, {}>;
+                    };
+                };
+                modelValue: BooleanConstructor;
+                id: StringConstructor;
+            } & SlotsToProps<MakeSlots<{
+                default: [{
+                    isActive: vue.Ref<boolean>;
+                }];
+                activator: [{
+                    isActive: boolean;
+                    props: Record<string, any>;
+                }];
+            }>>>> & {
+                "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+            } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "transition" | "modelValue"> & Partial<{
+                absolute: boolean;
+                location: Anchor;
+                origin: "auto" | Anchor | "overlap";
+                transition: string | boolean | (vue.TransitionProps & {
+                    component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                });
+                zIndex: string | number;
+                eager: boolean;
+                disabled: boolean;
+                modelValue: boolean;
+                activatorProps: Record<string, any>;
+                openOnClick: boolean;
+                openOnHover: boolean;
+                openOnFocus: boolean;
+                closeOnContentClick: boolean;
+                locationStrategy: "connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                    updateLocation: (e: Event) => void;
+                } | undefined);
+                scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+                contained: boolean;
+                noClickAnimation: boolean;
+                persistent: boolean;
+                closeOnBack: boolean;
+                scrim: string | boolean;
+            }> & Omit<Readonly<vue.ExtractPropTypes<{
+                transition: {
+                    type: vue.PropType<string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    })>;
+                    default: string;
+                    validator: (val: unknown) => boolean;
+                };
+                theme: StringConstructor;
+                scrollStrategy: {
+                    type: vue.PropType<"none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void)>;
+                    default: string;
+                    validator: (val: any) => boolean;
+                };
+                locationStrategy: {
+                    type: vue.PropType<"connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                        updateLocation: (e: Event) => void;
+                    } | undefined)>;
+                    default: string;
+                    validator: (val: any) => boolean;
+                };
+                location: {
+                    type: vue.PropType<Anchor>;
+                    default: string;
+                };
+                origin: {
+                    type: vue.PropType<"auto" | Anchor | "overlap">;
+                    default: string;
+                };
+                offset: vue.PropType<string | number | number[] | undefined>;
+                eager: BooleanConstructor;
+                height: (StringConstructor | NumberConstructor)[];
+                maxHeight: (StringConstructor | NumberConstructor)[];
+                maxWidth: (StringConstructor | NumberConstructor)[];
+                minHeight: (StringConstructor | NumberConstructor)[];
+                minWidth: (StringConstructor | NumberConstructor)[];
+                width: (StringConstructor | NumberConstructor)[];
+                closeDelay: (StringConstructor | NumberConstructor)[];
+                openDelay: (StringConstructor | NumberConstructor)[];
+                activator: vue.PropType<string | Element | vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | undefined>;
+                activatorProps: {
+                    type: vue.PropType<Record<string, any>>;
+                    default: () => {};
+                };
+                openOnClick: {
+                    type: BooleanConstructor;
+                    default: undefined;
+                };
+                openOnHover: BooleanConstructor;
+                openOnFocus: {
+                    type: BooleanConstructor;
+                    default: undefined;
+                };
+                closeOnContentClick: BooleanConstructor;
+                absolute: BooleanConstructor;
+                attach: vue.PropType<string | boolean | Element>;
+                closeOnBack: {
+                    type: BooleanConstructor;
+                    default: boolean;
+                };
+                contained: BooleanConstructor;
+                contentClass: null;
+                contentProps: null;
+                disabled: BooleanConstructor;
+                noClickAnimation: BooleanConstructor;
+                modelValue: BooleanConstructor;
+                persistent: BooleanConstructor;
+                scrim: {
+                    type: (StringConstructor | BooleanConstructor)[];
+                    default: boolean;
+                };
+                zIndex: {
+                    type: (StringConstructor | NumberConstructor)[];
+                    default: number;
+                };
+            } & SlotsToProps<MakeSlots<{
+                default: [{
+                    isActive: vue.Ref<boolean>;
+                }];
+                activator: [{
+                    isActive: boolean;
+                    props: Record<string, any>;
+                }];
+            }>>>> & {
+                onAfterLeave?: (() => any) | undefined;
+                "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+                "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
+            } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "contained" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">>;
         };
         modelValue: {
             type: null;
@@ -1508,12 +2064,17 @@ declare const VAutocomplete: {
         details: [VInputSlot];
     }> & MakeSlots<{
         clear: [];
-        prependInner: [DefaultInputSlot & VInputSlot];
-        appendInner: [DefaultInputSlot & VInputSlot];
+        'prepend-inner': [DefaultInputSlot & VInputSlot];
+        'append-inner': [DefaultInputSlot & VInputSlot];
         label: [DefaultInputSlot & VInputSlot];
         loader: [LoaderSlotProps];
         default: [VFieldSlot];
     }> & MakeSlots<{
+        item: [{
+            item: unknown;
+            index: number;
+            props: Record<string, unknown>;
+        }];
         chip: [{
             item: unknown;
             index: number;
@@ -1526,6 +2087,7 @@ declare const VAutocomplete: {
         'no-data': [];
     }>>>> & {
         "onClick:clear"?: ((e: MouseEvent) => any) | undefined;
+        "onUpdate:menu"?: ((val: boolean) => any) | undefined;
         "onUpdate:search"?: ((val: any) => any) | undefined;
     } & vue.ShallowUnwrapRef<any> & {} & vue.ComponentCustomProperties;
     __isFragment?: undefined;
@@ -1575,9 +2137,175 @@ declare const VAutocomplete: {
     eager: BooleanConstructor;
     hideNoData: BooleanConstructor;
     hideSelected: BooleanConstructor;
+    menu: BooleanConstructor;
     menuIcon: {
         type: vue.PropType<IconValue>;
         default: string;
+    };
+    menuProps: {
+        type: vue.PropType<Partial<{
+            transition: string | boolean | (vue.TransitionProps & {
+                component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+            }) | {
+                readonly component: vue.DefineComponent<{
+                    target: vue.PropType<HTMLElement>;
+                }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                    target: vue.PropType<HTMLElement>;
+                }>>, {}>;
+            };
+            modelValue: boolean;
+        }> & Omit<Readonly<vue.ExtractPropTypes<{
+            transition: Omit<{
+                type: vue.PropType<string | boolean | (vue.TransitionProps & {
+                    component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                })>;
+                default: string;
+                validator: (val: unknown) => boolean;
+            }, "type" | "default"> & {
+                type: vue.PropType<string | boolean | (vue.TransitionProps & {
+                    component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                }) | {
+                    readonly component: vue.DefineComponent<{
+                        target: vue.PropType<HTMLElement>;
+                    }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                        target: vue.PropType<HTMLElement>;
+                    }>>, {}>;
+                }>;
+                default: string | boolean | (vue.TransitionProps & {
+                    component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                }) | {
+                    readonly component: vue.DefineComponent<{
+                        target: vue.PropType<HTMLElement>;
+                    }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                        target: vue.PropType<HTMLElement>;
+                    }>>, {}>;
+                };
+            };
+            modelValue: BooleanConstructor;
+            id: StringConstructor;
+        } & SlotsToProps<MakeSlots<{
+            default: [{
+                isActive: vue.Ref<boolean>;
+            }];
+            activator: [{
+                isActive: boolean;
+                props: Record<string, any>;
+            }];
+        }>>>> & {
+            "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+        } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "transition" | "modelValue"> & Partial<{
+            absolute: boolean;
+            location: Anchor;
+            origin: "auto" | Anchor | "overlap";
+            transition: string | boolean | (vue.TransitionProps & {
+                component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+            });
+            zIndex: string | number;
+            eager: boolean;
+            disabled: boolean;
+            modelValue: boolean;
+            activatorProps: Record<string, any>;
+            openOnClick: boolean;
+            openOnHover: boolean;
+            openOnFocus: boolean;
+            closeOnContentClick: boolean;
+            locationStrategy: "connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                updateLocation: (e: Event) => void;
+            } | undefined);
+            scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+            contained: boolean;
+            noClickAnimation: boolean;
+            persistent: boolean;
+            closeOnBack: boolean;
+            scrim: string | boolean;
+        }> & Omit<Readonly<vue.ExtractPropTypes<{
+            transition: {
+                type: vue.PropType<string | boolean | (vue.TransitionProps & {
+                    component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                })>;
+                default: string;
+                validator: (val: unknown) => boolean;
+            };
+            theme: StringConstructor;
+            scrollStrategy: {
+                type: vue.PropType<"none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void)>;
+                default: string;
+                validator: (val: any) => boolean;
+            };
+            locationStrategy: {
+                type: vue.PropType<"connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                    updateLocation: (e: Event) => void;
+                } | undefined)>;
+                default: string;
+                validator: (val: any) => boolean;
+            };
+            location: {
+                type: vue.PropType<Anchor>;
+                default: string;
+            };
+            origin: {
+                type: vue.PropType<"auto" | Anchor | "overlap">;
+                default: string;
+            };
+            offset: vue.PropType<string | number | number[] | undefined>;
+            eager: BooleanConstructor;
+            height: (StringConstructor | NumberConstructor)[];
+            maxHeight: (StringConstructor | NumberConstructor)[];
+            maxWidth: (StringConstructor | NumberConstructor)[];
+            minHeight: (StringConstructor | NumberConstructor)[];
+            minWidth: (StringConstructor | NumberConstructor)[];
+            width: (StringConstructor | NumberConstructor)[];
+            closeDelay: (StringConstructor | NumberConstructor)[];
+            openDelay: (StringConstructor | NumberConstructor)[];
+            activator: vue.PropType<string | Element | vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | undefined>;
+            activatorProps: {
+                type: vue.PropType<Record<string, any>>;
+                default: () => {};
+            };
+            openOnClick: {
+                type: BooleanConstructor;
+                default: undefined;
+            };
+            openOnHover: BooleanConstructor;
+            openOnFocus: {
+                type: BooleanConstructor;
+                default: undefined;
+            };
+            closeOnContentClick: BooleanConstructor;
+            absolute: BooleanConstructor;
+            attach: vue.PropType<string | boolean | Element>;
+            closeOnBack: {
+                type: BooleanConstructor;
+                default: boolean;
+            };
+            contained: BooleanConstructor;
+            contentClass: null;
+            contentProps: null;
+            disabled: BooleanConstructor;
+            noClickAnimation: BooleanConstructor;
+            modelValue: BooleanConstructor;
+            persistent: BooleanConstructor;
+            scrim: {
+                type: (StringConstructor | BooleanConstructor)[];
+                default: boolean;
+            };
+            zIndex: {
+                type: (StringConstructor | NumberConstructor)[];
+                default: number;
+            };
+        } & SlotsToProps<MakeSlots<{
+            default: [{
+                isActive: vue.Ref<boolean>;
+            }];
+            activator: [{
+                isActive: boolean;
+                props: Record<string, any>;
+            }];
+        }>>>> & {
+            onAfterLeave?: (() => any) | undefined;
+            "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+            "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
+        } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "contained" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">>;
     };
     modelValue: {
         type: null;
@@ -1608,12 +2336,17 @@ declare const VAutocomplete: {
     details: [VInputSlot];
 }> & MakeSlots<{
     clear: [];
-    prependInner: [DefaultInputSlot & VInputSlot];
-    appendInner: [DefaultInputSlot & VInputSlot];
+    'prepend-inner': [DefaultInputSlot & VInputSlot];
+    'append-inner': [DefaultInputSlot & VInputSlot];
     label: [DefaultInputSlot & VInputSlot];
     loader: [LoaderSlotProps];
     default: [VFieldSlot];
 }> & MakeSlots<{
+    item: [{
+        item: unknown;
+        index: number;
+        props: Record<string, unknown>;
+    }];
     chip: [{
         item: unknown;
         index: number;
@@ -1626,15 +2359,18 @@ declare const VAutocomplete: {
     'no-data': [];
 }>>>> & {
     "onClick:clear"?: ((e: MouseEvent) => any) | undefined;
+    "onUpdate:menu"?: ((val: boolean) => any) | undefined;
     "onUpdate:search"?: ((val: any) => any) | undefined;
 }, any, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Omit<{
     'click:clear': (e: MouseEvent) => boolean;
     'update:search': (val: any) => boolean;
     'update:modelValue': (val: any) => boolean;
+    'update:menu': (val: boolean) => boolean;
 }, "multiple" | "items" | "update:modelValue" | "modelValue" | "returnObject">, string, {
     transition: string | boolean | (vue.TransitionProps & {
         component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
     });
+    menu: boolean;
     eager: boolean;
     noDataText: string;
     itemTitle: SelectItemKey;
@@ -1665,12 +2401,17 @@ declare const VAutocomplete: {
         details: [VInputSlot];
     }> & MakeSlots<{
         clear: [];
-        prependInner: [DefaultInputSlot & VInputSlot];
-        appendInner: [DefaultInputSlot & VInputSlot];
+        'prepend-inner': [DefaultInputSlot & VInputSlot];
+        'append-inner': [DefaultInputSlot & VInputSlot];
         label: [DefaultInputSlot & VInputSlot];
         loader: [LoaderSlotProps];
         default: [VFieldSlot];
     }> & MakeSlots<{
+        item: [{
+            item: T;
+            index: number;
+            props: Record<string, unknown>;
+        }];
         chip: [{
             item: T;
             index: number;
@@ -1788,7 +2529,7 @@ declare const VBadge: vue.DefineComponent<{
     offsetX: (StringConstructor | NumberConstructor)[];
     offsetY: (StringConstructor | NumberConstructor)[];
     textColor: StringConstructor;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     transition: Omit<{
         type: vue.PropType<string | boolean | (vue.TransitionProps & {
             component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
@@ -1944,116 +2685,6 @@ declare const VBannerActions: vue.DefineComponent<{
     density: StringConstructor;
 }>>, {}>;
 
-declare const VBannerAvatar: vue.DefineComponent<{
-    tag: {
-        type: StringConstructor;
-        default: string;
-    };
-    size: {
-        type: (StringConstructor | NumberConstructor)[];
-        default: string;
-    };
-    rounded: {
-        type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
-        default: undefined;
-    };
-    density: {
-        type: vue.PropType<"default" | "compact" | "comfortable" | null>;
-        default: string;
-        validator: (v: any) => boolean;
-    };
-    color: StringConstructor;
-    start: BooleanConstructor;
-    end: BooleanConstructor;
-    icon: vue.PropType<IconValue>;
-    image: StringConstructor;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-    tag: {
-        type: StringConstructor;
-        default: string;
-    };
-    size: {
-        type: (StringConstructor | NumberConstructor)[];
-        default: string;
-    };
-    rounded: {
-        type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
-        default: undefined;
-    };
-    density: {
-        type: vue.PropType<"default" | "compact" | "comfortable" | null>;
-        default: string;
-        validator: (v: any) => boolean;
-    };
-    color: StringConstructor;
-    start: BooleanConstructor;
-    end: BooleanConstructor;
-    icon: vue.PropType<IconValue>;
-    image: StringConstructor;
-}>>, {
-    end: boolean;
-    start: boolean;
-    size: string | number;
-    tag: string;
-    rounded: string | number | boolean;
-    density: "default" | "compact" | "comfortable" | null;
-}>;
-
-declare const VBannerIcon: vue.DefineComponent<{
-    tag: {
-        type: StringConstructor;
-        default: string;
-    };
-    size: {
-        type: (StringConstructor | NumberConstructor)[];
-        default: string;
-    };
-    rounded: {
-        type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
-        default: undefined;
-    };
-    density: {
-        type: vue.PropType<"default" | "compact" | "comfortable" | null>;
-        default: string;
-        validator: (v: any) => boolean;
-    };
-    color: StringConstructor;
-    start: BooleanConstructor;
-    end: BooleanConstructor;
-    icon: vue.PropType<IconValue>;
-    image: StringConstructor;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-    tag: {
-        type: StringConstructor;
-        default: string;
-    };
-    size: {
-        type: (StringConstructor | NumberConstructor)[];
-        default: string;
-    };
-    rounded: {
-        type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
-        default: undefined;
-    };
-    density: {
-        type: vue.PropType<"default" | "compact" | "comfortable" | null>;
-        default: string;
-        validator: (v: any) => boolean;
-    };
-    color: StringConstructor;
-    start: BooleanConstructor;
-    end: BooleanConstructor;
-    icon: vue.PropType<IconValue>;
-    image: StringConstructor;
-}>>, {
-    end: boolean;
-    start: boolean;
-    size: string | number;
-    tag: string;
-    rounded: string | number | boolean;
-    density: "default" | "compact" | "comfortable" | null;
-}>;
-
 declare const VBannerText: vue.DefineComponent<{
     tag: {
         type: StringConstructor;
@@ -2130,7 +2761,7 @@ declare const VBottomNavigation: vue.DefineComponent<{
         type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
     'update:modelValue': (value: any) => true;
 }, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     theme: StringConstructor;
@@ -2220,7 +2851,163 @@ declare type BreadcrumbItem = string | (LinkProps & {
     text: string;
     disabled?: boolean;
 });
-declare const VBreadcrumbs: vue.DefineComponent<{
+declare const VBreadcrumbs: {
+    new (...args: any[]): {
+        $: vue.ComponentInternalInstance;
+        $data: {};
+        $props: Partial<{
+            disabled: boolean;
+            tag: string;
+            rounded: string | number | boolean;
+            density: "default" | "compact" | "comfortable" | null;
+            divider: string;
+        }> & Omit<Readonly<vue.ExtractPropTypes<Omit<{
+            tag: Omit<{
+                type: StringConstructor;
+                default: string;
+            }, "type" | "default"> & {
+                type: PropType<string>;
+                default: string;
+            };
+            rounded: {
+                type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
+                default: undefined;
+            };
+            density: {
+                type: PropType<"default" | "compact" | "comfortable" | null>;
+                default: string;
+                validator: (v: any) => boolean;
+            };
+            activeClass: StringConstructor;
+            activeColor: StringConstructor;
+            bgColor: StringConstructor;
+            color: StringConstructor;
+            disabled: BooleanConstructor;
+            divider: {
+                type: StringConstructor;
+                default: string;
+            };
+            icon: PropType<IconValue>;
+            items: {
+                type: PropType<BreadcrumbItem[]>;
+                default: () => never[];
+            };
+        }, "items"> & SlotsToProps<MakeSlots<{
+            default: [];
+            item: [unknown];
+        }>>>> & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "disabled" | "tag" | "rounded" | "density" | "divider">;
+        $attrs: {
+            [x: string]: unknown;
+        };
+        $refs: {
+            [x: string]: unknown;
+        };
+        $slots: Readonly<{
+            [name: string]: vue.Slot | undefined;
+        }>;
+        $root: vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | null;
+        $parent: vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | null;
+        $emit: (event: string, ...args: any[]) => void;
+        $el: any;
+        $options: vue.ComponentOptionsBase<Readonly<vue.ExtractPropTypes<Omit<{
+            tag: Omit<{
+                type: StringConstructor;
+                default: string;
+            }, "type" | "default"> & {
+                type: PropType<string>;
+                default: string;
+            };
+            rounded: {
+                type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
+                default: undefined;
+            };
+            density: {
+                type: PropType<"default" | "compact" | "comfortable" | null>;
+                default: string;
+                validator: (v: any) => boolean;
+            };
+            activeClass: StringConstructor;
+            activeColor: StringConstructor;
+            bgColor: StringConstructor;
+            color: StringConstructor;
+            disabled: BooleanConstructor;
+            divider: {
+                type: StringConstructor;
+                default: string;
+            };
+            icon: PropType<IconValue>;
+            items: {
+                type: PropType<BreadcrumbItem[]>;
+                default: () => never[];
+            };
+        }, "items"> & SlotsToProps<MakeSlots<{
+            default: [];
+            item: [unknown];
+        }>>>>, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Omit<Record<string, any>, "items">, string, {
+            disabled: boolean;
+            tag: string;
+            rounded: string | number | boolean;
+            density: "default" | "compact" | "comfortable" | null;
+            divider: string;
+        }> & {
+            beforeCreate?: ((() => void) | (() => void)[]) | undefined;
+            created?: ((() => void) | (() => void)[]) | undefined;
+            beforeMount?: ((() => void) | (() => void)[]) | undefined;
+            mounted?: ((() => void) | (() => void)[]) | undefined;
+            beforeUpdate?: ((() => void) | (() => void)[]) | undefined;
+            updated?: ((() => void) | (() => void)[]) | undefined;
+            activated?: ((() => void) | (() => void)[]) | undefined;
+            deactivated?: ((() => void) | (() => void)[]) | undefined;
+            beforeDestroy?: ((() => void) | (() => void)[]) | undefined;
+            beforeUnmount?: ((() => void) | (() => void)[]) | undefined;
+            destroyed?: ((() => void) | (() => void)[]) | undefined;
+            unmounted?: ((() => void) | (() => void)[]) | undefined;
+            renderTracked?: (((e: vue.DebuggerEvent) => void) | ((e: vue.DebuggerEvent) => void)[]) | undefined;
+            renderTriggered?: (((e: vue.DebuggerEvent) => void) | ((e: vue.DebuggerEvent) => void)[]) | undefined;
+            errorCaptured?: (((err: unknown, instance: vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | null, info: string) => boolean | void) | ((err: unknown, instance: vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | null, info: string) => boolean | void)[]) | undefined;
+        };
+        $forceUpdate: () => void;
+        $nextTick: typeof vue.nextTick;
+        $watch(source: string | Function, cb: Function, options?: vue.WatchOptions<boolean> | undefined): vue.WatchStopHandle;
+    } & Readonly<vue.ExtractPropTypes<Omit<{
+        tag: Omit<{
+            type: StringConstructor;
+            default: string;
+        }, "type" | "default"> & {
+            type: PropType<string>;
+            default: string;
+        };
+        rounded: {
+            type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
+            default: undefined;
+        };
+        density: {
+            type: PropType<"default" | "compact" | "comfortable" | null>;
+            default: string;
+            validator: (v: any) => boolean;
+        };
+        activeClass: StringConstructor;
+        activeColor: StringConstructor;
+        bgColor: StringConstructor;
+        color: StringConstructor;
+        disabled: BooleanConstructor;
+        divider: {
+            type: StringConstructor;
+            default: string;
+        };
+        icon: PropType<IconValue>;
+        items: {
+            type: PropType<BreadcrumbItem[]>;
+            default: () => never[];
+        };
+    }, "items"> & SlotsToProps<MakeSlots<{
+        default: [];
+        item: [unknown];
+    }>>>> & vue.ShallowUnwrapRef<{}> & {} & vue.ComponentCustomProperties;
+    __isFragment?: undefined;
+    __isTeleport?: undefined;
+    __isSuspense?: undefined;
+} & vue.ComponentOptionsBase<Readonly<vue.ExtractPropTypes<Omit<{
     tag: Omit<{
         type: StringConstructor;
         default: string;
@@ -2251,45 +3038,24 @@ declare const VBreadcrumbs: vue.DefineComponent<{
         type: PropType<BreadcrumbItem[]>;
         default: () => never[];
     };
-}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-    tag: Omit<{
-        type: StringConstructor;
-        default: string;
-    }, "type" | "default"> & {
-        type: PropType<string>;
-        default: string;
-    };
-    rounded: {
-        type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
-        default: undefined;
-    };
-    density: {
-        type: PropType<"default" | "compact" | "comfortable" | null>;
-        default: string;
-        validator: (v: any) => boolean;
-    };
-    activeClass: StringConstructor;
-    activeColor: StringConstructor;
-    bgColor: StringConstructor;
-    color: StringConstructor;
-    disabled: BooleanConstructor;
-    divider: {
-        type: StringConstructor;
-        default: string;
-    };
-    icon: PropType<IconValue>;
-    items: {
-        type: PropType<BreadcrumbItem[]>;
-        default: () => never[];
-    };
-}>>, {
+}, "items"> & SlotsToProps<MakeSlots<{
+    default: [];
+    item: [unknown];
+}>>>>, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Omit<Record<string, any>, "items">, string, {
     disabled: boolean;
     tag: string;
-    items: BreadcrumbItem[];
     rounded: string | number | boolean;
     density: "default" | "compact" | "comfortable" | null;
     divider: string;
-}>;
+}> & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps & (new <T>() => {
+    $props: {
+        items?: T[] | undefined;
+    };
+    $slots: MakeSlots<{
+        default: [];
+        item: [number | T];
+    }>;
+});
 declare type VBreadcrumbs = InstanceType<typeof VBreadcrumbs>;
 
 declare const VBreadcrumbsItem: vue.DefineComponent<{
@@ -2308,7 +3074,7 @@ declare const VBreadcrumbsItem: vue.DefineComponent<{
     activeColor: StringConstructor;
     color: StringConstructor;
     disabled: BooleanConstructor;
-    text: StringConstructor;
+    title: StringConstructor;
 }, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     tag: Omit<{
         type: StringConstructor;
@@ -2325,7 +3091,7 @@ declare const VBreadcrumbsItem: vue.DefineComponent<{
     activeColor: StringConstructor;
     color: StringConstructor;
     disabled: BooleanConstructor;
-    text: StringConstructor;
+    title: StringConstructor;
 }>>, {
     replace: boolean;
     active: boolean;
@@ -2386,12 +3152,12 @@ interface GroupItemProvide {
 declare const VBtn: vue.DefineComponent<{
     color: StringConstructor;
     variant: Omit<{
-        type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     }, "type" | "default"> & {
-        type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-        default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+        type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+        default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     };
     theme: StringConstructor;
     tag: Omit<{
@@ -2413,6 +3179,7 @@ declare const VBtn: vue.DefineComponent<{
         validator: (v: any) => boolean;
     };
     location: PropType<Anchor>;
+    loading: BooleanConstructor;
     value: null;
     disabled: BooleanConstructor;
     selectedClass: StringConstructor;
@@ -2451,15 +3218,15 @@ declare const VBtn: vue.DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     color: StringConstructor;
     variant: Omit<{
-        type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     }, "type" | "default"> & {
-        type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-        default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+        type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+        default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     };
     theme: StringConstructor;
     tag: Omit<{
@@ -2481,6 +3248,7 @@ declare const VBtn: vue.DefineComponent<{
         validator: (v: any) => boolean;
     };
     location: PropType<Anchor>;
+    loading: BooleanConstructor;
     value: null;
     disabled: BooleanConstructor;
     selectedClass: StringConstructor;
@@ -2525,12 +3293,13 @@ declare const VBtn: vue.DefineComponent<{
     flat: boolean;
     active: boolean;
     block: boolean;
+    loading: boolean;
     disabled: boolean;
     size: string | number;
     tag: string;
     rounded: string | number | boolean;
     density: "default" | "compact" | "comfortable" | null;
-    variant: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+    variant: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     stacked: boolean;
     ripple: boolean;
 }>;
@@ -2539,7 +3308,7 @@ declare type VBtn = InstanceType<typeof VBtn>;
 declare const VBtnGroup: vue.DefineComponent<{
     color: StringConstructor;
     variant: {
-        type: vue.PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: vue.PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     };
@@ -2566,7 +3335,7 @@ declare const VBtnGroup: vue.DefineComponent<{
 }, void, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     color: StringConstructor;
     variant: {
-        type: vue.PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: vue.PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     };
@@ -2594,7 +3363,7 @@ declare const VBtnGroup: vue.DefineComponent<{
     tag: string;
     rounded: string | number | boolean;
     density: "default" | "compact" | "comfortable" | null;
-    variant: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+    variant: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     divided: boolean;
 }>;
 
@@ -2751,12 +3520,12 @@ declare const VBtnToggle: {
 declare const VCard: vue.DefineComponent<{
     color: StringConstructor;
     variant: Omit<{
-        type: vue.PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: vue.PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     }, "type" | "default"> & {
-        type: vue.PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-        default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+        type: vue.PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+        default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     };
     tag: {
         type: StringConstructor;
@@ -2774,6 +3543,7 @@ declare const VCard: vue.DefineComponent<{
         validator: (v: any) => boolean;
     };
     location: vue.PropType<Anchor>;
+    loading: BooleanConstructor;
     elevation: {
         type: (StringConstructor | NumberConstructor)[];
         validator(v: any): boolean;
@@ -2804,15 +3574,15 @@ declare const VCard: vue.DefineComponent<{
     subtitle: StringConstructor;
     text: StringConstructor;
     title: StringConstructor;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     color: StringConstructor;
     variant: Omit<{
-        type: vue.PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: vue.PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     }, "type" | "default"> & {
-        type: vue.PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-        default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+        type: vue.PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+        default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     };
     tag: {
         type: StringConstructor;
@@ -2830,6 +3600,7 @@ declare const VCard: vue.DefineComponent<{
         validator: (v: any) => boolean;
     };
     location: vue.PropType<Anchor>;
+    loading: BooleanConstructor;
     elevation: {
         type: (StringConstructor | NumberConstructor)[];
         validator(v: any): boolean;
@@ -2864,11 +3635,12 @@ declare const VCard: vue.DefineComponent<{
     replace: boolean;
     link: boolean;
     flat: boolean;
+    loading: boolean;
     disabled: boolean;
     tag: string;
     rounded: string | number | boolean;
     density: "default" | "compact" | "comfortable" | null;
-    variant: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+    variant: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     ripple: boolean;
     hover: boolean;
 }>;
@@ -2876,84 +3648,32 @@ declare type VCard = InstanceType<typeof VCard>;
 
 declare const VCardActions: vue.DefineComponent<{}, {}, {}, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, vue.EmitsOptions, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{}>>, {}>;
 
-declare const VCardAvatar: vue.DefineComponent<{
-    tag: {
-        type: StringConstructor;
+declare const VCardItem: vue.DefineComponent<{
+    density: {
+        type: vue.PropType<"default" | "compact" | "comfortable" | null>;
         default: string;
+        validator: (v: any) => boolean;
     };
-}, () => vue.VNode<vue.RendererNode, vue.RendererElement, {
-    [key: string]: any;
-}>, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-    tag: {
-        type: StringConstructor;
+    appendAvatar: StringConstructor;
+    appendIcon: vue.PropType<IconValue>;
+    prependAvatar: StringConstructor;
+    prependIcon: vue.PropType<IconValue>;
+    subtitle: StringConstructor;
+    title: StringConstructor;
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+    density: {
+        type: vue.PropType<"default" | "compact" | "comfortable" | null>;
         default: string;
+        validator: (v: any) => boolean;
     };
+    appendAvatar: StringConstructor;
+    appendIcon: vue.PropType<IconValue>;
+    prependAvatar: StringConstructor;
+    prependIcon: vue.PropType<IconValue>;
+    subtitle: StringConstructor;
+    title: StringConstructor;
 }>>, {
-    tag: string;
-}>;
-
-declare const VCardContent: vue.DefineComponent<{
-    tag: {
-        type: StringConstructor;
-        default: string;
-    };
-}, () => vue.VNode<vue.RendererNode, vue.RendererElement, {
-    [key: string]: any;
-}>, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-    tag: {
-        type: StringConstructor;
-        default: string;
-    };
-}>>, {
-    tag: string;
-}>;
-
-declare const VCardHeader: vue.DefineComponent<{
-    tag: {
-        type: StringConstructor;
-        default: string;
-    };
-}, () => vue.VNode<vue.RendererNode, vue.RendererElement, {
-    [key: string]: any;
-}>, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-    tag: {
-        type: StringConstructor;
-        default: string;
-    };
-}>>, {
-    tag: string;
-}>;
-
-declare const VCardHeaderText: vue.DefineComponent<{
-    tag: {
-        type: StringConstructor;
-        default: string;
-    };
-}, () => vue.VNode<vue.RendererNode, vue.RendererElement, {
-    [key: string]: any;
-}>, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-    tag: {
-        type: StringConstructor;
-        default: string;
-    };
-}>>, {
-    tag: string;
-}>;
-
-declare const VCardImg: vue.DefineComponent<{
-    tag: {
-        type: StringConstructor;
-        default: string;
-    };
-}, () => vue.VNode<vue.RendererNode, vue.RendererElement, {
-    [key: string]: any;
-}>, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-    tag: {
-        type: StringConstructor;
-        default: string;
-    };
-}>>, {
-    tag: string;
+    density: "default" | "compact" | "comfortable" | null;
 }>;
 
 declare const VCardSubtitle: vue.DefineComponent<{
@@ -3030,7 +3750,7 @@ declare const VCarousel: vue.DefineComponent<{
         validator: (v: any) => boolean;
     };
     verticalDelimiters: PropType<boolean | "left" | "right">;
-}, void, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
     'update:modelValue': (val: any) => true;
 }, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     color: StringConstructor;
@@ -3078,14 +3798,6 @@ declare const VCarouselItem: vue.DefineComponent<{
 declare type VCarouselItem = InstanceType<typeof VCarouselItem>;
 
 declare const VCheckbox: vue.DefineComponent<{
-    falseIcon: {
-        type: vue.PropType<IconValue>;
-        default: string;
-    };
-    trueIcon: {
-        type: vue.PropType<IconValue>;
-        default: string;
-    };
     density: {
         type: vue.PropType<"default" | "compact" | "comfortable" | null>;
         default: string;
@@ -3098,6 +3810,14 @@ declare const VCheckbox: vue.DefineComponent<{
     id: StringConstructor;
     inline: BooleanConstructor;
     label: StringConstructor;
+    falseIcon: {
+        type: vue.PropType<(string & {}) | IconValue>;
+        default: (string & {}) | IconValue;
+    };
+    trueIcon: {
+        type: vue.PropType<(string & {}) | IconValue>;
+        default: (string & {}) | IconValue;
+    };
     ripple: {
         type: BooleanConstructor;
         default: boolean;
@@ -3117,6 +3837,11 @@ declare const VCheckbox: vue.DefineComponent<{
         type: vue.PropType<typeof deepEqual>;
         default: typeof deepEqual;
     };
+    indeterminate: BooleanConstructor;
+    indeterminateIcon: {
+        type: vue.PropType<IconValue>;
+        default: string;
+    };
     errorMessages: {
         type: vue.PropType<string | string[]>;
         default: () => never[];
@@ -3129,6 +3854,7 @@ declare const VCheckbox: vue.DefineComponent<{
         type: vue.PropType<ValidationRule[]>;
         default: () => never[];
     };
+    validationValue: null;
     appendIcon: vue.PropType<IconValue>;
     prependIcon: vue.PropType<IconValue>;
     hideDetails: vue.PropType<boolean | "auto">;
@@ -3141,22 +3867,7 @@ declare const VCheckbox: vue.DefineComponent<{
         default: string;
         validator: (v: any) => boolean;
     };
-    indeterminate: BooleanConstructor;
-    indeterminateIcon: {
-        type: vue.PropType<IconValue>;
-        default: string;
-    };
-}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
-    'update:indeterminate': (val: boolean) => true;
-}, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-    falseIcon: {
-        type: vue.PropType<IconValue>;
-        default: string;
-    };
-    trueIcon: {
-        type: vue.PropType<IconValue>;
-        default: string;
-    };
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     density: {
         type: vue.PropType<"default" | "compact" | "comfortable" | null>;
         default: string;
@@ -3169,6 +3880,14 @@ declare const VCheckbox: vue.DefineComponent<{
     id: StringConstructor;
     inline: BooleanConstructor;
     label: StringConstructor;
+    falseIcon: {
+        type: vue.PropType<(string & {}) | IconValue>;
+        default: (string & {}) | IconValue;
+    };
+    trueIcon: {
+        type: vue.PropType<(string & {}) | IconValue>;
+        default: (string & {}) | IconValue;
+    };
     ripple: {
         type: BooleanConstructor;
         default: boolean;
@@ -3188,6 +3907,11 @@ declare const VCheckbox: vue.DefineComponent<{
         type: vue.PropType<typeof deepEqual>;
         default: typeof deepEqual;
     };
+    indeterminate: BooleanConstructor;
+    indeterminateIcon: {
+        type: vue.PropType<IconValue>;
+        default: string;
+    };
     errorMessages: {
         type: vue.PropType<string | string[]>;
         default: () => never[];
@@ -3200,6 +3924,7 @@ declare const VCheckbox: vue.DefineComponent<{
         type: vue.PropType<ValidationRule[]>;
         default: () => never[];
     };
+    validationValue: null;
     appendIcon: vue.PropType<IconValue>;
     prependIcon: vue.PropType<IconValue>;
     hideDetails: vue.PropType<boolean | "auto">;
@@ -3212,14 +3937,7 @@ declare const VCheckbox: vue.DefineComponent<{
         default: string;
         validator: (v: any) => boolean;
     };
-    indeterminate: BooleanConstructor;
-    indeterminateIcon: {
-        type: vue.PropType<IconValue>;
-        default: string;
-    };
-}>> & {
-    "onUpdate:indeterminate"?: ((val: boolean) => any) | undefined;
-}, {
+}>>, {
     inline: boolean;
     error: boolean;
     direction: "horizontal" | "vertical";
@@ -3230,25 +3948,137 @@ declare const VCheckbox: vue.DefineComponent<{
     messages: string | string[];
     density: "default" | "compact" | "comfortable" | null;
     ripple: boolean;
-    valueComparator: typeof deepEqual;
     errorMessages: string | string[];
     maxErrors: string | number;
     rules: ValidationRule[];
-    falseIcon: IconValue;
-    trueIcon: IconValue;
+    falseIcon: (string & {}) | IconValue;
+    trueIcon: (string & {}) | IconValue;
+    valueComparator: typeof deepEqual;
     indeterminateIcon: IconValue;
 }>;
 declare type VCheckbox = InstanceType<typeof VCheckbox>;
 
+declare const VCheckboxBtn: vue.DefineComponent<{
+    density: {
+        type: vue.PropType<"default" | "compact" | "comfortable" | null>;
+        default: string;
+        validator: (v: any) => boolean;
+    };
+    theme: StringConstructor;
+    color: StringConstructor;
+    disabled: BooleanConstructor;
+    error: BooleanConstructor;
+    id: StringConstructor;
+    inline: BooleanConstructor;
+    label: StringConstructor;
+    falseIcon: {
+        type: vue.PropType<(string & {}) | IconValue>;
+        default: (string & {}) | IconValue;
+    };
+    trueIcon: {
+        type: vue.PropType<(string & {}) | IconValue>;
+        default: (string & {}) | IconValue;
+    };
+    ripple: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    multiple: {
+        type: vue.PropType<boolean | null>;
+        default: null;
+    };
+    name: StringConstructor;
+    readonly: BooleanConstructor;
+    trueValue: null;
+    falseValue: null;
+    modelValue: null;
+    type: StringConstructor;
+    value: null;
+    valueComparator: {
+        type: vue.PropType<typeof deepEqual>;
+        default: typeof deepEqual;
+    };
+    indeterminate: BooleanConstructor;
+    indeterminateIcon: {
+        type: vue.PropType<IconValue>;
+        default: string;
+    };
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+    'update:modelValue': (value: any) => true;
+    'update:indeterminate': (val: boolean) => true;
+}, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<ExtractPropTypes<{
+    density: {
+        type: vue.PropType<"default" | "compact" | "comfortable" | null>;
+        default: string;
+        validator: (v: any) => boolean;
+    };
+    theme: StringConstructor;
+    color: StringConstructor;
+    disabled: BooleanConstructor;
+    error: BooleanConstructor;
+    id: StringConstructor;
+    inline: BooleanConstructor;
+    label: StringConstructor;
+    falseIcon: {
+        type: vue.PropType<(string & {}) | IconValue>;
+        default: (string & {}) | IconValue;
+    };
+    trueIcon: {
+        type: vue.PropType<(string & {}) | IconValue>;
+        default: (string & {}) | IconValue;
+    };
+    ripple: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    multiple: {
+        type: vue.PropType<boolean | null>;
+        default: null;
+    };
+    name: StringConstructor;
+    readonly: BooleanConstructor;
+    trueValue: null;
+    falseValue: null;
+    modelValue: null;
+    type: StringConstructor;
+    value: null;
+    valueComparator: {
+        type: vue.PropType<typeof deepEqual>;
+        default: typeof deepEqual;
+    };
+    indeterminate: BooleanConstructor;
+    indeterminateIcon: {
+        type: vue.PropType<IconValue>;
+        default: string;
+    };
+}>> & {
+    "onUpdate:modelValue"?: ((value: any) => any) | undefined;
+    "onUpdate:indeterminate"?: ((val: boolean) => any) | undefined;
+}, {
+    inline: boolean;
+    error: boolean;
+    disabled: boolean;
+    multiple: boolean | null;
+    readonly: boolean;
+    indeterminate: boolean;
+    density: "default" | "compact" | "comfortable" | null;
+    ripple: boolean;
+    falseIcon: (string & {}) | IconValue;
+    trueIcon: (string & {}) | IconValue;
+    valueComparator: typeof deepEqual;
+    indeterminateIcon: IconValue;
+}>;
+declare type VCheckboxBtn = InstanceType<typeof VCheckboxBtn>;
+
 declare const VChip: vue.DefineComponent<{
     color: StringConstructor;
     variant: Omit<{
-        type: vue.PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: vue.PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     }, "type" | "default"> & {
-        type: vue.PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-        default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+        type: vue.PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+        default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     };
     theme: StringConstructor;
     tag: Omit<{
@@ -3321,12 +4151,12 @@ declare const VChip: vue.DefineComponent<{
 }, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     color: StringConstructor;
     variant: Omit<{
-        type: vue.PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: vue.PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     }, "type" | "default"> & {
-        type: vue.PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-        default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+        type: vue.PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+        default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     };
     theme: StringConstructor;
     tag: Omit<{
@@ -3407,7 +4237,7 @@ declare const VChip: vue.DefineComponent<{
     tag: string;
     rounded: string | number | boolean;
     density: "default" | "compact" | "comfortable" | null;
-    variant: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+    variant: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     modelValue: boolean;
     ripple: boolean;
     closable: boolean;
@@ -3421,12 +4251,12 @@ declare type VChip = InstanceType<typeof VChip>;
 declare const VChipGroup: vue.DefineComponent<{
     color: StringConstructor;
     variant: Omit<{
-        type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     }, "type" | "default"> & {
-        type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-        default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+        type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+        default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     };
     theme: StringConstructor;
     tag: {
@@ -3451,17 +4281,17 @@ declare const VChipGroup: vue.DefineComponent<{
         type: PropType<typeof deepEqual>;
         default: typeof deepEqual;
     };
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
     'update:modelValue': (value: any) => true;
 }, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     color: StringConstructor;
     variant: Omit<{
-        type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     }, "type" | "default"> & {
-        type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-        default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+        type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+        default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     };
     theme: StringConstructor;
     tag: {
@@ -3494,7 +4324,7 @@ declare const VChipGroup: vue.DefineComponent<{
     multiple: boolean;
     tag: string;
     column: boolean;
-    variant: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+    variant: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     modelValue: any;
     selectedClass: string;
     valueComparator: typeof deepEqual;
@@ -3562,7 +4392,7 @@ declare const VColorPicker: vue.DefineComponent<{
         type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
     'update:modelValue': (color: any) => true;
     'update:mode': (mode: string) => true;
 }, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
@@ -3640,6 +4470,7 @@ declare const VCombobox: {
             transition: string | boolean | (vue.TransitionProps & {
                 component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
             });
+            menu: boolean;
             eager: boolean;
             noDataText: string;
             itemTitle: SelectItemKey;
@@ -3705,9 +4536,175 @@ declare const VCombobox: {
                 default: boolean;
             };
             hideSelected: BooleanConstructor;
+            menu: BooleanConstructor;
             menuIcon: {
                 type: PropType<IconValue>;
                 default: string;
+            };
+            menuProps: {
+                type: PropType<Partial<{
+                    transition: string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    }) | {
+                        readonly component: vue.DefineComponent<{
+                            target: PropType<HTMLElement>;
+                        }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                            target: PropType<HTMLElement>;
+                        }>>, {}>;
+                    };
+                    modelValue: boolean;
+                }> & Omit<Readonly<vue.ExtractPropTypes<{
+                    transition: Omit<{
+                        type: PropType<string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        })>;
+                        default: string;
+                        validator: (val: unknown) => boolean;
+                    }, "type" | "default"> & {
+                        type: PropType<string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        }) | {
+                            readonly component: vue.DefineComponent<{
+                                target: PropType<HTMLElement>;
+                            }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                                target: PropType<HTMLElement>;
+                            }>>, {}>;
+                        }>;
+                        default: string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        }) | {
+                            readonly component: vue.DefineComponent<{
+                                target: PropType<HTMLElement>;
+                            }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                                target: PropType<HTMLElement>;
+                            }>>, {}>;
+                        };
+                    };
+                    modelValue: BooleanConstructor;
+                    id: StringConstructor;
+                } & SlotsToProps<MakeSlots<{
+                    default: [{
+                        isActive: vue.Ref<boolean>;
+                    }];
+                    activator: [{
+                        isActive: boolean;
+                        props: Record<string, any>;
+                    }];
+                }>>>> & {
+                    "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+                } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "transition" | "modelValue"> & Partial<{
+                    absolute: boolean;
+                    location: Anchor;
+                    origin: "auto" | Anchor | "overlap";
+                    transition: string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    });
+                    zIndex: string | number;
+                    eager: boolean;
+                    disabled: boolean;
+                    modelValue: boolean;
+                    activatorProps: Record<string, any>;
+                    openOnClick: boolean;
+                    openOnHover: boolean;
+                    openOnFocus: boolean;
+                    closeOnContentClick: boolean;
+                    locationStrategy: "connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                        updateLocation: (e: Event) => void;
+                    } | undefined);
+                    scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+                    contained: boolean;
+                    noClickAnimation: boolean;
+                    persistent: boolean;
+                    closeOnBack: boolean;
+                    scrim: string | boolean;
+                }> & Omit<Readonly<vue.ExtractPropTypes<{
+                    transition: {
+                        type: PropType<string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        })>;
+                        default: string;
+                        validator: (val: unknown) => boolean;
+                    };
+                    theme: StringConstructor;
+                    scrollStrategy: {
+                        type: PropType<"none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void)>;
+                        default: string;
+                        validator: (val: any) => boolean;
+                    };
+                    locationStrategy: {
+                        type: PropType<"connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                            updateLocation: (e: Event) => void;
+                        } | undefined)>;
+                        default: string;
+                        validator: (val: any) => boolean;
+                    };
+                    location: {
+                        type: PropType<Anchor>;
+                        default: string;
+                    };
+                    origin: {
+                        type: PropType<"auto" | Anchor | "overlap">;
+                        default: string;
+                    };
+                    offset: PropType<string | number | number[] | undefined>;
+                    eager: BooleanConstructor;
+                    height: (StringConstructor | NumberConstructor)[];
+                    maxHeight: (StringConstructor | NumberConstructor)[];
+                    maxWidth: (StringConstructor | NumberConstructor)[];
+                    minHeight: (StringConstructor | NumberConstructor)[];
+                    minWidth: (StringConstructor | NumberConstructor)[];
+                    width: (StringConstructor | NumberConstructor)[];
+                    closeDelay: (StringConstructor | NumberConstructor)[];
+                    openDelay: (StringConstructor | NumberConstructor)[];
+                    activator: PropType<string | Element | vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | undefined>;
+                    activatorProps: {
+                        type: PropType<Record<string, any>>;
+                        default: () => {};
+                    };
+                    openOnClick: {
+                        type: BooleanConstructor;
+                        default: undefined;
+                    };
+                    openOnHover: BooleanConstructor;
+                    openOnFocus: {
+                        type: BooleanConstructor;
+                        default: undefined;
+                    };
+                    closeOnContentClick: BooleanConstructor;
+                    absolute: BooleanConstructor;
+                    attach: PropType<string | boolean | Element>;
+                    closeOnBack: {
+                        type: BooleanConstructor;
+                        default: boolean;
+                    };
+                    contained: BooleanConstructor;
+                    contentClass: null;
+                    contentProps: null;
+                    disabled: BooleanConstructor;
+                    noClickAnimation: BooleanConstructor;
+                    modelValue: BooleanConstructor;
+                    persistent: BooleanConstructor;
+                    scrim: {
+                        type: (StringConstructor | BooleanConstructor)[];
+                        default: boolean;
+                    };
+                    zIndex: {
+                        type: (StringConstructor | NumberConstructor)[];
+                        default: number;
+                    };
+                } & SlotsToProps<MakeSlots<{
+                    default: [{
+                        isActive: vue.Ref<boolean>;
+                    }];
+                    activator: [{
+                        isActive: boolean;
+                        props: Record<string, any>;
+                    }];
+                }>>>> & {
+                    onAfterLeave?: (() => any) | undefined;
+                    "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+                    "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
+                } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "contained" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">>;
             };
             modelValue: {
                 type: null;
@@ -3738,12 +4735,17 @@ declare const VCombobox: {
             details: [VInputSlot];
         }> & MakeSlots<{
             clear: [];
-            prependInner: [DefaultInputSlot & VInputSlot];
-            appendInner: [DefaultInputSlot & VInputSlot];
+            'prepend-inner': [DefaultInputSlot & VInputSlot];
+            'append-inner': [DefaultInputSlot & VInputSlot];
             label: [DefaultInputSlot & VInputSlot];
             loader: [LoaderSlotProps];
             default: [VFieldSlot];
         }> & MakeSlots<{
+            item: [{
+                item: unknown;
+                index: number;
+                props: Record<string, unknown>;
+            }];
             chip: [{
                 item: unknown;
                 index: number;
@@ -3755,8 +4757,9 @@ declare const VCombobox: {
             }];
             'no-data': [];
         }>>>> & {
+            "onUpdate:menu"?: ((val: boolean) => any) | undefined;
             "onUpdate:searchInput"?: ((val: string) => any) | undefined;
-        } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "transition" | "eager" | "noDataText" | "itemTitle" | "itemValue" | "itemChildren" | "itemProps" | "chips" | "closableChips" | "hideNoData" | "hideSelected" | "menuIcon" | "openOnClear" | "filterMode" | "noFilter" | "filterKeys">;
+        } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "transition" | "menu" | "eager" | "noDataText" | "itemTitle" | "itemValue" | "itemChildren" | "itemProps" | "chips" | "closableChips" | "hideNoData" | "hideSelected" | "menuIcon" | "openOnClear" | "filterMode" | "noFilter" | "filterKeys">;
         $attrs: {
             [x: string]: unknown;
         };
@@ -3768,7 +4771,7 @@ declare const VCombobox: {
         }>;
         $root: vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | null;
         $parent: vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | null;
-        $emit: (event: "update:searchInput", val: string) => void;
+        $emit: ((event: "update:menu", val: boolean) => void) & ((event: "update:searchInput", val: string) => void);
         $el: any;
         $options: vue.ComponentOptionsBase<Readonly<vue.ExtractPropTypes<Omit<{
             transition: Omit<{
@@ -3820,9 +4823,175 @@ declare const VCombobox: {
                 default: boolean;
             };
             hideSelected: BooleanConstructor;
+            menu: BooleanConstructor;
             menuIcon: {
                 type: PropType<IconValue>;
                 default: string;
+            };
+            menuProps: {
+                type: PropType<Partial<{
+                    transition: string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    }) | {
+                        readonly component: vue.DefineComponent<{
+                            target: PropType<HTMLElement>;
+                        }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                            target: PropType<HTMLElement>;
+                        }>>, {}>;
+                    };
+                    modelValue: boolean;
+                }> & Omit<Readonly<vue.ExtractPropTypes<{
+                    transition: Omit<{
+                        type: PropType<string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        })>;
+                        default: string;
+                        validator: (val: unknown) => boolean;
+                    }, "type" | "default"> & {
+                        type: PropType<string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        }) | {
+                            readonly component: vue.DefineComponent<{
+                                target: PropType<HTMLElement>;
+                            }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                                target: PropType<HTMLElement>;
+                            }>>, {}>;
+                        }>;
+                        default: string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        }) | {
+                            readonly component: vue.DefineComponent<{
+                                target: PropType<HTMLElement>;
+                            }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                                target: PropType<HTMLElement>;
+                            }>>, {}>;
+                        };
+                    };
+                    modelValue: BooleanConstructor;
+                    id: StringConstructor;
+                } & SlotsToProps<MakeSlots<{
+                    default: [{
+                        isActive: vue.Ref<boolean>;
+                    }];
+                    activator: [{
+                        isActive: boolean;
+                        props: Record<string, any>;
+                    }];
+                }>>>> & {
+                    "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+                } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "transition" | "modelValue"> & Partial<{
+                    absolute: boolean;
+                    location: Anchor;
+                    origin: "auto" | Anchor | "overlap";
+                    transition: string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    });
+                    zIndex: string | number;
+                    eager: boolean;
+                    disabled: boolean;
+                    modelValue: boolean;
+                    activatorProps: Record<string, any>;
+                    openOnClick: boolean;
+                    openOnHover: boolean;
+                    openOnFocus: boolean;
+                    closeOnContentClick: boolean;
+                    locationStrategy: "connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                        updateLocation: (e: Event) => void;
+                    } | undefined);
+                    scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+                    contained: boolean;
+                    noClickAnimation: boolean;
+                    persistent: boolean;
+                    closeOnBack: boolean;
+                    scrim: string | boolean;
+                }> & Omit<Readonly<vue.ExtractPropTypes<{
+                    transition: {
+                        type: PropType<string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        })>;
+                        default: string;
+                        validator: (val: unknown) => boolean;
+                    };
+                    theme: StringConstructor;
+                    scrollStrategy: {
+                        type: PropType<"none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void)>;
+                        default: string;
+                        validator: (val: any) => boolean;
+                    };
+                    locationStrategy: {
+                        type: PropType<"connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                            updateLocation: (e: Event) => void;
+                        } | undefined)>;
+                        default: string;
+                        validator: (val: any) => boolean;
+                    };
+                    location: {
+                        type: PropType<Anchor>;
+                        default: string;
+                    };
+                    origin: {
+                        type: PropType<"auto" | Anchor | "overlap">;
+                        default: string;
+                    };
+                    offset: PropType<string | number | number[] | undefined>;
+                    eager: BooleanConstructor;
+                    height: (StringConstructor | NumberConstructor)[];
+                    maxHeight: (StringConstructor | NumberConstructor)[];
+                    maxWidth: (StringConstructor | NumberConstructor)[];
+                    minHeight: (StringConstructor | NumberConstructor)[];
+                    minWidth: (StringConstructor | NumberConstructor)[];
+                    width: (StringConstructor | NumberConstructor)[];
+                    closeDelay: (StringConstructor | NumberConstructor)[];
+                    openDelay: (StringConstructor | NumberConstructor)[];
+                    activator: PropType<string | Element | vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | undefined>;
+                    activatorProps: {
+                        type: PropType<Record<string, any>>;
+                        default: () => {};
+                    };
+                    openOnClick: {
+                        type: BooleanConstructor;
+                        default: undefined;
+                    };
+                    openOnHover: BooleanConstructor;
+                    openOnFocus: {
+                        type: BooleanConstructor;
+                        default: undefined;
+                    };
+                    closeOnContentClick: BooleanConstructor;
+                    absolute: BooleanConstructor;
+                    attach: PropType<string | boolean | Element>;
+                    closeOnBack: {
+                        type: BooleanConstructor;
+                        default: boolean;
+                    };
+                    contained: BooleanConstructor;
+                    contentClass: null;
+                    contentProps: null;
+                    disabled: BooleanConstructor;
+                    noClickAnimation: BooleanConstructor;
+                    modelValue: BooleanConstructor;
+                    persistent: BooleanConstructor;
+                    scrim: {
+                        type: (StringConstructor | BooleanConstructor)[];
+                        default: boolean;
+                    };
+                    zIndex: {
+                        type: (StringConstructor | NumberConstructor)[];
+                        default: number;
+                    };
+                } & SlotsToProps<MakeSlots<{
+                    default: [{
+                        isActive: vue.Ref<boolean>;
+                    }];
+                    activator: [{
+                        isActive: boolean;
+                        props: Record<string, any>;
+                    }];
+                }>>>> & {
+                    onAfterLeave?: (() => any) | undefined;
+                    "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+                    "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
+                } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "contained" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">>;
             };
             modelValue: {
                 type: null;
@@ -3853,12 +5022,17 @@ declare const VCombobox: {
             details: [VInputSlot];
         }> & MakeSlots<{
             clear: [];
-            prependInner: [DefaultInputSlot & VInputSlot];
-            appendInner: [DefaultInputSlot & VInputSlot];
+            'prepend-inner': [DefaultInputSlot & VInputSlot];
+            'append-inner': [DefaultInputSlot & VInputSlot];
             label: [DefaultInputSlot & VInputSlot];
             loader: [LoaderSlotProps];
             default: [VFieldSlot];
         }> & MakeSlots<{
+            item: [{
+                item: unknown;
+                index: number;
+                props: Record<string, unknown>;
+            }];
             chip: [{
                 item: unknown;
                 index: number;
@@ -3870,14 +5044,17 @@ declare const VCombobox: {
             }];
             'no-data': [];
         }>>>> & {
+            "onUpdate:menu"?: ((val: boolean) => any) | undefined;
             "onUpdate:searchInput"?: ((val: string) => any) | undefined;
         }, any, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Omit<{
             'update:modelValue': (val: any) => boolean;
             'update:searchInput': (val: string) => boolean;
+            'update:menu': (val: boolean) => boolean;
         }, "multiple" | "items" | "update:modelValue" | "modelValue" | "returnObject">, string, {
             transition: string | boolean | (vue.TransitionProps & {
                 component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
             });
+            menu: boolean;
             eager: boolean;
             noDataText: string;
             itemTitle: SelectItemKey;
@@ -3963,9 +5140,175 @@ declare const VCombobox: {
             default: boolean;
         };
         hideSelected: BooleanConstructor;
+        menu: BooleanConstructor;
         menuIcon: {
             type: PropType<IconValue>;
             default: string;
+        };
+        menuProps: {
+            type: PropType<Partial<{
+                transition: string | boolean | (vue.TransitionProps & {
+                    component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                }) | {
+                    readonly component: vue.DefineComponent<{
+                        target: PropType<HTMLElement>;
+                    }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                        target: PropType<HTMLElement>;
+                    }>>, {}>;
+                };
+                modelValue: boolean;
+            }> & Omit<Readonly<vue.ExtractPropTypes<{
+                transition: Omit<{
+                    type: PropType<string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    })>;
+                    default: string;
+                    validator: (val: unknown) => boolean;
+                }, "type" | "default"> & {
+                    type: PropType<string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    }) | {
+                        readonly component: vue.DefineComponent<{
+                            target: PropType<HTMLElement>;
+                        }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                            target: PropType<HTMLElement>;
+                        }>>, {}>;
+                    }>;
+                    default: string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    }) | {
+                        readonly component: vue.DefineComponent<{
+                            target: PropType<HTMLElement>;
+                        }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                            target: PropType<HTMLElement>;
+                        }>>, {}>;
+                    };
+                };
+                modelValue: BooleanConstructor;
+                id: StringConstructor;
+            } & SlotsToProps<MakeSlots<{
+                default: [{
+                    isActive: vue.Ref<boolean>;
+                }];
+                activator: [{
+                    isActive: boolean;
+                    props: Record<string, any>;
+                }];
+            }>>>> & {
+                "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+            } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "transition" | "modelValue"> & Partial<{
+                absolute: boolean;
+                location: Anchor;
+                origin: "auto" | Anchor | "overlap";
+                transition: string | boolean | (vue.TransitionProps & {
+                    component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                });
+                zIndex: string | number;
+                eager: boolean;
+                disabled: boolean;
+                modelValue: boolean;
+                activatorProps: Record<string, any>;
+                openOnClick: boolean;
+                openOnHover: boolean;
+                openOnFocus: boolean;
+                closeOnContentClick: boolean;
+                locationStrategy: "connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                    updateLocation: (e: Event) => void;
+                } | undefined);
+                scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+                contained: boolean;
+                noClickAnimation: boolean;
+                persistent: boolean;
+                closeOnBack: boolean;
+                scrim: string | boolean;
+            }> & Omit<Readonly<vue.ExtractPropTypes<{
+                transition: {
+                    type: PropType<string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    })>;
+                    default: string;
+                    validator: (val: unknown) => boolean;
+                };
+                theme: StringConstructor;
+                scrollStrategy: {
+                    type: PropType<"none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void)>;
+                    default: string;
+                    validator: (val: any) => boolean;
+                };
+                locationStrategy: {
+                    type: PropType<"connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                        updateLocation: (e: Event) => void;
+                    } | undefined)>;
+                    default: string;
+                    validator: (val: any) => boolean;
+                };
+                location: {
+                    type: PropType<Anchor>;
+                    default: string;
+                };
+                origin: {
+                    type: PropType<"auto" | Anchor | "overlap">;
+                    default: string;
+                };
+                offset: PropType<string | number | number[] | undefined>;
+                eager: BooleanConstructor;
+                height: (StringConstructor | NumberConstructor)[];
+                maxHeight: (StringConstructor | NumberConstructor)[];
+                maxWidth: (StringConstructor | NumberConstructor)[];
+                minHeight: (StringConstructor | NumberConstructor)[];
+                minWidth: (StringConstructor | NumberConstructor)[];
+                width: (StringConstructor | NumberConstructor)[];
+                closeDelay: (StringConstructor | NumberConstructor)[];
+                openDelay: (StringConstructor | NumberConstructor)[];
+                activator: PropType<string | Element | vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | undefined>;
+                activatorProps: {
+                    type: PropType<Record<string, any>>;
+                    default: () => {};
+                };
+                openOnClick: {
+                    type: BooleanConstructor;
+                    default: undefined;
+                };
+                openOnHover: BooleanConstructor;
+                openOnFocus: {
+                    type: BooleanConstructor;
+                    default: undefined;
+                };
+                closeOnContentClick: BooleanConstructor;
+                absolute: BooleanConstructor;
+                attach: PropType<string | boolean | Element>;
+                closeOnBack: {
+                    type: BooleanConstructor;
+                    default: boolean;
+                };
+                contained: BooleanConstructor;
+                contentClass: null;
+                contentProps: null;
+                disabled: BooleanConstructor;
+                noClickAnimation: BooleanConstructor;
+                modelValue: BooleanConstructor;
+                persistent: BooleanConstructor;
+                scrim: {
+                    type: (StringConstructor | BooleanConstructor)[];
+                    default: boolean;
+                };
+                zIndex: {
+                    type: (StringConstructor | NumberConstructor)[];
+                    default: number;
+                };
+            } & SlotsToProps<MakeSlots<{
+                default: [{
+                    isActive: vue.Ref<boolean>;
+                }];
+                activator: [{
+                    isActive: boolean;
+                    props: Record<string, any>;
+                }];
+            }>>>> & {
+                onAfterLeave?: (() => any) | undefined;
+                "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+                "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
+            } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "contained" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">>;
         };
         modelValue: {
             type: null;
@@ -3996,12 +5339,17 @@ declare const VCombobox: {
         details: [VInputSlot];
     }> & MakeSlots<{
         clear: [];
-        prependInner: [DefaultInputSlot & VInputSlot];
-        appendInner: [DefaultInputSlot & VInputSlot];
+        'prepend-inner': [DefaultInputSlot & VInputSlot];
+        'append-inner': [DefaultInputSlot & VInputSlot];
         label: [DefaultInputSlot & VInputSlot];
         loader: [LoaderSlotProps];
         default: [VFieldSlot];
     }> & MakeSlots<{
+        item: [{
+            item: unknown;
+            index: number;
+            props: Record<string, unknown>;
+        }];
         chip: [{
             item: unknown;
             index: number;
@@ -4013,6 +5361,7 @@ declare const VCombobox: {
         }];
         'no-data': [];
     }>>>> & {
+        "onUpdate:menu"?: ((val: boolean) => any) | undefined;
         "onUpdate:searchInput"?: ((val: string) => any) | undefined;
     } & vue.ShallowUnwrapRef<any> & {} & vue.ComponentCustomProperties;
     __isFragment?: undefined;
@@ -4068,9 +5417,175 @@ declare const VCombobox: {
         default: boolean;
     };
     hideSelected: BooleanConstructor;
+    menu: BooleanConstructor;
     menuIcon: {
         type: PropType<IconValue>;
         default: string;
+    };
+    menuProps: {
+        type: PropType<Partial<{
+            transition: string | boolean | (vue.TransitionProps & {
+                component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+            }) | {
+                readonly component: vue.DefineComponent<{
+                    target: PropType<HTMLElement>;
+                }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                    target: PropType<HTMLElement>;
+                }>>, {}>;
+            };
+            modelValue: boolean;
+        }> & Omit<Readonly<vue.ExtractPropTypes<{
+            transition: Omit<{
+                type: PropType<string | boolean | (vue.TransitionProps & {
+                    component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                })>;
+                default: string;
+                validator: (val: unknown) => boolean;
+            }, "type" | "default"> & {
+                type: PropType<string | boolean | (vue.TransitionProps & {
+                    component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                }) | {
+                    readonly component: vue.DefineComponent<{
+                        target: PropType<HTMLElement>;
+                    }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                        target: PropType<HTMLElement>;
+                    }>>, {}>;
+                }>;
+                default: string | boolean | (vue.TransitionProps & {
+                    component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                }) | {
+                    readonly component: vue.DefineComponent<{
+                        target: PropType<HTMLElement>;
+                    }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                        target: PropType<HTMLElement>;
+                    }>>, {}>;
+                };
+            };
+            modelValue: BooleanConstructor;
+            id: StringConstructor;
+        } & SlotsToProps<MakeSlots<{
+            default: [{
+                isActive: vue.Ref<boolean>;
+            }];
+            activator: [{
+                isActive: boolean;
+                props: Record<string, any>;
+            }];
+        }>>>> & {
+            "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+        } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "transition" | "modelValue"> & Partial<{
+            absolute: boolean;
+            location: Anchor;
+            origin: "auto" | Anchor | "overlap";
+            transition: string | boolean | (vue.TransitionProps & {
+                component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+            });
+            zIndex: string | number;
+            eager: boolean;
+            disabled: boolean;
+            modelValue: boolean;
+            activatorProps: Record<string, any>;
+            openOnClick: boolean;
+            openOnHover: boolean;
+            openOnFocus: boolean;
+            closeOnContentClick: boolean;
+            locationStrategy: "connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                updateLocation: (e: Event) => void;
+            } | undefined);
+            scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+            contained: boolean;
+            noClickAnimation: boolean;
+            persistent: boolean;
+            closeOnBack: boolean;
+            scrim: string | boolean;
+        }> & Omit<Readonly<vue.ExtractPropTypes<{
+            transition: {
+                type: PropType<string | boolean | (vue.TransitionProps & {
+                    component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                })>;
+                default: string;
+                validator: (val: unknown) => boolean;
+            };
+            theme: StringConstructor;
+            scrollStrategy: {
+                type: PropType<"none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void)>;
+                default: string;
+                validator: (val: any) => boolean;
+            };
+            locationStrategy: {
+                type: PropType<"connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                    updateLocation: (e: Event) => void;
+                } | undefined)>;
+                default: string;
+                validator: (val: any) => boolean;
+            };
+            location: {
+                type: PropType<Anchor>;
+                default: string;
+            };
+            origin: {
+                type: PropType<"auto" | Anchor | "overlap">;
+                default: string;
+            };
+            offset: PropType<string | number | number[] | undefined>;
+            eager: BooleanConstructor;
+            height: (StringConstructor | NumberConstructor)[];
+            maxHeight: (StringConstructor | NumberConstructor)[];
+            maxWidth: (StringConstructor | NumberConstructor)[];
+            minHeight: (StringConstructor | NumberConstructor)[];
+            minWidth: (StringConstructor | NumberConstructor)[];
+            width: (StringConstructor | NumberConstructor)[];
+            closeDelay: (StringConstructor | NumberConstructor)[];
+            openDelay: (StringConstructor | NumberConstructor)[];
+            activator: PropType<string | Element | vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | undefined>;
+            activatorProps: {
+                type: PropType<Record<string, any>>;
+                default: () => {};
+            };
+            openOnClick: {
+                type: BooleanConstructor;
+                default: undefined;
+            };
+            openOnHover: BooleanConstructor;
+            openOnFocus: {
+                type: BooleanConstructor;
+                default: undefined;
+            };
+            closeOnContentClick: BooleanConstructor;
+            absolute: BooleanConstructor;
+            attach: PropType<string | boolean | Element>;
+            closeOnBack: {
+                type: BooleanConstructor;
+                default: boolean;
+            };
+            contained: BooleanConstructor;
+            contentClass: null;
+            contentProps: null;
+            disabled: BooleanConstructor;
+            noClickAnimation: BooleanConstructor;
+            modelValue: BooleanConstructor;
+            persistent: BooleanConstructor;
+            scrim: {
+                type: (StringConstructor | BooleanConstructor)[];
+                default: boolean;
+            };
+            zIndex: {
+                type: (StringConstructor | NumberConstructor)[];
+                default: number;
+            };
+        } & SlotsToProps<MakeSlots<{
+            default: [{
+                isActive: vue.Ref<boolean>;
+            }];
+            activator: [{
+                isActive: boolean;
+                props: Record<string, any>;
+            }];
+        }>>>> & {
+            onAfterLeave?: (() => any) | undefined;
+            "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+            "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
+        } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "contained" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">>;
     };
     modelValue: {
         type: null;
@@ -4101,12 +5616,17 @@ declare const VCombobox: {
     details: [VInputSlot];
 }> & MakeSlots<{
     clear: [];
-    prependInner: [DefaultInputSlot & VInputSlot];
-    appendInner: [DefaultInputSlot & VInputSlot];
+    'prepend-inner': [DefaultInputSlot & VInputSlot];
+    'append-inner': [DefaultInputSlot & VInputSlot];
     label: [DefaultInputSlot & VInputSlot];
     loader: [LoaderSlotProps];
     default: [VFieldSlot];
 }> & MakeSlots<{
+    item: [{
+        item: unknown;
+        index: number;
+        props: Record<string, unknown>;
+    }];
     chip: [{
         item: unknown;
         index: number;
@@ -4118,14 +5638,17 @@ declare const VCombobox: {
     }];
     'no-data': [];
 }>>>> & {
+    "onUpdate:menu"?: ((val: boolean) => any) | undefined;
     "onUpdate:searchInput"?: ((val: string) => any) | undefined;
 }, any, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Omit<{
     'update:modelValue': (val: any) => boolean;
     'update:searchInput': (val: string) => boolean;
+    'update:menu': (val: boolean) => boolean;
 }, "multiple" | "items" | "update:modelValue" | "modelValue" | "returnObject">, string, {
     transition: string | boolean | (vue.TransitionProps & {
         component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
     });
+    menu: boolean;
     eager: boolean;
     noDataText: string;
     itemTitle: SelectItemKey;
@@ -4156,12 +5679,17 @@ declare const VCombobox: {
         details: [VInputSlot];
     }> & MakeSlots<{
         clear: [];
-        prependInner: [DefaultInputSlot & VInputSlot];
-        appendInner: [DefaultInputSlot & VInputSlot];
+        'prepend-inner': [DefaultInputSlot & VInputSlot];
+        'append-inner': [DefaultInputSlot & VInputSlot];
         label: [DefaultInputSlot & VInputSlot];
         loader: [LoaderSlotProps];
         default: [VFieldSlot];
     }> & MakeSlots<{
+        item: [{
+            item: T;
+            index: number;
+            props: Record<string, unknown>;
+        }];
         chip: [{
             item: T;
             index: number;
@@ -4265,7 +5793,7 @@ declare const VCounter: vue.DefineComponent<{
         type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     transition: Omit<{
         type: vue.PropType<string | boolean | (vue.TransitionProps & {
             component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
@@ -4419,40 +5947,6 @@ declare const VDefaultsProvider: vue.DefineComponent<{
     scoped: boolean;
 }>;
 
-interface ScrollStrategyData {
-    root: Ref<HTMLElement | undefined>;
-    contentEl: Ref<HTMLElement | undefined>;
-    activatorEl: Ref<HTMLElement | undefined>;
-    isActive: Ref<boolean>;
-    updateLocation: Ref<((e: Event) => void) | undefined>;
-}
-
-interface LocationStrategyData {
-    contentEl: Ref<HTMLElement | undefined>;
-    activatorEl: Ref<HTMLElement | undefined>;
-    isActive: Ref<boolean>;
-}
-declare const locationStrategies: {
-    static: typeof staticLocationStrategy;
-    connected: typeof connectedLocationStrategy;
-};
-interface StrategyProps {
-    locationStrategy: keyof typeof locationStrategies | ((data: LocationStrategyData, props: StrategyProps, contentStyles: Ref<Record<string, string>>) => undefined | {
-        updateLocation: (e: Event) => void;
-    });
-    location: Anchor;
-    origin: Anchor | 'auto' | 'overlap';
-    offset?: number | string;
-    maxHeight?: number | string;
-    maxWidth?: number | string;
-    minHeight?: number | string;
-    minWidth?: number | string;
-}
-declare function staticLocationStrategy(): void;
-declare function connectedLocationStrategy(data: LocationStrategyData, props: StrategyProps, contentStyles: Ref<Record<string, string>>): {
-    updateLocation: () => void;
-};
-
 declare type OverlaySlots = MakeSlots<{
     default: [{
         isActive: Ref<boolean>;
@@ -4477,7 +5971,6 @@ declare const VOverlay: {
             eager: boolean;
             disabled: boolean;
             modelValue: boolean;
-            contained: boolean;
             activatorProps: Record<string, any>;
             openOnClick: boolean;
             openOnHover: boolean;
@@ -4487,12 +5980,12 @@ declare const VOverlay: {
                 updateLocation: (e: Event) => void;
             } | undefined);
             scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+            contained: boolean;
             noClickAnimation: boolean;
             persistent: boolean;
             closeOnBack: boolean;
             scrim: string | boolean;
         }> & Omit<Readonly<vue.ExtractPropTypes<{
-            eager: BooleanConstructor;
             transition: {
                 type: PropType<string | boolean | (vue.TransitionProps & {
                     component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
@@ -4521,7 +6014,8 @@ declare const VOverlay: {
                 type: PropType<"auto" | Anchor | "overlap">;
                 default: string;
             };
-            offset: (StringConstructor | NumberConstructor)[];
+            offset: PropType<string | number | number[] | undefined>;
+            eager: BooleanConstructor;
             height: (StringConstructor | NumberConstructor)[];
             maxHeight: (StringConstructor | NumberConstructor)[];
             maxWidth: (StringConstructor | NumberConstructor)[];
@@ -4578,7 +6072,7 @@ declare const VOverlay: {
             onAfterLeave?: (() => any) | undefined;
             "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
             "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
-        } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "contained" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">;
+        } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "contained" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">;
         $attrs: {
             [x: string]: unknown;
         };
@@ -4593,7 +6087,6 @@ declare const VOverlay: {
         $emit: ((event: "update:modelValue", value: boolean) => void) & ((event: "click:outside", e: MouseEvent) => void) & ((event: "afterLeave") => void);
         $el: any;
         $options: vue.ComponentOptionsBase<Readonly<vue.ExtractPropTypes<{
-            eager: BooleanConstructor;
             transition: {
                 type: PropType<string | boolean | (vue.TransitionProps & {
                     component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
@@ -4622,7 +6115,8 @@ declare const VOverlay: {
                 type: PropType<"auto" | Anchor | "overlap">;
                 default: string;
             };
-            offset: (StringConstructor | NumberConstructor)[];
+            offset: PropType<string | number | number[] | undefined>;
+            eager: BooleanConstructor;
             height: (StringConstructor | NumberConstructor)[];
             maxHeight: (StringConstructor | NumberConstructor)[];
             maxWidth: (StringConstructor | NumberConstructor)[];
@@ -4680,9 +6174,9 @@ declare const VOverlay: {
             "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
             "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
         }, {
+            activatorEl: Ref<HTMLElement | undefined>;
             animateClick: () => void;
             contentEl: Ref<HTMLElement | undefined>;
-            activatorEl: Ref<HTMLElement | undefined>;
             isTop: Readonly<Ref<boolean>>;
             updateLocation: Ref<((e: Event) => void) | undefined>;
         }, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
@@ -4700,7 +6194,6 @@ declare const VOverlay: {
             eager: boolean;
             disabled: boolean;
             modelValue: boolean;
-            contained: boolean;
             activatorProps: Record<string, any>;
             openOnClick: boolean;
             openOnHover: boolean;
@@ -4710,6 +6203,7 @@ declare const VOverlay: {
                 updateLocation: (e: Event) => void;
             } | undefined);
             scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+            contained: boolean;
             noClickAnimation: boolean;
             persistent: boolean;
             closeOnBack: boolean;
@@ -4735,7 +6229,6 @@ declare const VOverlay: {
         $nextTick: typeof vue.nextTick;
         $watch(source: string | Function, cb: Function, options?: vue.WatchOptions<boolean> | undefined): vue.WatchStopHandle;
     } & Readonly<vue.ExtractPropTypes<{
-        eager: BooleanConstructor;
         transition: {
             type: PropType<string | boolean | (vue.TransitionProps & {
                 component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
@@ -4764,7 +6257,8 @@ declare const VOverlay: {
             type: PropType<"auto" | Anchor | "overlap">;
             default: string;
         };
-        offset: (StringConstructor | NumberConstructor)[];
+        offset: PropType<string | number | number[] | undefined>;
+        eager: BooleanConstructor;
         height: (StringConstructor | NumberConstructor)[];
         maxHeight: (StringConstructor | NumberConstructor)[];
         maxWidth: (StringConstructor | NumberConstructor)[];
@@ -4822,9 +6316,9 @@ declare const VOverlay: {
         "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
         "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
     } & vue.ShallowUnwrapRef<{
+        activatorEl: Ref<HTMLElement | undefined>;
         animateClick: () => void;
         contentEl: Ref<HTMLElement | undefined>;
-        activatorEl: Ref<HTMLElement | undefined>;
         isTop: Readonly<Ref<boolean>>;
         updateLocation: Ref<((e: Event) => void) | undefined>;
     }> & {} & vue.ComponentCustomProperties;
@@ -4832,7 +6326,6 @@ declare const VOverlay: {
     __isTeleport?: undefined;
     __isSuspense?: undefined;
 } & vue.ComponentOptionsBase<Readonly<vue.ExtractPropTypes<{
-    eager: BooleanConstructor;
     transition: {
         type: PropType<string | boolean | (vue.TransitionProps & {
             component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
@@ -4861,7 +6354,8 @@ declare const VOverlay: {
         type: PropType<"auto" | Anchor | "overlap">;
         default: string;
     };
-    offset: (StringConstructor | NumberConstructor)[];
+    offset: PropType<string | number | number[] | undefined>;
+    eager: BooleanConstructor;
     height: (StringConstructor | NumberConstructor)[];
     maxHeight: (StringConstructor | NumberConstructor)[];
     maxWidth: (StringConstructor | NumberConstructor)[];
@@ -4919,9 +6413,9 @@ declare const VOverlay: {
     "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
     "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
 }, {
+    activatorEl: Ref<HTMLElement | undefined>;
     animateClick: () => void;
     contentEl: Ref<HTMLElement | undefined>;
-    activatorEl: Ref<HTMLElement | undefined>;
     isTop: Readonly<Ref<boolean>>;
     updateLocation: Ref<((e: Event) => void) | undefined>;
 }, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
@@ -4939,7 +6433,6 @@ declare const VOverlay: {
     eager: boolean;
     disabled: boolean;
     modelValue: boolean;
-    contained: boolean;
     activatorProps: Record<string, any>;
     openOnClick: boolean;
     openOnHover: boolean;
@@ -4949,6 +6442,7 @@ declare const VOverlay: {
         updateLocation: (e: Event) => void;
     } | undefined);
     scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+    contained: boolean;
     noClickAnimation: boolean;
     persistent: boolean;
     closeOnBack: boolean;
@@ -5106,7 +6600,7 @@ declare const VDialog: {
             }];
         }>>>> & {
             "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
-        }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+        }, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
             'update:modelValue': (value: boolean) => boolean;
         }, string, {
             origin: string;
@@ -5201,7 +6695,7 @@ declare const VDialog: {
         }];
     }>>>> & {
         "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
-    } & vue.ShallowUnwrapRef<() => JSX.Element> & {} & vue.ComponentCustomProperties;
+    } & vue.ShallowUnwrapRef<{}> & {} & vue.ComponentCustomProperties;
     __isFragment?: undefined;
     __isTeleport?: undefined;
     __isSuspense?: undefined;
@@ -5262,7 +6756,7 @@ declare const VDialog: {
     }];
 }>>>> & {
     "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
     'update:modelValue': (value: boolean) => boolean;
 }, string, {
     origin: string;
@@ -5292,7 +6786,7 @@ declare const VDivider: vue.DefineComponent<{
     length: (StringConstructor | NumberConstructor)[];
     thickness: (StringConstructor | NumberConstructor)[];
     vertical: BooleanConstructor;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     theme: StringConstructor;
     color: StringConstructor;
     inset: BooleanConstructor;
@@ -5497,7 +6991,7 @@ declare type VExpansionPanelTitle = InstanceType<typeof VExpansionPanelTitle>;
 
 declare const VFieldLabel: vue.DefineComponent<{
     floating: BooleanConstructor;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     floating: BooleanConstructor;
 }>>, {
     floating: boolean;
@@ -5528,7 +7022,7 @@ declare const VFileInput: vue.DefineComponent<{
     reverse: BooleanConstructor;
     singleLine: BooleanConstructor;
     variant: {
-        type: PropType<"filled" | "outlined" | "plain" | "contained" | "underlined">;
+        type: PropType<"filled" | "outlined" | "plain" | "underlined" | "solo">;
         default: string;
         validator: (v: any) => boolean;
     };
@@ -5555,6 +7049,7 @@ declare const VFileInput: vue.DefineComponent<{
         type: PropType<ValidationRule[]>;
         default: () => never[];
     };
+    validationValue: null;
     density: {
         type: PropType<"default" | "compact" | "comfortable" | null>;
         default: string;
@@ -5591,7 +7086,7 @@ declare const VFileInput: vue.DefineComponent<{
         default: boolean;
         validator: (v: boolean | number) => boolean;
     };
-}, {
+}, HTMLInputElement & {
     $: vue.ComponentInternalInstance;
     $data: {};
     $props: Partial<{
@@ -5622,6 +7117,7 @@ declare const VFileInput: vue.DefineComponent<{
             default: () => never[];
         };
         modelValue: null;
+        validationValue: null;
         density: {
             type: PropType<"default" | "compact" | "comfortable" | null>;
             default: string;
@@ -5679,6 +7175,7 @@ declare const VFileInput: vue.DefineComponent<{
             default: () => never[];
         };
         modelValue: null;
+        validationValue: null;
         density: {
             type: PropType<"default" | "compact" | "comfortable" | null>;
             default: string;
@@ -5758,6 +7255,7 @@ declare const VFileInput: vue.DefineComponent<{
         default: () => never[];
     };
     modelValue: null;
+    validationValue: null;
     density: {
         type: PropType<"default" | "compact" | "comfortable" | null>;
         default: string;
@@ -5794,7 +7292,7 @@ declare const VFileInput: vue.DefineComponent<{
         append: [VInputSlot];
         details: [VInputSlot];
     }>;
-} & HTMLInputElement, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
     'click:clear': (e: MouseEvent) => true;
     'click:control': (e: MouseEvent) => true;
     'update:modelValue': (files: File[]) => true;
@@ -5822,7 +7320,7 @@ declare const VFileInput: vue.DefineComponent<{
     reverse: BooleanConstructor;
     singleLine: BooleanConstructor;
     variant: {
-        type: PropType<"filled" | "outlined" | "plain" | "contained" | "underlined">;
+        type: PropType<"filled" | "outlined" | "plain" | "underlined" | "solo">;
         default: string;
         validator: (v: any) => boolean;
     };
@@ -5849,6 +7347,7 @@ declare const VFileInput: vue.DefineComponent<{
         type: PropType<ValidationRule[]>;
         default: () => never[];
     };
+    validationValue: null;
     density: {
         type: PropType<"default" | "compact" | "comfortable" | null>;
         default: string;
@@ -5901,7 +7400,7 @@ declare const VFileInput: vue.DefineComponent<{
     messages: string | string[];
     counter: boolean;
     density: "default" | "compact" | "comfortable" | null;
-    variant: "filled" | "outlined" | "plain" | "contained" | "underlined";
+    variant: "filled" | "outlined" | "plain" | "underlined" | "solo";
     modelValue: File[];
     prependIcon: IconValue;
     errorMessages: string | string[];
@@ -5952,7 +7451,7 @@ declare const VFooter: vue.DefineComponent<{
         type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     theme: StringConstructor;
     tag: Omit<{
         type: StringConstructor;
@@ -5993,14 +7492,15 @@ declare const VFooter: vue.DefineComponent<{
     app: boolean;
 }>;
 
-interface FormValidationResult {
+interface FieldValidationResult {
     id: number | string;
     errorMessages: string[];
 }
-interface SubmitEventPromise extends SubmitEvent, Promise<{
+interface FormValidationResult {
     valid: boolean;
-    errorMessages: FormValidationResult[];
-}> {
+    errors: FieldValidationResult[];
+}
+interface SubmitEventPromise extends SubmitEvent, Promise<FormValidationResult> {
 }
 
 declare const VForm: vue.DefineComponent<{
@@ -6013,7 +7513,7 @@ declare const VForm: vue.DefineComponent<{
         default: null;
     };
 }, {
-    errorMessages: vue.Ref<{
+    errors: vue.Ref<{
         id: string | number;
         errorMessages: string[];
     }[]>;
@@ -6029,7 +7529,7 @@ declare const VForm: vue.DefineComponent<{
     }[]>;
     validate: () => Promise<{
         valid: boolean;
-        errorMessages: {
+        errors: {
             id: string | number;
             errorMessages: string[];
         }[];
@@ -6069,7 +7569,7 @@ declare const VContainer: vue.DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     tag: {
         type: StringConstructor;
         default: string;
@@ -6252,7 +7752,7 @@ declare const VIcon: vue.DefineComponent<{
     start: BooleanConstructor;
     end: BooleanConstructor;
     icon: vue.PropType<IconValue>;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     theme: StringConstructor;
     tag: Omit<{
         type: StringConstructor;
@@ -6514,7 +8014,7 @@ declare const VKbd: vue.DefineComponent<{
 declare const VLabel: vue.DefineComponent<{
     theme: StringConstructor;
     text: StringConstructor;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     theme: StringConstructor;
     text: StringConstructor;
 }>>, {}>;
@@ -6625,7 +8125,7 @@ declare const VLazy: vue.DefineComponent<{
             threshold: undefined;
         };
     };
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
     'update:modelValue': (value: boolean) => true;
 }, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     transition: Omit<{
@@ -6774,7 +8274,7 @@ declare const VListGroup: {
         }, "items"> & SlotsToProps<MakeSlots<{
             activator: [ListGroupActivatorSlot];
             default: [];
-        }>>>>, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Omit<Record<string, any>, "items">, string, {
+        }>>>>, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Omit<Record<string, any>, "items">, string, {
             tag: string;
             collapseIcon: IconValue;
             expandIcon: IconValue;
@@ -6817,7 +8317,7 @@ declare const VListGroup: {
     }, "items"> & SlotsToProps<MakeSlots<{
         activator: [ListGroupActivatorSlot];
         default: [];
-    }>>>> & vue.ShallowUnwrapRef<() => JSX.Element> & {} & vue.ComponentCustomProperties;
+    }>>>> & vue.ShallowUnwrapRef<{}> & {} & vue.ComponentCustomProperties;
     __isFragment?: undefined;
     __isTeleport?: undefined;
     __isSuspense?: undefined;
@@ -6840,7 +8340,7 @@ declare const VListGroup: {
 }, "items"> & SlotsToProps<MakeSlots<{
     activator: [ListGroupActivatorSlot];
     default: [];
-}>>>>, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Omit<Record<string, any>, "items">, string, {
+}>>>>, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Omit<Record<string, any>, "items">, string, {
     tag: string;
     collapseIcon: IconValue;
     expandIcon: IconValue;
@@ -6868,7 +8368,7 @@ declare const VList: {
             mandatory: boolean;
             rounded: string | number | boolean;
             density: "default" | "compact" | "comfortable" | null;
-            variant: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+            variant: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
             selectStrategy: SelectStrategy | ("classic" & {}) | ("single-leaf" & {}) | ("leaf" & {}) | ("independent" & {}) | ("single-independent" & {});
             openStrategy: OpenStrategyProp | ("multiple" & {}) | ("single" & {}) | ("list" & {});
             lines: false | "one" | "two" | "three";
@@ -6881,12 +8381,12 @@ declare const VList: {
         }> & Omit<Readonly<vue.ExtractPropTypes<Omit<{
             color: StringConstructor;
             variant: Omit<{
-                type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+                type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
                 default: string;
                 validator: (v: any) => boolean;
             }, "type" | "default"> & {
-                type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-                default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+                type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+                default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
             };
             theme: StringConstructor;
             tag: {
@@ -7000,12 +8500,12 @@ declare const VList: {
         $options: vue.ComponentOptionsBase<Readonly<vue.ExtractPropTypes<Omit<{
             color: StringConstructor;
             variant: Omit<{
-                type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+                type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
                 default: string;
                 validator: (v: any) => boolean;
             }, "type" | "default"> & {
-                type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-                default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+                type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+                default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
             };
             theme: StringConstructor;
             tag: {
@@ -7117,7 +8617,7 @@ declare const VList: {
             mandatory: boolean;
             rounded: string | number | boolean;
             density: "default" | "compact" | "comfortable" | null;
-            variant: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+            variant: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
             selectStrategy: SelectStrategy | ("classic" & {}) | ("single-leaf" & {}) | ("leaf" & {}) | ("independent" & {}) | ("single-independent" & {});
             openStrategy: OpenStrategyProp | ("multiple" & {}) | ("single" & {}) | ("list" & {});
             lines: false | "one" | "two" | "three";
@@ -7150,12 +8650,12 @@ declare const VList: {
     } & Readonly<vue.ExtractPropTypes<Omit<{
         color: StringConstructor;
         variant: Omit<{
-            type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+            type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
             default: string;
             validator: (v: any) => boolean;
         }, "type" | "default"> & {
-            type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-            default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+            type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+            default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
         };
         theme: StringConstructor;
         tag: {
@@ -7254,12 +8754,12 @@ declare const VList: {
 } & vue.ComponentOptionsBase<Readonly<vue.ExtractPropTypes<Omit<{
     color: StringConstructor;
     variant: Omit<{
-        type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     }, "type" | "default"> & {
-        type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-        default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+        type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+        default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     };
     theme: StringConstructor;
     tag: {
@@ -7371,7 +8871,7 @@ declare const VList: {
     mandatory: boolean;
     rounded: string | number | boolean;
     density: "default" | "compact" | "comfortable" | null;
-    variant: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+    variant: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     selectStrategy: SelectStrategy | ("classic" & {}) | ("single-leaf" & {}) | ("leaf" & {}) | ("independent" & {}) | ("single-independent" & {});
     openStrategy: OpenStrategyProp | ("multiple" & {}) | ("single" & {}) | ("list" & {});
     lines: false | "one" | "two" | "three";
@@ -7392,30 +8892,6 @@ declare const VList: {
     }>;
 });
 declare type VList = InstanceType<typeof VList>;
-
-declare const VListSubheader: vue.DefineComponent<{
-    tag: {
-        type: StringConstructor;
-        default: string;
-    };
-    color: StringConstructor;
-    inset: BooleanConstructor;
-    sticky: BooleanConstructor;
-    title: StringConstructor;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-    tag: {
-        type: StringConstructor;
-        default: string;
-    };
-    color: StringConstructor;
-    inset: BooleanConstructor;
-    sticky: BooleanConstructor;
-    title: StringConstructor;
-}>>, {
-    inset: boolean;
-    tag: string;
-    sticky: boolean;
-}>;
 
 declare const VListImg: vue.DefineComponent<{
     tag: {
@@ -7458,16 +8934,16 @@ declare const VListItem: {
             tag: string;
             rounded: string | number | boolean;
             density: "default" | "compact" | "comfortable" | null;
-            variant: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+            variant: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
         }> & Omit<Readonly<vue.ExtractPropTypes<{
             color: StringConstructor;
             variant: Omit<{
-                type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+                type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
                 default: string;
                 validator: (v: any) => boolean;
             }, "type" | "default"> & {
-                type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-                default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+                type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+                default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
             };
             theme: StringConstructor;
             tag: {
@@ -7534,12 +9010,12 @@ declare const VListItem: {
         $options: vue.ComponentOptionsBase<Readonly<vue.ExtractPropTypes<{
             color: StringConstructor;
             variant: Omit<{
-                type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+                type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
                 default: string;
                 validator: (v: any) => boolean;
             }, "type" | "default"> & {
-                type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-                default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+                type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+                default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
             };
             theme: StringConstructor;
             tag: {
@@ -7589,7 +9065,7 @@ declare const VListItem: {
             default: [ListItemSlot];
             title: [ListItemTitleSlot];
             subtitle: [ListItemSubtitleSlot];
-        }>>>>, void, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, {
+        }>>>>, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, {
             replace: boolean;
             link: boolean;
             active: boolean;
@@ -7598,7 +9074,7 @@ declare const VListItem: {
             tag: string;
             rounded: string | number | boolean;
             density: "default" | "compact" | "comfortable" | null;
-            variant: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+            variant: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
         }> & {
             beforeCreate?: ((() => void) | (() => void)[]) | undefined;
             created?: ((() => void) | (() => void)[]) | undefined;
@@ -7622,12 +9098,12 @@ declare const VListItem: {
     } & Readonly<vue.ExtractPropTypes<{
         color: StringConstructor;
         variant: Omit<{
-            type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+            type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
             default: string;
             validator: (v: any) => boolean;
         }, "type" | "default"> & {
-            type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-            default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+            type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+            default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
         };
         theme: StringConstructor;
         tag: {
@@ -7684,12 +9160,12 @@ declare const VListItem: {
 } & vue.ComponentOptionsBase<Readonly<vue.ExtractPropTypes<{
     color: StringConstructor;
     variant: Omit<{
-        type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     }, "type" | "default"> & {
-        type: PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-        default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+        type: PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+        default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     };
     theme: StringConstructor;
     tag: {
@@ -7739,7 +9215,7 @@ declare const VListItem: {
     default: [ListItemSlot];
     title: [ListItemTitleSlot];
     subtitle: [ListItemSubtitleSlot];
-}>>>>, void, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, {
+}>>>>, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, {
     replace: boolean;
     link: boolean;
     active: boolean;
@@ -7748,7 +9224,7 @@ declare const VListItem: {
     tag: string;
     rounded: string | number | boolean;
     density: "default" | "compact" | "comfortable" | null;
-    variant: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+    variant: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
 }> & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps & (new () => {
     $slots: MakeSlots<{
         prepend: [ListItemSlot];
@@ -7767,7 +9243,7 @@ declare const VListItemAction: vue.DefineComponent<{
     };
     start: BooleanConstructor;
     end: BooleanConstructor;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     tag: {
         type: StringConstructor;
         default: string;
@@ -7803,7 +9279,7 @@ declare const VListItemAvatar: vue.DefineComponent<{
     end: BooleanConstructor;
     icon: vue.PropType<IconValue>;
     image: StringConstructor;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     tag: {
         type: StringConstructor;
         default: string;
@@ -7868,7 +9344,7 @@ declare const VListItemIcon: vue.DefineComponent<{
     start: BooleanConstructor;
     end: BooleanConstructor;
     icon: vue.PropType<IconValue>;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     theme: StringConstructor;
     tag: Omit<{
         type: StringConstructor;
@@ -7899,7 +9375,7 @@ declare const VListItemMedia: vue.DefineComponent<{
     };
     start: BooleanConstructor;
     end: BooleanConstructor;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     tag: {
         type: StringConstructor;
         default: string;
@@ -7944,6 +9420,30 @@ declare const VListItemTitle: vue.DefineComponent<{
     tag: string;
 }>;
 
+declare const VListSubheader: vue.DefineComponent<{
+    tag: {
+        type: StringConstructor;
+        default: string;
+    };
+    color: StringConstructor;
+    inset: BooleanConstructor;
+    sticky: BooleanConstructor;
+    title: StringConstructor;
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+    tag: {
+        type: StringConstructor;
+        default: string;
+    };
+    color: StringConstructor;
+    inset: BooleanConstructor;
+    sticky: BooleanConstructor;
+    title: StringConstructor;
+}>>, {
+    inset: boolean;
+    tag: string;
+    sticky: boolean;
+}>;
+
 declare const VLocaleProvider: vue.DefineComponent<{
     locale: StringConstructor;
     fallbackLocale: StringConstructor;
@@ -7952,7 +9452,7 @@ declare const VLocaleProvider: vue.DefineComponent<{
         type: BooleanConstructor;
         default: undefined;
     };
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     locale: StringConstructor;
     fallbackLocale: StringConstructor;
     messages: ObjectConstructor;
@@ -7972,7 +9472,7 @@ declare const VMain: vue.DefineComponent<{
         type: vue.PropType<string>;
         default: string;
     };
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     tag: Omit<{
         type: StringConstructor;
         default: string;
@@ -8107,7 +9607,6 @@ declare const VMenu: {
                 eager: boolean;
                 disabled: boolean;
                 modelValue: boolean;
-                contained: boolean;
                 activatorProps: Record<string, any>;
                 openOnClick: boolean;
                 openOnHover: boolean;
@@ -8117,12 +9616,12 @@ declare const VMenu: {
                     updateLocation: (e: Event) => void;
                 } | undefined);
                 scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+                contained: boolean;
                 noClickAnimation: boolean;
                 persistent: boolean;
                 closeOnBack: boolean;
                 scrim: string | boolean;
             }> & Omit<Readonly<vue.ExtractPropTypes<{
-                eager: BooleanConstructor;
                 transition: {
                     type: vue.PropType<string | boolean | (vue.TransitionProps & {
                         component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
@@ -8151,7 +9650,8 @@ declare const VMenu: {
                     type: vue.PropType<"auto" | Anchor | "overlap">;
                     default: string;
                 };
-                offset: (StringConstructor | NumberConstructor)[];
+                offset: vue.PropType<string | number | number[] | undefined>;
+                eager: BooleanConstructor;
                 height: (StringConstructor | NumberConstructor)[];
                 maxHeight: (StringConstructor | NumberConstructor)[];
                 maxWidth: (StringConstructor | NumberConstructor)[];
@@ -8208,7 +9708,7 @@ declare const VMenu: {
                 onAfterLeave?: (() => any) | undefined;
                 "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
                 "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
-            } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "contained" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">;
+            } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "contained" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">;
             $attrs: {
                 [x: string]: unknown;
             };
@@ -8223,7 +9723,6 @@ declare const VMenu: {
             $emit: ((event: "update:modelValue", value: boolean) => void) & ((event: "click:outside", e: MouseEvent) => void) & ((event: "afterLeave") => void);
             $el: any;
             $options: vue.ComponentOptionsBase<Readonly<vue.ExtractPropTypes<{
-                eager: BooleanConstructor;
                 transition: {
                     type: vue.PropType<string | boolean | (vue.TransitionProps & {
                         component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
@@ -8252,7 +9751,8 @@ declare const VMenu: {
                     type: vue.PropType<"auto" | Anchor | "overlap">;
                     default: string;
                 };
-                offset: (StringConstructor | NumberConstructor)[];
+                offset: vue.PropType<string | number | number[] | undefined>;
+                eager: BooleanConstructor;
                 height: (StringConstructor | NumberConstructor)[];
                 maxHeight: (StringConstructor | NumberConstructor)[];
                 maxWidth: (StringConstructor | NumberConstructor)[];
@@ -8310,9 +9810,9 @@ declare const VMenu: {
                 "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
                 "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
             }, {
+                activatorEl: vue.Ref<HTMLElement | undefined>;
                 animateClick: () => void;
                 contentEl: vue.Ref<HTMLElement | undefined>;
-                activatorEl: vue.Ref<HTMLElement | undefined>;
                 isTop: Readonly<vue.Ref<boolean>>;
                 updateLocation: vue.Ref<((e: Event) => void) | undefined>;
             }, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
@@ -8330,7 +9830,6 @@ declare const VMenu: {
                 eager: boolean;
                 disabled: boolean;
                 modelValue: boolean;
-                contained: boolean;
                 activatorProps: Record<string, any>;
                 openOnClick: boolean;
                 openOnHover: boolean;
@@ -8340,6 +9839,7 @@ declare const VMenu: {
                     updateLocation: (e: Event) => void;
                 } | undefined);
                 scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+                contained: boolean;
                 noClickAnimation: boolean;
                 persistent: boolean;
                 closeOnBack: boolean;
@@ -8365,7 +9865,6 @@ declare const VMenu: {
             $nextTick: typeof vue.nextTick;
             $watch(source: string | Function, cb: Function, options?: vue.WatchOptions<boolean> | undefined): vue.WatchStopHandle;
         } & Readonly<vue.ExtractPropTypes<{
-            eager: BooleanConstructor;
             transition: {
                 type: vue.PropType<string | boolean | (vue.TransitionProps & {
                     component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
@@ -8394,7 +9893,8 @@ declare const VMenu: {
                 type: vue.PropType<"auto" | Anchor | "overlap">;
                 default: string;
             };
-            offset: (StringConstructor | NumberConstructor)[];
+            offset: vue.PropType<string | number | number[] | undefined>;
+            eager: BooleanConstructor;
             height: (StringConstructor | NumberConstructor)[];
             maxHeight: (StringConstructor | NumberConstructor)[];
             maxWidth: (StringConstructor | NumberConstructor)[];
@@ -8452,9 +9952,9 @@ declare const VMenu: {
             "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
             "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
         } & vue.ShallowUnwrapRef<{
+            activatorEl: vue.Ref<HTMLElement | undefined>;
             animateClick: () => void;
             contentEl: vue.Ref<HTMLElement | undefined>;
-            activatorEl: vue.Ref<HTMLElement | undefined>;
             isTop: Readonly<vue.Ref<boolean>>;
             updateLocation: vue.Ref<((e: Event) => void) | undefined>;
         }> & {} & vue.ComponentCustomProperties & {
@@ -8555,7 +10055,6 @@ declare const VMenu: {
             eager: boolean;
             disabled: boolean;
             modelValue: boolean;
-            contained: boolean;
             activatorProps: Record<string, any>;
             openOnClick: boolean;
             openOnHover: boolean;
@@ -8565,12 +10064,12 @@ declare const VMenu: {
                 updateLocation: (e: Event) => void;
             } | undefined);
             scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+            contained: boolean;
             noClickAnimation: boolean;
             persistent: boolean;
             closeOnBack: boolean;
             scrim: string | boolean;
         }> & Omit<Readonly<vue.ExtractPropTypes<{
-            eager: BooleanConstructor;
             transition: {
                 type: vue.PropType<string | boolean | (vue.TransitionProps & {
                     component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
@@ -8599,7 +10098,8 @@ declare const VMenu: {
                 type: vue.PropType<"auto" | Anchor | "overlap">;
                 default: string;
             };
-            offset: (StringConstructor | NumberConstructor)[];
+            offset: vue.PropType<string | number | number[] | undefined>;
+            eager: BooleanConstructor;
             height: (StringConstructor | NumberConstructor)[];
             maxHeight: (StringConstructor | NumberConstructor)[];
             maxWidth: (StringConstructor | NumberConstructor)[];
@@ -8656,7 +10156,7 @@ declare const VMenu: {
             onAfterLeave?: (() => any) | undefined;
             "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
             "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
-        } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "contained" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">;
+        } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "contained" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">;
         $attrs: {
             [x: string]: unknown;
         };
@@ -8671,7 +10171,6 @@ declare const VMenu: {
         $emit: ((event: "update:modelValue", value: boolean) => void) & ((event: "click:outside", e: MouseEvent) => void) & ((event: "afterLeave") => void);
         $el: any;
         $options: vue.ComponentOptionsBase<Readonly<vue.ExtractPropTypes<{
-            eager: BooleanConstructor;
             transition: {
                 type: vue.PropType<string | boolean | (vue.TransitionProps & {
                     component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
@@ -8700,7 +10199,8 @@ declare const VMenu: {
                 type: vue.PropType<"auto" | Anchor | "overlap">;
                 default: string;
             };
-            offset: (StringConstructor | NumberConstructor)[];
+            offset: vue.PropType<string | number | number[] | undefined>;
+            eager: BooleanConstructor;
             height: (StringConstructor | NumberConstructor)[];
             maxHeight: (StringConstructor | NumberConstructor)[];
             maxWidth: (StringConstructor | NumberConstructor)[];
@@ -8758,9 +10258,9 @@ declare const VMenu: {
             "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
             "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
         }, {
+            activatorEl: vue.Ref<HTMLElement | undefined>;
             animateClick: () => void;
             contentEl: vue.Ref<HTMLElement | undefined>;
-            activatorEl: vue.Ref<HTMLElement | undefined>;
             isTop: Readonly<vue.Ref<boolean>>;
             updateLocation: vue.Ref<((e: Event) => void) | undefined>;
         }, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
@@ -8778,7 +10278,6 @@ declare const VMenu: {
             eager: boolean;
             disabled: boolean;
             modelValue: boolean;
-            contained: boolean;
             activatorProps: Record<string, any>;
             openOnClick: boolean;
             openOnHover: boolean;
@@ -8788,6 +10287,7 @@ declare const VMenu: {
                 updateLocation: (e: Event) => void;
             } | undefined);
             scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+            contained: boolean;
             noClickAnimation: boolean;
             persistent: boolean;
             closeOnBack: boolean;
@@ -8813,7 +10313,6 @@ declare const VMenu: {
         $nextTick: typeof vue.nextTick;
         $watch(source: string | Function, cb: Function, options?: vue.WatchOptions<boolean> | undefined): vue.WatchStopHandle;
     } & Readonly<vue.ExtractPropTypes<{
-        eager: BooleanConstructor;
         transition: {
             type: vue.PropType<string | boolean | (vue.TransitionProps & {
                 component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
@@ -8842,7 +10341,8 @@ declare const VMenu: {
             type: vue.PropType<"auto" | Anchor | "overlap">;
             default: string;
         };
-        offset: (StringConstructor | NumberConstructor)[];
+        offset: vue.PropType<string | number | number[] | undefined>;
+        eager: BooleanConstructor;
         height: (StringConstructor | NumberConstructor)[];
         maxHeight: (StringConstructor | NumberConstructor)[];
         maxWidth: (StringConstructor | NumberConstructor)[];
@@ -8900,9 +10400,9 @@ declare const VMenu: {
         "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
         "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
     } & vue.ShallowUnwrapRef<{
+        activatorEl: vue.Ref<HTMLElement | undefined>;
         animateClick: () => void;
         contentEl: vue.Ref<HTMLElement | undefined>;
-        activatorEl: vue.Ref<HTMLElement | undefined>;
         isTop: Readonly<vue.Ref<boolean>>;
         updateLocation: vue.Ref<((e: Event) => void) | undefined>;
     }> & {} & vue.ComponentCustomProperties & {
@@ -8974,7 +10474,6 @@ declare const VMenu: {
         eager: boolean;
         disabled: boolean;
         modelValue: boolean;
-        contained: boolean;
         activatorProps: Record<string, any>;
         openOnClick: boolean;
         openOnHover: boolean;
@@ -8984,12 +10483,12 @@ declare const VMenu: {
             updateLocation: (e: Event) => void;
         } | undefined);
         scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+        contained: boolean;
         noClickAnimation: boolean;
         persistent: boolean;
         closeOnBack: boolean;
         scrim: string | boolean;
     }> & Omit<Readonly<vue.ExtractPropTypes<{
-        eager: BooleanConstructor;
         transition: {
             type: vue.PropType<string | boolean | (vue.TransitionProps & {
                 component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
@@ -9018,7 +10517,8 @@ declare const VMenu: {
             type: vue.PropType<"auto" | Anchor | "overlap">;
             default: string;
         };
-        offset: (StringConstructor | NumberConstructor)[];
+        offset: vue.PropType<string | number | number[] | undefined>;
+        eager: BooleanConstructor;
         height: (StringConstructor | NumberConstructor)[];
         maxHeight: (StringConstructor | NumberConstructor)[];
         maxWidth: (StringConstructor | NumberConstructor)[];
@@ -9075,7 +10575,7 @@ declare const VMenu: {
         onAfterLeave?: (() => any) | undefined;
         "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
         "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
-    } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "contained" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">;
+    } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "contained" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">;
     $attrs: {
         [x: string]: unknown;
     };
@@ -9090,7 +10590,6 @@ declare const VMenu: {
     $emit: ((event: "update:modelValue", value: boolean) => void) & ((event: "click:outside", e: MouseEvent) => void) & ((event: "afterLeave") => void);
     $el: any;
     $options: vue.ComponentOptionsBase<Readonly<vue.ExtractPropTypes<{
-        eager: BooleanConstructor;
         transition: {
             type: vue.PropType<string | boolean | (vue.TransitionProps & {
                 component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
@@ -9119,7 +10618,8 @@ declare const VMenu: {
             type: vue.PropType<"auto" | Anchor | "overlap">;
             default: string;
         };
-        offset: (StringConstructor | NumberConstructor)[];
+        offset: vue.PropType<string | number | number[] | undefined>;
+        eager: BooleanConstructor;
         height: (StringConstructor | NumberConstructor)[];
         maxHeight: (StringConstructor | NumberConstructor)[];
         maxWidth: (StringConstructor | NumberConstructor)[];
@@ -9177,9 +10677,9 @@ declare const VMenu: {
         "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
         "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
     }, {
+        activatorEl: vue.Ref<HTMLElement | undefined>;
         animateClick: () => void;
         contentEl: vue.Ref<HTMLElement | undefined>;
-        activatorEl: vue.Ref<HTMLElement | undefined>;
         isTop: Readonly<vue.Ref<boolean>>;
         updateLocation: vue.Ref<((e: Event) => void) | undefined>;
     }, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
@@ -9197,7 +10697,6 @@ declare const VMenu: {
         eager: boolean;
         disabled: boolean;
         modelValue: boolean;
-        contained: boolean;
         activatorProps: Record<string, any>;
         openOnClick: boolean;
         openOnHover: boolean;
@@ -9207,6 +10706,7 @@ declare const VMenu: {
             updateLocation: (e: Event) => void;
         } | undefined);
         scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+        contained: boolean;
         noClickAnimation: boolean;
         persistent: boolean;
         closeOnBack: boolean;
@@ -9232,7 +10732,6 @@ declare const VMenu: {
     $nextTick: typeof vue.nextTick;
     $watch(source: string | Function, cb: Function, options?: vue.WatchOptions<boolean> | undefined): vue.WatchStopHandle;
 } & Readonly<vue.ExtractPropTypes<{
-    eager: BooleanConstructor;
     transition: {
         type: vue.PropType<string | boolean | (vue.TransitionProps & {
             component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
@@ -9261,7 +10760,8 @@ declare const VMenu: {
         type: vue.PropType<"auto" | Anchor | "overlap">;
         default: string;
     };
-    offset: (StringConstructor | NumberConstructor)[];
+    offset: vue.PropType<string | number | number[] | undefined>;
+    eager: BooleanConstructor;
     height: (StringConstructor | NumberConstructor)[];
     maxHeight: (StringConstructor | NumberConstructor)[];
     maxWidth: (StringConstructor | NumberConstructor)[];
@@ -9319,9 +10819,9 @@ declare const VMenu: {
     "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
     "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
 } & vue.ShallowUnwrapRef<{
+    activatorEl: vue.Ref<HTMLElement | undefined>;
     animateClick: () => void;
     contentEl: vue.Ref<HTMLElement | undefined>;
-    activatorEl: vue.Ref<HTMLElement | undefined>;
     isTop: Readonly<vue.Ref<boolean>>;
     updateLocation: vue.Ref<((e: Event) => void) | undefined>;
 }> & {} & vue.ComponentCustomProperties & {
@@ -9445,7 +10945,7 @@ declare const VMessages: vue.DefineComponent<{
         type: PropType<string | string[]>;
         default: () => never[];
     };
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     transition: Omit<{
         type: PropType<string | boolean | (vue.TransitionProps & {
             component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
@@ -9635,7 +11135,7 @@ declare const VNavigationDrawer: vue.DefineComponent<{
         default: string;
         validator: (value: any) => boolean;
     };
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
     'update:modelValue': (val: boolean) => true;
 }, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     theme: StringConstructor;
@@ -9719,12 +11219,12 @@ declare const VNoSsr: vue.DefineComponent<{}, () => false | vue.VNode<vue.Render
 declare const VPagination: vue.DefineComponent<{
     color: StringConstructor;
     variant: Omit<{
-        type: vue.PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: vue.PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     }, "type" | "default"> & {
-        type: vue.PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-        default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+        type: vue.PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+        default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     };
     theme: StringConstructor;
     tag: Omit<{
@@ -9738,6 +11238,10 @@ declare const VPagination: vue.DefineComponent<{
         type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
+    rounded: {
+        type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
+        default: undefined;
+    };
     elevation: {
         type: (StringConstructor | NumberConstructor)[];
         validator(v: any): boolean;
@@ -9748,10 +11252,6 @@ declare const VPagination: vue.DefineComponent<{
         validator: (v: any) => boolean;
     };
     border: (StringConstructor | BooleanConstructor | NumberConstructor)[];
-    rounded: {
-        type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
-        default: undefined;
-    };
     start: {
         type: (StringConstructor | NumberConstructor)[];
         default: number;
@@ -9816,7 +11316,7 @@ declare const VPagination: vue.DefineComponent<{
         default: string;
     };
     showFirstLastPage: BooleanConstructor;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
     'update:modelValue': (value: number) => true;
     first: (value: number) => true;
     prev: (value: number) => true;
@@ -9825,12 +11325,12 @@ declare const VPagination: vue.DefineComponent<{
 }, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     color: StringConstructor;
     variant: Omit<{
-        type: vue.PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: vue.PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     }, "type" | "default"> & {
-        type: vue.PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
-        default: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+        type: vue.PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
+        default: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     };
     theme: StringConstructor;
     tag: Omit<{
@@ -9844,6 +11344,10 @@ declare const VPagination: vue.DefineComponent<{
         type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
+    rounded: {
+        type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
+        default: undefined;
+    };
     elevation: {
         type: (StringConstructor | NumberConstructor)[];
         validator(v: any): boolean;
@@ -9854,10 +11358,6 @@ declare const VPagination: vue.DefineComponent<{
         validator: (v: any) => boolean;
     };
     border: (StringConstructor | BooleanConstructor | NumberConstructor)[];
-    rounded: {
-        type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
-        default: undefined;
-    };
     start: {
         type: (StringConstructor | NumberConstructor)[];
         default: number;
@@ -9938,7 +11438,7 @@ declare const VPagination: vue.DefineComponent<{
     ellipsis: string;
     rounded: string | number | boolean;
     density: "default" | "compact" | "comfortable" | null;
-    variant: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+    variant: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     modelValue: number;
     nextIcon: IconValue;
     prevIcon: IconValue;
@@ -9959,7 +11459,7 @@ declare const VParallax: vue.DefineComponent<{
         type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     scale: {
         type: (StringConstructor | NumberConstructor)[];
         default: number;
@@ -9997,7 +11497,7 @@ declare const VProgressCircular: vue.DefineComponent<{
         type: (StringConstructor | NumberConstructor)[];
         default: number;
     };
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     theme: StringConstructor;
     tag: Omit<{
         type: StringConstructor;
@@ -10072,7 +11572,7 @@ declare const VProgressLinear: vue.DefineComponent<{
     stream: BooleanConstructor;
     striped: BooleanConstructor;
     roundedBar: BooleanConstructor;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
     'update:modelValue': (value: number) => true;
 }, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     theme: StringConstructor;
@@ -10210,6 +11710,7 @@ declare const VRadioGroup: vue.DefineComponent<{
         type: vue.PropType<ValidationRule[]>;
         default: () => never[];
     };
+    validationValue: null;
     appendIcon: vue.PropType<IconValue>;
     prependIcon: vue.PropType<IconValue>;
     hideDetails: vue.PropType<boolean | "auto">;
@@ -10281,6 +11782,7 @@ declare const VRadioGroup: vue.DefineComponent<{
         type: vue.PropType<ValidationRule[]>;
         default: () => never[];
     };
+    validationValue: null;
     appendIcon: vue.PropType<IconValue>;
     prependIcon: vue.PropType<IconValue>;
     hideDetails: vue.PropType<boolean | "auto">;
@@ -10309,12 +11811,12 @@ declare const VRadioGroup: vue.DefineComponent<{
     messages: string | string[];
     density: "default" | "compact" | "comfortable" | null;
     ripple: boolean;
-    valueComparator: typeof deepEqual;
     errorMessages: string | string[];
     maxErrors: string | number;
     rules: ValidationRule[];
     falseIcon: IconValue;
     trueIcon: IconValue;
+    valueComparator: typeof deepEqual;
 }>;
 
 declare const VRangeSlider: vue.DefineComponent<{
@@ -10397,6 +11899,7 @@ declare const VRangeSlider: vue.DefineComponent<{
         type: PropType<ValidationRule[]>;
         default: () => never[];
     };
+    validationValue: null;
     density: {
         type: PropType<"default" | "compact" | "comfortable" | null>;
         default: string;
@@ -10411,7 +11914,7 @@ declare const VRangeSlider: vue.DefineComponent<{
         default: () => never[];
     };
     focused: BooleanConstructor;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
     'update:focused': (value: boolean) => true;
     'update:modelValue': (value: [number, number]) => true;
 }, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
@@ -10494,6 +11997,7 @@ declare const VRangeSlider: vue.DefineComponent<{
         type: PropType<ValidationRule[]>;
         default: () => never[];
     };
+    validationValue: null;
     density: {
         type: PropType<"default" | "compact" | "comfortable" | null>;
         default: string;
@@ -10530,8 +12034,8 @@ declare const VRangeSlider: vue.DefineComponent<{
     maxErrors: string | number;
     rules: ValidationRule[];
     focused: boolean;
-    tickSize: string | number;
     showTicks: boolean | "always";
+    tickSize: string | number;
     trackSize: string | number;
     thumbLabel: boolean | "always" | undefined;
     thumbSize: string | number;
@@ -10696,7 +12200,7 @@ declare const VRating: {
             'item-label': [VRatingItemLabelSlot];
         }>>>> & {
             "onUpdate:modelValue"?: ((value: number) => any) | undefined;
-        }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+        }, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
             'update:modelValue': (value: number) => boolean;
         }, string, {
             length: string | number;
@@ -10789,7 +12293,7 @@ declare const VRating: {
         'item-label': [VRatingItemLabelSlot];
     }>>>> & {
         "onUpdate:modelValue"?: ((value: number) => any) | undefined;
-    } & vue.ShallowUnwrapRef<() => JSX.Element> & {} & vue.ComponentCustomProperties;
+    } & vue.ShallowUnwrapRef<{}> & {} & vue.ComponentCustomProperties;
     __isFragment?: undefined;
     __isTeleport?: undefined;
     __isSuspense?: undefined;
@@ -10848,7 +12352,7 @@ declare const VRating: {
     'item-label': [VRatingItemLabelSlot];
 }>>>> & {
     "onUpdate:modelValue"?: ((value: number) => any) | undefined;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
     'update:modelValue': (value: number) => boolean;
 }, string, {
     length: string | number;
@@ -10883,7 +12387,7 @@ declare const VResponsive: vue.DefineComponent<{
     width: (StringConstructor | NumberConstructor)[];
     aspectRatio: (StringConstructor | NumberConstructor)[];
     contentClass: StringConstructor;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     height: (StringConstructor | NumberConstructor)[];
     maxHeight: (StringConstructor | NumberConstructor)[];
     maxWidth: (StringConstructor | NumberConstructor)[];
@@ -10906,11 +12410,12 @@ declare const VSelect: {
                 component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
             }) | {
                 component: vue.DefineComponent<{
-                    target: vue.PropType<HTMLElement>;
+                    target: PropType<HTMLElement>;
                 }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-                    target: vue.PropType<HTMLElement>;
+                    target: PropType<HTMLElement>;
                 }>>, {}>;
             };
+            menu: boolean;
             eager: boolean;
             noDataText: string;
             itemTitle: SelectItemKey;
@@ -10925,52 +12430,52 @@ declare const VSelect: {
             openOnClear: boolean;
         }> & Omit<Readonly<vue.ExtractPropTypes<Omit<{
             transition: Omit<{
-                type: vue.PropType<string | boolean | (vue.TransitionProps & {
+                type: PropType<string | boolean | (vue.TransitionProps & {
                     component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
                 })>;
                 default: string;
                 validator: (val: unknown) => boolean;
             }, "type" | "default"> & {
-                type: vue.PropType<string | boolean | (vue.TransitionProps & {
+                type: PropType<string | boolean | (vue.TransitionProps & {
                     component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
                 }) | {
                     component: vue.DefineComponent<{
-                        target: vue.PropType<HTMLElement>;
+                        target: PropType<HTMLElement>;
                     }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-                        target: vue.PropType<HTMLElement>;
+                        target: PropType<HTMLElement>;
                     }>>, {}>;
                 }>;
                 default: string | boolean | (vue.TransitionProps & {
                     component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
                 }) | {
                     component: vue.DefineComponent<{
-                        target: vue.PropType<HTMLElement>;
+                        target: PropType<HTMLElement>;
                     }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-                        target: vue.PropType<HTMLElement>;
+                        target: PropType<HTMLElement>;
                     }>>, {}>;
                 };
             };
             items: {
-                type: vue.PropType<any[]>;
+                type: PropType<any[]>;
                 default: () => never[];
             };
             itemTitle: {
-                type: vue.PropType<SelectItemKey>;
+                type: PropType<SelectItemKey>;
                 default: string;
             };
             itemValue: {
-                type: vue.PropType<SelectItemKey>;
+                type: PropType<SelectItemKey>;
                 default: string;
             };
             itemChildren: Omit<{
-                type: vue.PropType<SelectItemKey>;
+                type: PropType<SelectItemKey>;
                 default: string;
             }, "type" | "default"> & {
-                type: vue.PropType<SelectItemKey>;
+                type: PropType<SelectItemKey>;
                 default: SelectItemKey;
             };
             itemProps: {
-                type: vue.PropType<SelectItemKey>;
+                type: PropType<SelectItemKey>;
                 default: string;
             };
             returnObject: BooleanConstructor;
@@ -10979,9 +12484,175 @@ declare const VSelect: {
             eager: BooleanConstructor;
             hideNoData: BooleanConstructor;
             hideSelected: BooleanConstructor;
+            menu: BooleanConstructor;
             menuIcon: {
-                type: vue.PropType<IconValue>;
+                type: PropType<IconValue>;
                 default: string;
+            };
+            menuProps: {
+                type: PropType<Partial<{
+                    transition: string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    }) | {
+                        readonly component: vue.DefineComponent<{
+                            target: PropType<HTMLElement>;
+                        }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                            target: PropType<HTMLElement>;
+                        }>>, {}>;
+                    };
+                    modelValue: boolean;
+                }> & Omit<Readonly<vue.ExtractPropTypes<{
+                    transition: Omit<{
+                        type: PropType<string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        })>;
+                        default: string;
+                        validator: (val: unknown) => boolean;
+                    }, "type" | "default"> & {
+                        type: PropType<string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        }) | {
+                            readonly component: vue.DefineComponent<{
+                                target: PropType<HTMLElement>;
+                            }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                                target: PropType<HTMLElement>;
+                            }>>, {}>;
+                        }>;
+                        default: string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        }) | {
+                            readonly component: vue.DefineComponent<{
+                                target: PropType<HTMLElement>;
+                            }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                                target: PropType<HTMLElement>;
+                            }>>, {}>;
+                        };
+                    };
+                    modelValue: BooleanConstructor;
+                    id: StringConstructor;
+                } & SlotsToProps<MakeSlots<{
+                    default: [{
+                        isActive: vue.Ref<boolean>;
+                    }];
+                    activator: [{
+                        isActive: boolean;
+                        props: Record<string, any>;
+                    }];
+                }>>>> & {
+                    "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+                } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "transition" | "modelValue"> & Partial<{
+                    absolute: boolean;
+                    location: Anchor;
+                    origin: "auto" | Anchor | "overlap";
+                    transition: string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    });
+                    zIndex: string | number;
+                    eager: boolean;
+                    disabled: boolean;
+                    modelValue: boolean;
+                    activatorProps: Record<string, any>;
+                    openOnClick: boolean;
+                    openOnHover: boolean;
+                    openOnFocus: boolean;
+                    closeOnContentClick: boolean;
+                    locationStrategy: "connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                        updateLocation: (e: Event) => void;
+                    } | undefined);
+                    scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+                    contained: boolean;
+                    noClickAnimation: boolean;
+                    persistent: boolean;
+                    closeOnBack: boolean;
+                    scrim: string | boolean;
+                }> & Omit<Readonly<vue.ExtractPropTypes<{
+                    transition: {
+                        type: PropType<string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        })>;
+                        default: string;
+                        validator: (val: unknown) => boolean;
+                    };
+                    theme: StringConstructor;
+                    scrollStrategy: {
+                        type: PropType<"none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void)>;
+                        default: string;
+                        validator: (val: any) => boolean;
+                    };
+                    locationStrategy: {
+                        type: PropType<"connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                            updateLocation: (e: Event) => void;
+                        } | undefined)>;
+                        default: string;
+                        validator: (val: any) => boolean;
+                    };
+                    location: {
+                        type: PropType<Anchor>;
+                        default: string;
+                    };
+                    origin: {
+                        type: PropType<"auto" | Anchor | "overlap">;
+                        default: string;
+                    };
+                    offset: PropType<string | number | number[] | undefined>;
+                    eager: BooleanConstructor;
+                    height: (StringConstructor | NumberConstructor)[];
+                    maxHeight: (StringConstructor | NumberConstructor)[];
+                    maxWidth: (StringConstructor | NumberConstructor)[];
+                    minHeight: (StringConstructor | NumberConstructor)[];
+                    minWidth: (StringConstructor | NumberConstructor)[];
+                    width: (StringConstructor | NumberConstructor)[];
+                    closeDelay: (StringConstructor | NumberConstructor)[];
+                    openDelay: (StringConstructor | NumberConstructor)[];
+                    activator: PropType<string | Element | vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | undefined>;
+                    activatorProps: {
+                        type: PropType<Record<string, any>>;
+                        default: () => {};
+                    };
+                    openOnClick: {
+                        type: BooleanConstructor;
+                        default: undefined;
+                    };
+                    openOnHover: BooleanConstructor;
+                    openOnFocus: {
+                        type: BooleanConstructor;
+                        default: undefined;
+                    };
+                    closeOnContentClick: BooleanConstructor;
+                    absolute: BooleanConstructor;
+                    attach: PropType<string | boolean | Element>;
+                    closeOnBack: {
+                        type: BooleanConstructor;
+                        default: boolean;
+                    };
+                    contained: BooleanConstructor;
+                    contentClass: null;
+                    contentProps: null;
+                    disabled: BooleanConstructor;
+                    noClickAnimation: BooleanConstructor;
+                    modelValue: BooleanConstructor;
+                    persistent: BooleanConstructor;
+                    scrim: {
+                        type: (StringConstructor | BooleanConstructor)[];
+                        default: boolean;
+                    };
+                    zIndex: {
+                        type: (StringConstructor | NumberConstructor)[];
+                        default: number;
+                    };
+                } & SlotsToProps<MakeSlots<{
+                    default: [{
+                        isActive: vue.Ref<boolean>;
+                    }];
+                    activator: [{
+                        isActive: boolean;
+                        props: Record<string, any>;
+                    }];
+                }>>>> & {
+                    onAfterLeave?: (() => any) | undefined;
+                    "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+                    "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
+                } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "contained" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">>;
             };
             modelValue: {
                 type: null;
@@ -11000,12 +12671,17 @@ declare const VSelect: {
             details: [VInputSlot];
         }> & MakeSlots<{
             clear: [];
-            prependInner: [DefaultInputSlot & VInputSlot];
-            appendInner: [DefaultInputSlot & VInputSlot];
+            'prepend-inner': [DefaultInputSlot & VInputSlot];
+            'append-inner': [DefaultInputSlot & VInputSlot];
             label: [DefaultInputSlot & VInputSlot];
             loader: [LoaderSlotProps];
             default: [VFieldSlot];
         }> & MakeSlots<{
+            item: [{
+                item: unknown;
+                index: number;
+                props: Record<string, unknown>;
+            }];
             chip: [{
                 item: unknown;
                 index: number;
@@ -11016,7 +12692,9 @@ declare const VSelect: {
                 index: number;
             }];
             'no-data': [];
-        }>>>> & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "transition" | "eager" | "noDataText" | "itemTitle" | "itemValue" | "itemChildren" | "itemProps" | "chips" | "closableChips" | "hideNoData" | "hideSelected" | "menuIcon" | "openOnClear">;
+        }>>>> & {
+            "onUpdate:menu"?: ((val: boolean) => any) | undefined;
+        } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "transition" | "menu" | "eager" | "noDataText" | "itemTitle" | "itemValue" | "itemChildren" | "itemProps" | "chips" | "closableChips" | "hideNoData" | "hideSelected" | "menuIcon" | "openOnClear">;
         $attrs: {
             [x: string]: unknown;
         };
@@ -11028,56 +12706,56 @@ declare const VSelect: {
         }>;
         $root: vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | null;
         $parent: vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | null;
-        $emit: (event: string, ...args: any[]) => void;
+        $emit: (event: "update:menu", val: boolean) => void;
         $el: any;
         $options: vue.ComponentOptionsBase<Readonly<vue.ExtractPropTypes<Omit<{
             transition: Omit<{
-                type: vue.PropType<string | boolean | (vue.TransitionProps & {
+                type: PropType<string | boolean | (vue.TransitionProps & {
                     component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
                 })>;
                 default: string;
                 validator: (val: unknown) => boolean;
             }, "type" | "default"> & {
-                type: vue.PropType<string | boolean | (vue.TransitionProps & {
+                type: PropType<string | boolean | (vue.TransitionProps & {
                     component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
                 }) | {
                     component: vue.DefineComponent<{
-                        target: vue.PropType<HTMLElement>;
+                        target: PropType<HTMLElement>;
                     }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-                        target: vue.PropType<HTMLElement>;
+                        target: PropType<HTMLElement>;
                     }>>, {}>;
                 }>;
                 default: string | boolean | (vue.TransitionProps & {
                     component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
                 }) | {
                     component: vue.DefineComponent<{
-                        target: vue.PropType<HTMLElement>;
+                        target: PropType<HTMLElement>;
                     }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-                        target: vue.PropType<HTMLElement>;
+                        target: PropType<HTMLElement>;
                     }>>, {}>;
                 };
             };
             items: {
-                type: vue.PropType<any[]>;
+                type: PropType<any[]>;
                 default: () => never[];
             };
             itemTitle: {
-                type: vue.PropType<SelectItemKey>;
+                type: PropType<SelectItemKey>;
                 default: string;
             };
             itemValue: {
-                type: vue.PropType<SelectItemKey>;
+                type: PropType<SelectItemKey>;
                 default: string;
             };
             itemChildren: Omit<{
-                type: vue.PropType<SelectItemKey>;
+                type: PropType<SelectItemKey>;
                 default: string;
             }, "type" | "default"> & {
-                type: vue.PropType<SelectItemKey>;
+                type: PropType<SelectItemKey>;
                 default: SelectItemKey;
             };
             itemProps: {
-                type: vue.PropType<SelectItemKey>;
+                type: PropType<SelectItemKey>;
                 default: string;
             };
             returnObject: BooleanConstructor;
@@ -11086,9 +12764,175 @@ declare const VSelect: {
             eager: BooleanConstructor;
             hideNoData: BooleanConstructor;
             hideSelected: BooleanConstructor;
+            menu: BooleanConstructor;
             menuIcon: {
-                type: vue.PropType<IconValue>;
+                type: PropType<IconValue>;
                 default: string;
+            };
+            menuProps: {
+                type: PropType<Partial<{
+                    transition: string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    }) | {
+                        readonly component: vue.DefineComponent<{
+                            target: PropType<HTMLElement>;
+                        }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                            target: PropType<HTMLElement>;
+                        }>>, {}>;
+                    };
+                    modelValue: boolean;
+                }> & Omit<Readonly<vue.ExtractPropTypes<{
+                    transition: Omit<{
+                        type: PropType<string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        })>;
+                        default: string;
+                        validator: (val: unknown) => boolean;
+                    }, "type" | "default"> & {
+                        type: PropType<string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        }) | {
+                            readonly component: vue.DefineComponent<{
+                                target: PropType<HTMLElement>;
+                            }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                                target: PropType<HTMLElement>;
+                            }>>, {}>;
+                        }>;
+                        default: string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        }) | {
+                            readonly component: vue.DefineComponent<{
+                                target: PropType<HTMLElement>;
+                            }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                                target: PropType<HTMLElement>;
+                            }>>, {}>;
+                        };
+                    };
+                    modelValue: BooleanConstructor;
+                    id: StringConstructor;
+                } & SlotsToProps<MakeSlots<{
+                    default: [{
+                        isActive: vue.Ref<boolean>;
+                    }];
+                    activator: [{
+                        isActive: boolean;
+                        props: Record<string, any>;
+                    }];
+                }>>>> & {
+                    "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+                } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "transition" | "modelValue"> & Partial<{
+                    absolute: boolean;
+                    location: Anchor;
+                    origin: "auto" | Anchor | "overlap";
+                    transition: string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    });
+                    zIndex: string | number;
+                    eager: boolean;
+                    disabled: boolean;
+                    modelValue: boolean;
+                    activatorProps: Record<string, any>;
+                    openOnClick: boolean;
+                    openOnHover: boolean;
+                    openOnFocus: boolean;
+                    closeOnContentClick: boolean;
+                    locationStrategy: "connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                        updateLocation: (e: Event) => void;
+                    } | undefined);
+                    scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+                    contained: boolean;
+                    noClickAnimation: boolean;
+                    persistent: boolean;
+                    closeOnBack: boolean;
+                    scrim: string | boolean;
+                }> & Omit<Readonly<vue.ExtractPropTypes<{
+                    transition: {
+                        type: PropType<string | boolean | (vue.TransitionProps & {
+                            component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                        })>;
+                        default: string;
+                        validator: (val: unknown) => boolean;
+                    };
+                    theme: StringConstructor;
+                    scrollStrategy: {
+                        type: PropType<"none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void)>;
+                        default: string;
+                        validator: (val: any) => boolean;
+                    };
+                    locationStrategy: {
+                        type: PropType<"connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                            updateLocation: (e: Event) => void;
+                        } | undefined)>;
+                        default: string;
+                        validator: (val: any) => boolean;
+                    };
+                    location: {
+                        type: PropType<Anchor>;
+                        default: string;
+                    };
+                    origin: {
+                        type: PropType<"auto" | Anchor | "overlap">;
+                        default: string;
+                    };
+                    offset: PropType<string | number | number[] | undefined>;
+                    eager: BooleanConstructor;
+                    height: (StringConstructor | NumberConstructor)[];
+                    maxHeight: (StringConstructor | NumberConstructor)[];
+                    maxWidth: (StringConstructor | NumberConstructor)[];
+                    minHeight: (StringConstructor | NumberConstructor)[];
+                    minWidth: (StringConstructor | NumberConstructor)[];
+                    width: (StringConstructor | NumberConstructor)[];
+                    closeDelay: (StringConstructor | NumberConstructor)[];
+                    openDelay: (StringConstructor | NumberConstructor)[];
+                    activator: PropType<string | Element | vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | undefined>;
+                    activatorProps: {
+                        type: PropType<Record<string, any>>;
+                        default: () => {};
+                    };
+                    openOnClick: {
+                        type: BooleanConstructor;
+                        default: undefined;
+                    };
+                    openOnHover: BooleanConstructor;
+                    openOnFocus: {
+                        type: BooleanConstructor;
+                        default: undefined;
+                    };
+                    closeOnContentClick: BooleanConstructor;
+                    absolute: BooleanConstructor;
+                    attach: PropType<string | boolean | Element>;
+                    closeOnBack: {
+                        type: BooleanConstructor;
+                        default: boolean;
+                    };
+                    contained: BooleanConstructor;
+                    contentClass: null;
+                    contentProps: null;
+                    disabled: BooleanConstructor;
+                    noClickAnimation: BooleanConstructor;
+                    modelValue: BooleanConstructor;
+                    persistent: BooleanConstructor;
+                    scrim: {
+                        type: (StringConstructor | BooleanConstructor)[];
+                        default: boolean;
+                    };
+                    zIndex: {
+                        type: (StringConstructor | NumberConstructor)[];
+                        default: number;
+                    };
+                } & SlotsToProps<MakeSlots<{
+                    default: [{
+                        isActive: vue.Ref<boolean>;
+                    }];
+                    activator: [{
+                        isActive: boolean;
+                        props: Record<string, any>;
+                    }];
+                }>>>> & {
+                    onAfterLeave?: (() => any) | undefined;
+                    "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+                    "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
+                } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "contained" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">>;
             };
             modelValue: {
                 type: null;
@@ -11107,12 +12951,17 @@ declare const VSelect: {
             details: [VInputSlot];
         }> & MakeSlots<{
             clear: [];
-            prependInner: [DefaultInputSlot & VInputSlot];
-            appendInner: [DefaultInputSlot & VInputSlot];
+            'prepend-inner': [DefaultInputSlot & VInputSlot];
+            'append-inner': [DefaultInputSlot & VInputSlot];
             label: [DefaultInputSlot & VInputSlot];
             loader: [LoaderSlotProps];
             default: [VFieldSlot];
         }> & MakeSlots<{
+            item: [{
+                item: unknown;
+                index: number;
+                props: Record<string, unknown>;
+            }];
             chip: [{
                 item: unknown;
                 index: number;
@@ -11123,18 +12972,22 @@ declare const VSelect: {
                 index: number;
             }];
             'no-data': [];
-        }>>>>, any, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Omit<{
+        }>>>> & {
+            "onUpdate:menu"?: ((val: boolean) => any) | undefined;
+        }, any, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Omit<{
             'update:modelValue': (val: any) => boolean;
+            'update:menu': (val: boolean) => boolean;
         }, "multiple" | "items" | "update:modelValue" | "modelValue" | "returnObject">, string, {
             transition: string | boolean | (vue.TransitionProps & {
                 component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
             }) | {
                 component: vue.DefineComponent<{
-                    target: vue.PropType<HTMLElement>;
+                    target: PropType<HTMLElement>;
                 }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-                    target: vue.PropType<HTMLElement>;
+                    target: PropType<HTMLElement>;
                 }>>, {}>;
             };
+            menu: boolean;
             eager: boolean;
             noDataText: string;
             itemTitle: SelectItemKey;
@@ -11169,52 +13022,52 @@ declare const VSelect: {
         $watch(source: string | Function, cb: Function, options?: vue.WatchOptions<boolean> | undefined): vue.WatchStopHandle;
     } & Readonly<vue.ExtractPropTypes<Omit<{
         transition: Omit<{
-            type: vue.PropType<string | boolean | (vue.TransitionProps & {
+            type: PropType<string | boolean | (vue.TransitionProps & {
                 component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
             })>;
             default: string;
             validator: (val: unknown) => boolean;
         }, "type" | "default"> & {
-            type: vue.PropType<string | boolean | (vue.TransitionProps & {
+            type: PropType<string | boolean | (vue.TransitionProps & {
                 component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
             }) | {
                 component: vue.DefineComponent<{
-                    target: vue.PropType<HTMLElement>;
+                    target: PropType<HTMLElement>;
                 }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-                    target: vue.PropType<HTMLElement>;
+                    target: PropType<HTMLElement>;
                 }>>, {}>;
             }>;
             default: string | boolean | (vue.TransitionProps & {
                 component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
             }) | {
                 component: vue.DefineComponent<{
-                    target: vue.PropType<HTMLElement>;
+                    target: PropType<HTMLElement>;
                 }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-                    target: vue.PropType<HTMLElement>;
+                    target: PropType<HTMLElement>;
                 }>>, {}>;
             };
         };
         items: {
-            type: vue.PropType<any[]>;
+            type: PropType<any[]>;
             default: () => never[];
         };
         itemTitle: {
-            type: vue.PropType<SelectItemKey>;
+            type: PropType<SelectItemKey>;
             default: string;
         };
         itemValue: {
-            type: vue.PropType<SelectItemKey>;
+            type: PropType<SelectItemKey>;
             default: string;
         };
         itemChildren: Omit<{
-            type: vue.PropType<SelectItemKey>;
+            type: PropType<SelectItemKey>;
             default: string;
         }, "type" | "default"> & {
-            type: vue.PropType<SelectItemKey>;
+            type: PropType<SelectItemKey>;
             default: SelectItemKey;
         };
         itemProps: {
-            type: vue.PropType<SelectItemKey>;
+            type: PropType<SelectItemKey>;
             default: string;
         };
         returnObject: BooleanConstructor;
@@ -11223,9 +13076,175 @@ declare const VSelect: {
         eager: BooleanConstructor;
         hideNoData: BooleanConstructor;
         hideSelected: BooleanConstructor;
+        menu: BooleanConstructor;
         menuIcon: {
-            type: vue.PropType<IconValue>;
+            type: PropType<IconValue>;
             default: string;
+        };
+        menuProps: {
+            type: PropType<Partial<{
+                transition: string | boolean | (vue.TransitionProps & {
+                    component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                }) | {
+                    readonly component: vue.DefineComponent<{
+                        target: PropType<HTMLElement>;
+                    }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                        target: PropType<HTMLElement>;
+                    }>>, {}>;
+                };
+                modelValue: boolean;
+            }> & Omit<Readonly<vue.ExtractPropTypes<{
+                transition: Omit<{
+                    type: PropType<string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    })>;
+                    default: string;
+                    validator: (val: unknown) => boolean;
+                }, "type" | "default"> & {
+                    type: PropType<string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    }) | {
+                        readonly component: vue.DefineComponent<{
+                            target: PropType<HTMLElement>;
+                        }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                            target: PropType<HTMLElement>;
+                        }>>, {}>;
+                    }>;
+                    default: string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    }) | {
+                        readonly component: vue.DefineComponent<{
+                            target: PropType<HTMLElement>;
+                        }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                            target: PropType<HTMLElement>;
+                        }>>, {}>;
+                    };
+                };
+                modelValue: BooleanConstructor;
+                id: StringConstructor;
+            } & SlotsToProps<MakeSlots<{
+                default: [{
+                    isActive: vue.Ref<boolean>;
+                }];
+                activator: [{
+                    isActive: boolean;
+                    props: Record<string, any>;
+                }];
+            }>>>> & {
+                "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+            } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "transition" | "modelValue"> & Partial<{
+                absolute: boolean;
+                location: Anchor;
+                origin: "auto" | Anchor | "overlap";
+                transition: string | boolean | (vue.TransitionProps & {
+                    component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                });
+                zIndex: string | number;
+                eager: boolean;
+                disabled: boolean;
+                modelValue: boolean;
+                activatorProps: Record<string, any>;
+                openOnClick: boolean;
+                openOnHover: boolean;
+                openOnFocus: boolean;
+                closeOnContentClick: boolean;
+                locationStrategy: "connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                    updateLocation: (e: Event) => void;
+                } | undefined);
+                scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+                contained: boolean;
+                noClickAnimation: boolean;
+                persistent: boolean;
+                closeOnBack: boolean;
+                scrim: string | boolean;
+            }> & Omit<Readonly<vue.ExtractPropTypes<{
+                transition: {
+                    type: PropType<string | boolean | (vue.TransitionProps & {
+                        component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                    })>;
+                    default: string;
+                    validator: (val: unknown) => boolean;
+                };
+                theme: StringConstructor;
+                scrollStrategy: {
+                    type: PropType<"none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void)>;
+                    default: string;
+                    validator: (val: any) => boolean;
+                };
+                locationStrategy: {
+                    type: PropType<"connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                        updateLocation: (e: Event) => void;
+                    } | undefined)>;
+                    default: string;
+                    validator: (val: any) => boolean;
+                };
+                location: {
+                    type: PropType<Anchor>;
+                    default: string;
+                };
+                origin: {
+                    type: PropType<"auto" | Anchor | "overlap">;
+                    default: string;
+                };
+                offset: PropType<string | number | number[] | undefined>;
+                eager: BooleanConstructor;
+                height: (StringConstructor | NumberConstructor)[];
+                maxHeight: (StringConstructor | NumberConstructor)[];
+                maxWidth: (StringConstructor | NumberConstructor)[];
+                minHeight: (StringConstructor | NumberConstructor)[];
+                minWidth: (StringConstructor | NumberConstructor)[];
+                width: (StringConstructor | NumberConstructor)[];
+                closeDelay: (StringConstructor | NumberConstructor)[];
+                openDelay: (StringConstructor | NumberConstructor)[];
+                activator: PropType<string | Element | vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | undefined>;
+                activatorProps: {
+                    type: PropType<Record<string, any>>;
+                    default: () => {};
+                };
+                openOnClick: {
+                    type: BooleanConstructor;
+                    default: undefined;
+                };
+                openOnHover: BooleanConstructor;
+                openOnFocus: {
+                    type: BooleanConstructor;
+                    default: undefined;
+                };
+                closeOnContentClick: BooleanConstructor;
+                absolute: BooleanConstructor;
+                attach: PropType<string | boolean | Element>;
+                closeOnBack: {
+                    type: BooleanConstructor;
+                    default: boolean;
+                };
+                contained: BooleanConstructor;
+                contentClass: null;
+                contentProps: null;
+                disabled: BooleanConstructor;
+                noClickAnimation: BooleanConstructor;
+                modelValue: BooleanConstructor;
+                persistent: BooleanConstructor;
+                scrim: {
+                    type: (StringConstructor | BooleanConstructor)[];
+                    default: boolean;
+                };
+                zIndex: {
+                    type: (StringConstructor | NumberConstructor)[];
+                    default: number;
+                };
+            } & SlotsToProps<MakeSlots<{
+                default: [{
+                    isActive: vue.Ref<boolean>;
+                }];
+                activator: [{
+                    isActive: boolean;
+                    props: Record<string, any>;
+                }];
+            }>>>> & {
+                onAfterLeave?: (() => any) | undefined;
+                "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+                "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
+            } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "contained" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">>;
         };
         modelValue: {
             type: null;
@@ -11244,12 +13263,17 @@ declare const VSelect: {
         details: [VInputSlot];
     }> & MakeSlots<{
         clear: [];
-        prependInner: [DefaultInputSlot & VInputSlot];
-        appendInner: [DefaultInputSlot & VInputSlot];
+        'prepend-inner': [DefaultInputSlot & VInputSlot];
+        'append-inner': [DefaultInputSlot & VInputSlot];
         label: [DefaultInputSlot & VInputSlot];
         loader: [LoaderSlotProps];
         default: [VFieldSlot];
     }> & MakeSlots<{
+        item: [{
+            item: unknown;
+            index: number;
+            props: Record<string, unknown>;
+        }];
         chip: [{
             item: unknown;
             index: number;
@@ -11260,58 +13284,60 @@ declare const VSelect: {
             index: number;
         }];
         'no-data': [];
-    }>>>> & vue.ShallowUnwrapRef<any> & {} & vue.ComponentCustomProperties;
+    }>>>> & {
+        "onUpdate:menu"?: ((val: boolean) => any) | undefined;
+    } & vue.ShallowUnwrapRef<any> & {} & vue.ComponentCustomProperties;
     __isFragment?: undefined;
     __isTeleport?: undefined;
     __isSuspense?: undefined;
 } & vue.ComponentOptionsBase<Readonly<vue.ExtractPropTypes<Omit<{
     transition: Omit<{
-        type: vue.PropType<string | boolean | (vue.TransitionProps & {
+        type: PropType<string | boolean | (vue.TransitionProps & {
             component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
         })>;
         default: string;
         validator: (val: unknown) => boolean;
     }, "type" | "default"> & {
-        type: vue.PropType<string | boolean | (vue.TransitionProps & {
+        type: PropType<string | boolean | (vue.TransitionProps & {
             component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
         }) | {
             component: vue.DefineComponent<{
-                target: vue.PropType<HTMLElement>;
+                target: PropType<HTMLElement>;
             }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-                target: vue.PropType<HTMLElement>;
+                target: PropType<HTMLElement>;
             }>>, {}>;
         }>;
         default: string | boolean | (vue.TransitionProps & {
             component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
         }) | {
             component: vue.DefineComponent<{
-                target: vue.PropType<HTMLElement>;
+                target: PropType<HTMLElement>;
             }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-                target: vue.PropType<HTMLElement>;
+                target: PropType<HTMLElement>;
             }>>, {}>;
         };
     };
     items: {
-        type: vue.PropType<any[]>;
+        type: PropType<any[]>;
         default: () => never[];
     };
     itemTitle: {
-        type: vue.PropType<SelectItemKey>;
+        type: PropType<SelectItemKey>;
         default: string;
     };
     itemValue: {
-        type: vue.PropType<SelectItemKey>;
+        type: PropType<SelectItemKey>;
         default: string;
     };
     itemChildren: Omit<{
-        type: vue.PropType<SelectItemKey>;
+        type: PropType<SelectItemKey>;
         default: string;
     }, "type" | "default"> & {
-        type: vue.PropType<SelectItemKey>;
+        type: PropType<SelectItemKey>;
         default: SelectItemKey;
     };
     itemProps: {
-        type: vue.PropType<SelectItemKey>;
+        type: PropType<SelectItemKey>;
         default: string;
     };
     returnObject: BooleanConstructor;
@@ -11320,9 +13346,175 @@ declare const VSelect: {
     eager: BooleanConstructor;
     hideNoData: BooleanConstructor;
     hideSelected: BooleanConstructor;
+    menu: BooleanConstructor;
     menuIcon: {
-        type: vue.PropType<IconValue>;
+        type: PropType<IconValue>;
         default: string;
+    };
+    menuProps: {
+        type: PropType<Partial<{
+            transition: string | boolean | (vue.TransitionProps & {
+                component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+            }) | {
+                readonly component: vue.DefineComponent<{
+                    target: PropType<HTMLElement>;
+                }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                    target: PropType<HTMLElement>;
+                }>>, {}>;
+            };
+            modelValue: boolean;
+        }> & Omit<Readonly<vue.ExtractPropTypes<{
+            transition: Omit<{
+                type: PropType<string | boolean | (vue.TransitionProps & {
+                    component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                })>;
+                default: string;
+                validator: (val: unknown) => boolean;
+            }, "type" | "default"> & {
+                type: PropType<string | boolean | (vue.TransitionProps & {
+                    component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                }) | {
+                    readonly component: vue.DefineComponent<{
+                        target: PropType<HTMLElement>;
+                    }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                        target: PropType<HTMLElement>;
+                    }>>, {}>;
+                }>;
+                default: string | boolean | (vue.TransitionProps & {
+                    component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                }) | {
+                    readonly component: vue.DefineComponent<{
+                        target: PropType<HTMLElement>;
+                    }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+                        target: PropType<HTMLElement>;
+                    }>>, {}>;
+                };
+            };
+            modelValue: BooleanConstructor;
+            id: StringConstructor;
+        } & SlotsToProps<MakeSlots<{
+            default: [{
+                isActive: vue.Ref<boolean>;
+            }];
+            activator: [{
+                isActive: boolean;
+                props: Record<string, any>;
+            }];
+        }>>>> & {
+            "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+        } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "transition" | "modelValue"> & Partial<{
+            absolute: boolean;
+            location: Anchor;
+            origin: "auto" | Anchor | "overlap";
+            transition: string | boolean | (vue.TransitionProps & {
+                component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+            });
+            zIndex: string | number;
+            eager: boolean;
+            disabled: boolean;
+            modelValue: boolean;
+            activatorProps: Record<string, any>;
+            openOnClick: boolean;
+            openOnHover: boolean;
+            openOnFocus: boolean;
+            closeOnContentClick: boolean;
+            locationStrategy: "connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                updateLocation: (e: Event) => void;
+            } | undefined);
+            scrollStrategy: "none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void);
+            contained: boolean;
+            noClickAnimation: boolean;
+            persistent: boolean;
+            closeOnBack: boolean;
+            scrim: string | boolean;
+        }> & Omit<Readonly<vue.ExtractPropTypes<{
+            transition: {
+                type: PropType<string | boolean | (vue.TransitionProps & {
+                    component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
+                })>;
+                default: string;
+                validator: (val: unknown) => boolean;
+            };
+            theme: StringConstructor;
+            scrollStrategy: {
+                type: PropType<"none" | "block" | "close" | "reposition" | ((data: ScrollStrategyData) => void)>;
+                default: string;
+                validator: (val: any) => boolean;
+            };
+            locationStrategy: {
+                type: PropType<"connected" | "static" | ((data: LocationStrategyData, props: StrategyProps, contentStyles: vue.Ref<Record<string, string>>) => {
+                    updateLocation: (e: Event) => void;
+                } | undefined)>;
+                default: string;
+                validator: (val: any) => boolean;
+            };
+            location: {
+                type: PropType<Anchor>;
+                default: string;
+            };
+            origin: {
+                type: PropType<"auto" | Anchor | "overlap">;
+                default: string;
+            };
+            offset: PropType<string | number | number[] | undefined>;
+            eager: BooleanConstructor;
+            height: (StringConstructor | NumberConstructor)[];
+            maxHeight: (StringConstructor | NumberConstructor)[];
+            maxWidth: (StringConstructor | NumberConstructor)[];
+            minHeight: (StringConstructor | NumberConstructor)[];
+            minWidth: (StringConstructor | NumberConstructor)[];
+            width: (StringConstructor | NumberConstructor)[];
+            closeDelay: (StringConstructor | NumberConstructor)[];
+            openDelay: (StringConstructor | NumberConstructor)[];
+            activator: PropType<string | Element | vue.ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, vue.ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}>> | undefined>;
+            activatorProps: {
+                type: PropType<Record<string, any>>;
+                default: () => {};
+            };
+            openOnClick: {
+                type: BooleanConstructor;
+                default: undefined;
+            };
+            openOnHover: BooleanConstructor;
+            openOnFocus: {
+                type: BooleanConstructor;
+                default: undefined;
+            };
+            closeOnContentClick: BooleanConstructor;
+            absolute: BooleanConstructor;
+            attach: PropType<string | boolean | Element>;
+            closeOnBack: {
+                type: BooleanConstructor;
+                default: boolean;
+            };
+            contained: BooleanConstructor;
+            contentClass: null;
+            contentProps: null;
+            disabled: BooleanConstructor;
+            noClickAnimation: BooleanConstructor;
+            modelValue: BooleanConstructor;
+            persistent: BooleanConstructor;
+            scrim: {
+                type: (StringConstructor | BooleanConstructor)[];
+                default: boolean;
+            };
+            zIndex: {
+                type: (StringConstructor | NumberConstructor)[];
+                default: number;
+            };
+        } & SlotsToProps<MakeSlots<{
+            default: [{
+                isActive: vue.Ref<boolean>;
+            }];
+            activator: [{
+                isActive: boolean;
+                props: Record<string, any>;
+            }];
+        }>>>> & {
+            onAfterLeave?: (() => any) | undefined;
+            "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+            "onClick:outside"?: ((e: MouseEvent) => any) | undefined;
+        } & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, "absolute" | "location" | "origin" | "transition" | "zIndex" | "eager" | "disabled" | "modelValue" | "activatorProps" | "openOnClick" | "openOnHover" | "openOnFocus" | "closeOnContentClick" | "locationStrategy" | "scrollStrategy" | "contained" | "noClickAnimation" | "persistent" | "closeOnBack" | "scrim">>;
     };
     modelValue: {
         type: null;
@@ -11341,12 +13533,17 @@ declare const VSelect: {
     details: [VInputSlot];
 }> & MakeSlots<{
     clear: [];
-    prependInner: [DefaultInputSlot & VInputSlot];
-    appendInner: [DefaultInputSlot & VInputSlot];
+    'prepend-inner': [DefaultInputSlot & VInputSlot];
+    'append-inner': [DefaultInputSlot & VInputSlot];
     label: [DefaultInputSlot & VInputSlot];
     loader: [LoaderSlotProps];
     default: [VFieldSlot];
 }> & MakeSlots<{
+    item: [{
+        item: unknown;
+        index: number;
+        props: Record<string, unknown>;
+    }];
     chip: [{
         item: unknown;
         index: number;
@@ -11357,18 +13554,22 @@ declare const VSelect: {
         index: number;
     }];
     'no-data': [];
-}>>>>, any, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Omit<{
+}>>>> & {
+    "onUpdate:menu"?: ((val: boolean) => any) | undefined;
+}, any, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Omit<{
     'update:modelValue': (val: any) => boolean;
+    'update:menu': (val: boolean) => boolean;
 }, "multiple" | "items" | "update:modelValue" | "modelValue" | "returnObject">, string, {
     transition: string | boolean | (vue.TransitionProps & {
         component?: vue.Component<any, any, any, vue.ComputedOptions, vue.MethodOptions> | undefined;
     }) | {
         component: vue.DefineComponent<{
-            target: vue.PropType<HTMLElement>;
+            target: PropType<HTMLElement>;
         }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
-            target: vue.PropType<HTMLElement>;
+            target: PropType<HTMLElement>;
         }>>, {}>;
     };
+    menu: boolean;
     eager: boolean;
     noDataText: string;
     itemTitle: SelectItemKey;
@@ -11396,12 +13597,17 @@ declare const VSelect: {
         details: [VInputSlot];
     }> & MakeSlots<{
         clear: [];
-        prependInner: [DefaultInputSlot & VInputSlot];
-        appendInner: [DefaultInputSlot & VInputSlot];
+        'prepend-inner': [DefaultInputSlot & VInputSlot];
+        'append-inner': [DefaultInputSlot & VInputSlot];
         label: [DefaultInputSlot & VInputSlot];
         loader: [LoaderSlotProps];
         default: [VFieldSlot];
     }> & MakeSlots<{
+        item: [{
+            item: T;
+            index: number;
+            props: Record<string, unknown>;
+        }];
         chip: [{
             item: T;
             index: number;
@@ -11768,7 +13974,6 @@ declare const VSheet: vue.DefineComponent<{
     rounded: string | number | boolean;
 }>;
 
-declare const VSlideGroupSymbol: InjectionKey<GroupProvide>;
 declare const VSlideGroup: vue.DefineComponent<{
     modelValue: {
         type: null;
@@ -11903,6 +14108,7 @@ declare const VSlider: vue.DefineComponent<{
         type: vue.PropType<ValidationRule[]>;
         default: () => never[];
     };
+    validationValue: null;
     density: {
         type: vue.PropType<"default" | "compact" | "comfortable" | null>;
         default: string;
@@ -11975,7 +14181,7 @@ declare const VSlider: vue.DefineComponent<{
     };
     reverse: BooleanConstructor;
     focused: BooleanConstructor;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
     'update:focused': (value: boolean) => true;
     'update:modelValue': (v: number) => true;
 }, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
@@ -11999,6 +14205,7 @@ declare const VSlider: vue.DefineComponent<{
         type: vue.PropType<ValidationRule[]>;
         default: () => never[];
     };
+    validationValue: null;
     density: {
         type: vue.PropType<"default" | "compact" | "comfortable" | null>;
         default: string;
@@ -12092,8 +14299,8 @@ declare const VSlider: vue.DefineComponent<{
     maxErrors: string | number;
     rules: ValidationRule[];
     focused: boolean;
-    tickSize: string | number;
     showTicks: boolean | "always";
+    tickSize: string | number;
     trackSize: string | number;
     thumbLabel: boolean | "always" | undefined;
     thumbSize: string | number;
@@ -12117,7 +14324,7 @@ declare const VSnackbar: vue.DefineComponent<{
     };
     color: StringConstructor;
     variant: {
-        type: vue.PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: vue.PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     };
@@ -12164,7 +14371,7 @@ declare const VSnackbar: vue.DefineComponent<{
     };
     color: StringConstructor;
     variant: {
-        type: vue.PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: vue.PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     };
@@ -12203,7 +14410,7 @@ declare const VSnackbar: vue.DefineComponent<{
     vertical: boolean;
     contentClass: string;
     rounded: string | number | boolean;
-    variant: "text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text";
+    variant: "flat" | "text" | "elevated" | "tonal" | "outlined" | "plain";
     modelValue: boolean;
     app: boolean;
     multiLine: boolean;
@@ -12256,6 +14463,7 @@ declare const VSwitch: vue.DefineComponent<{
         type: vue.PropType<ValidationRule[]>;
         default: () => never[];
     };
+    validationValue: null;
     appendIcon: vue.PropType<IconValue>;
     prependIcon: vue.PropType<IconValue>;
     hideDetails: vue.PropType<boolean | "auto">;
@@ -12323,6 +14531,7 @@ declare const VSwitch: vue.DefineComponent<{
         type: vue.PropType<ValidationRule[]>;
         default: () => never[];
     };
+    validationValue: null;
     appendIcon: vue.PropType<IconValue>;
     prependIcon: vue.PropType<IconValue>;
     hideDetails: vue.PropType<boolean | "auto">;
@@ -12358,10 +14567,10 @@ declare const VSwitch: vue.DefineComponent<{
     messages: string | string[];
     density: "default" | "compact" | "comfortable" | null;
     ripple: boolean;
-    valueComparator: typeof deepEqual;
     errorMessages: string | string[];
     maxErrors: string | number;
     rules: ValidationRule[];
+    valueComparator: typeof deepEqual;
 }>;
 declare type VSwitch = InstanceType<typeof VSwitch>;
 
@@ -12390,7 +14599,7 @@ declare const VSystemBar: vue.DefineComponent<{
     color: StringConstructor;
     height: (StringConstructor | NumberConstructor)[];
     window: BooleanConstructor;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     theme: StringConstructor;
     tag: {
         type: StringConstructor;
@@ -12458,7 +14667,7 @@ declare const VTabs: vue.DefineComponent<{
     end: BooleanConstructor;
     sliderColor: StringConstructor;
     modelValue: null;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
     'update:modelValue': (v: unknown) => true;
 }, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     tag: {
@@ -12591,11 +14800,11 @@ declare const VTab: vue.DefineComponent<{
 declare type VTab = InstanceType<typeof VTab>;
 
 declare const VTable: vue.DefineComponent<{
+    theme: StringConstructor;
     tag: {
         type: StringConstructor;
         default: string;
     };
-    theme: StringConstructor;
     density: {
         type: vue.PropType<"default" | "compact" | "comfortable" | null>;
         default: string;
@@ -12604,12 +14813,12 @@ declare const VTable: vue.DefineComponent<{
     fixedHeader: BooleanConstructor;
     fixedFooter: BooleanConstructor;
     height: (StringConstructor | NumberConstructor)[];
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+    theme: StringConstructor;
     tag: {
         type: StringConstructor;
         default: string;
     };
-    theme: StringConstructor;
     density: {
         type: vue.PropType<"default" | "compact" | "comfortable" | null>;
         default: string;
@@ -12646,7 +14855,7 @@ declare const VTextarea: vue.DefineComponent<{
     reverse: BooleanConstructor;
     singleLine: BooleanConstructor;
     variant: {
-        type: PropType<"filled" | "outlined" | "plain" | "contained" | "underlined">;
+        type: PropType<"filled" | "outlined" | "plain" | "underlined" | "solo">;
         default: string;
         validator: (v: any) => boolean;
     };
@@ -12665,6 +14874,7 @@ declare const VTextarea: vue.DefineComponent<{
         default: () => never[];
     };
     modelValue: null;
+    validationValue: null;
     density: {
         type: PropType<"default" | "compact" | "comfortable" | null>;
         default: string;
@@ -12704,7 +14914,7 @@ declare const VTextarea: vue.DefineComponent<{
         validator: (v: any) => boolean;
     };
     suffix: StringConstructor;
-}, {
+}, HTMLInputElement & {
     $: vue.ComponentInternalInstance;
     $data: {};
     $props: Partial<{
@@ -12735,6 +14945,7 @@ declare const VTextarea: vue.DefineComponent<{
             default: () => never[];
         };
         modelValue: null;
+        validationValue: null;
         density: {
             type: PropType<"default" | "compact" | "comfortable" | null>;
             default: string;
@@ -12792,6 +15003,7 @@ declare const VTextarea: vue.DefineComponent<{
             default: () => never[];
         };
         modelValue: null;
+        validationValue: null;
         density: {
             type: PropType<"default" | "compact" | "comfortable" | null>;
             default: string;
@@ -12871,6 +15083,7 @@ declare const VTextarea: vue.DefineComponent<{
         default: () => never[];
     };
     modelValue: null;
+    validationValue: null;
     density: {
         type: PropType<"default" | "compact" | "comfortable" | null>;
         default: string;
@@ -12907,7 +15120,7 @@ declare const VTextarea: vue.DefineComponent<{
         append: [VInputSlot];
         details: [VInputSlot];
     }>;
-} & HTMLInputElement, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
     'click:clear': (e: MouseEvent) => true;
     'click:control': (e: MouseEvent) => true;
     'update:modelValue': (val: string) => true;
@@ -12932,7 +15145,7 @@ declare const VTextarea: vue.DefineComponent<{
     reverse: BooleanConstructor;
     singleLine: BooleanConstructor;
     variant: {
-        type: PropType<"filled" | "outlined" | "plain" | "contained" | "underlined">;
+        type: PropType<"filled" | "outlined" | "plain" | "underlined" | "solo">;
         default: string;
         validator: (v: any) => boolean;
     };
@@ -12951,6 +15164,7 @@ declare const VTextarea: vue.DefineComponent<{
         default: () => never[];
     };
     modelValue: null;
+    validationValue: null;
     density: {
         type: PropType<"default" | "compact" | "comfortable" | null>;
         default: string;
@@ -13005,7 +15219,7 @@ declare const VTextarea: vue.DefineComponent<{
     readonly: boolean;
     messages: string | string[];
     density: "default" | "compact" | "comfortable" | null;
-    variant: "filled" | "outlined" | "plain" | "contained" | "underlined";
+    variant: "filled" | "outlined" | "plain" | "underlined" | "solo";
     errorMessages: string | string[];
     maxErrors: string | number;
     rules: ValidationRule[];
@@ -13039,7 +15253,7 @@ declare const VTextField: {
             readonly: boolean;
             messages: string | string[];
             density: "default" | "compact" | "comfortable" | null;
-            variant: "filled" | "outlined" | "plain" | "contained" | "underlined";
+            variant: "filled" | "outlined" | "plain" | "underlined" | "solo";
             errorMessages: string | string[];
             maxErrors: string | number;
             rules: ValidationRule[];
@@ -13072,7 +15286,7 @@ declare const VTextField: {
             reverse: BooleanConstructor;
             singleLine: BooleanConstructor;
             variant: {
-                type: PropType<"filled" | "outlined" | "plain" | "contained" | "underlined">;
+                type: PropType<"filled" | "outlined" | "plain" | "underlined" | "solo">;
                 default: string;
                 validator: (v: any) => boolean;
             };
@@ -13091,6 +15305,7 @@ declare const VTextField: {
                 default: () => never[];
             };
             modelValue: null;
+            validationValue: null;
             density: {
                 type: PropType<"default" | "compact" | "comfortable" | null>;
                 default: string;
@@ -13130,8 +15345,8 @@ declare const VTextField: {
             details: [VInputSlot];
         }> & MakeSlots<{
             clear: [];
-            prependInner: [DefaultInputSlot & VInputSlot];
-            appendInner: [DefaultInputSlot & VInputSlot];
+            'prepend-inner': [DefaultInputSlot & VInputSlot];
+            'append-inner': [DefaultInputSlot & VInputSlot];
             label: [DefaultInputSlot & VInputSlot];
             loader: [LoaderSlotProps];
             default: [VFieldSlot];
@@ -13175,7 +15390,7 @@ declare const VTextField: {
             reverse: BooleanConstructor;
             singleLine: BooleanConstructor;
             variant: {
-                type: PropType<"filled" | "outlined" | "plain" | "contained" | "underlined">;
+                type: PropType<"filled" | "outlined" | "plain" | "underlined" | "solo">;
                 default: string;
                 validator: (v: any) => boolean;
             };
@@ -13194,6 +15409,7 @@ declare const VTextField: {
                 default: () => never[];
             };
             modelValue: null;
+            validationValue: null;
             density: {
                 type: PropType<"default" | "compact" | "comfortable" | null>;
                 default: string;
@@ -13233,8 +15449,8 @@ declare const VTextField: {
             details: [VInputSlot];
         }> & MakeSlots<{
             clear: [];
-            prependInner: [DefaultInputSlot & VInputSlot];
-            appendInner: [DefaultInputSlot & VInputSlot];
+            'prepend-inner': [DefaultInputSlot & VInputSlot];
+            'append-inner': [DefaultInputSlot & VInputSlot];
             label: [DefaultInputSlot & VInputSlot];
             loader: [LoaderSlotProps];
             default: [VFieldSlot];
@@ -13243,7 +15459,7 @@ declare const VTextField: {
             "onClick:clear"?: ((e: MouseEvent) => any) | undefined;
             "onClick:control"?: ((e: MouseEvent) => any) | undefined;
             "onClick:input"?: ((e: MouseEvent) => any) | undefined;
-        }, {
+        }, HTMLInputElement & {
             $: vue.ComponentInternalInstance;
             $data: {};
             $props: Partial<{
@@ -13274,6 +15490,7 @@ declare const VTextField: {
                     default: () => never[];
                 };
                 modelValue: null;
+                validationValue: null;
                 density: {
                     type: PropType<"default" | "compact" | "comfortable" | null>;
                     default: string;
@@ -13331,6 +15548,7 @@ declare const VTextField: {
                     default: () => never[];
                 };
                 modelValue: null;
+                validationValue: null;
                 density: {
                     type: PropType<"default" | "compact" | "comfortable" | null>;
                     default: string;
@@ -13410,6 +15628,7 @@ declare const VTextField: {
                 default: () => never[];
             };
             modelValue: null;
+            validationValue: null;
             density: {
                 type: PropType<"default" | "compact" | "comfortable" | null>;
                 default: string;
@@ -13446,7 +15665,7 @@ declare const VTextField: {
                 append: [VInputSlot];
                 details: [VInputSlot];
             }>;
-        } & HTMLInputElement, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+        }, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
             'click:clear': (e: MouseEvent) => boolean;
             'click:control': (e: MouseEvent) => boolean;
             'click:input': (e: MouseEvent) => boolean;
@@ -13463,7 +15682,7 @@ declare const VTextField: {
             readonly: boolean;
             messages: string | string[];
             density: "default" | "compact" | "comfortable" | null;
-            variant: "filled" | "outlined" | "plain" | "contained" | "underlined";
+            variant: "filled" | "outlined" | "plain" | "underlined" | "solo";
             errorMessages: string | string[];
             maxErrors: string | number;
             rules: ValidationRule[];
@@ -13516,7 +15735,7 @@ declare const VTextField: {
         reverse: BooleanConstructor;
         singleLine: BooleanConstructor;
         variant: {
-            type: PropType<"filled" | "outlined" | "plain" | "contained" | "underlined">;
+            type: PropType<"filled" | "outlined" | "plain" | "underlined" | "solo">;
             default: string;
             validator: (v: any) => boolean;
         };
@@ -13535,6 +15754,7 @@ declare const VTextField: {
             default: () => never[];
         };
         modelValue: null;
+        validationValue: null;
         density: {
             type: PropType<"default" | "compact" | "comfortable" | null>;
             default: string;
@@ -13574,8 +15794,8 @@ declare const VTextField: {
         details: [VInputSlot];
     }> & MakeSlots<{
         clear: [];
-        prependInner: [DefaultInputSlot & VInputSlot];
-        appendInner: [DefaultInputSlot & VInputSlot];
+        'prepend-inner': [DefaultInputSlot & VInputSlot];
+        'append-inner': [DefaultInputSlot & VInputSlot];
         label: [DefaultInputSlot & VInputSlot];
         loader: [LoaderSlotProps];
         default: [VFieldSlot];
@@ -13584,7 +15804,7 @@ declare const VTextField: {
         "onClick:clear"?: ((e: MouseEvent) => any) | undefined;
         "onClick:control"?: ((e: MouseEvent) => any) | undefined;
         "onClick:input"?: ((e: MouseEvent) => any) | undefined;
-    } & vue.ShallowUnwrapRef<{
+    } & vue.ShallowUnwrapRef<HTMLInputElement & {
         $: vue.ComponentInternalInstance;
         $data: {};
         $props: Partial<{
@@ -13615,6 +15835,7 @@ declare const VTextField: {
                 default: () => never[];
             };
             modelValue: null;
+            validationValue: null;
             density: {
                 type: PropType<"default" | "compact" | "comfortable" | null>;
                 default: string;
@@ -13672,6 +15893,7 @@ declare const VTextField: {
                 default: () => never[];
             };
             modelValue: null;
+            validationValue: null;
             density: {
                 type: PropType<"default" | "compact" | "comfortable" | null>;
                 default: string;
@@ -13751,6 +15973,7 @@ declare const VTextField: {
             default: () => never[];
         };
         modelValue: null;
+        validationValue: null;
         density: {
             type: PropType<"default" | "compact" | "comfortable" | null>;
             default: string;
@@ -13787,7 +16010,7 @@ declare const VTextField: {
             append: [VInputSlot];
             details: [VInputSlot];
         }>;
-    } & HTMLInputElement> & {} & vue.ComponentCustomProperties;
+    }> & {} & vue.ComponentCustomProperties;
     __isFragment?: undefined;
     __isTeleport?: undefined;
     __isSuspense?: undefined;
@@ -13812,7 +16035,7 @@ declare const VTextField: {
     reverse: BooleanConstructor;
     singleLine: BooleanConstructor;
     variant: {
-        type: PropType<"filled" | "outlined" | "plain" | "contained" | "underlined">;
+        type: PropType<"filled" | "outlined" | "plain" | "underlined" | "solo">;
         default: string;
         validator: (v: any) => boolean;
     };
@@ -13831,6 +16054,7 @@ declare const VTextField: {
         default: () => never[];
     };
     modelValue: null;
+    validationValue: null;
     density: {
         type: PropType<"default" | "compact" | "comfortable" | null>;
         default: string;
@@ -13870,8 +16094,8 @@ declare const VTextField: {
     details: [VInputSlot];
 }> & MakeSlots<{
     clear: [];
-    prependInner: [DefaultInputSlot & VInputSlot];
-    appendInner: [DefaultInputSlot & VInputSlot];
+    'prepend-inner': [DefaultInputSlot & VInputSlot];
+    'append-inner': [DefaultInputSlot & VInputSlot];
     label: [DefaultInputSlot & VInputSlot];
     loader: [LoaderSlotProps];
     default: [VFieldSlot];
@@ -13880,7 +16104,7 @@ declare const VTextField: {
     "onClick:clear"?: ((e: MouseEvent) => any) | undefined;
     "onClick:control"?: ((e: MouseEvent) => any) | undefined;
     "onClick:input"?: ((e: MouseEvent) => any) | undefined;
-}, {
+}, HTMLInputElement & {
     $: vue.ComponentInternalInstance;
     $data: {};
     $props: Partial<{
@@ -13911,6 +16135,7 @@ declare const VTextField: {
             default: () => never[];
         };
         modelValue: null;
+        validationValue: null;
         density: {
             type: PropType<"default" | "compact" | "comfortable" | null>;
             default: string;
@@ -13968,6 +16193,7 @@ declare const VTextField: {
             default: () => never[];
         };
         modelValue: null;
+        validationValue: null;
         density: {
             type: PropType<"default" | "compact" | "comfortable" | null>;
             default: string;
@@ -14047,6 +16273,7 @@ declare const VTextField: {
         default: () => never[];
     };
     modelValue: null;
+    validationValue: null;
     density: {
         type: PropType<"default" | "compact" | "comfortable" | null>;
         default: string;
@@ -14083,7 +16310,7 @@ declare const VTextField: {
         append: [VInputSlot];
         details: [VInputSlot];
     }>;
-} & HTMLInputElement, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
     'click:clear': (e: MouseEvent) => boolean;
     'click:control': (e: MouseEvent) => boolean;
     'click:input': (e: MouseEvent) => boolean;
@@ -14100,7 +16327,7 @@ declare const VTextField: {
     readonly: boolean;
     messages: string | string[];
     density: "default" | "compact" | "comfortable" | null;
-    variant: "filled" | "outlined" | "plain" | "contained" | "underlined";
+    variant: "filled" | "outlined" | "plain" | "underlined" | "solo";
     errorMessages: string | string[];
     maxErrors: string | number;
     rules: ValidationRule[];
@@ -14166,7 +16393,7 @@ declare const VTimeline: vue.DefineComponent<{
     };
     lineColor: StringConstructor;
     truncateLine: Prop<TimelineTruncateLine, TimelineTruncateLine>;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     theme: StringConstructor;
     tag: {
         type: StringConstructor;
@@ -14220,6 +16447,7 @@ declare const VTimelineItem: vue.DefineComponent<{
         type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
         default: undefined;
     };
+    density: PropType<"default" | "compact">;
     dotColor: StringConstructor;
     fillDot: BooleanConstructor;
     hideDot: BooleanConstructor;
@@ -14227,9 +16455,9 @@ declare const VTimelineItem: vue.DefineComponent<{
         type: BooleanConstructor;
         default: undefined;
     };
-    icon: vue.PropType<IconValue>;
+    icon: PropType<IconValue>;
     iconColor: StringConstructor;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     height: (StringConstructor | NumberConstructor)[];
     maxHeight: (StringConstructor | NumberConstructor)[];
     maxWidth: (StringConstructor | NumberConstructor)[];
@@ -14252,6 +16480,7 @@ declare const VTimelineItem: vue.DefineComponent<{
         type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
         default: undefined;
     };
+    density: PropType<"default" | "compact">;
     dotColor: StringConstructor;
     fillDot: BooleanConstructor;
     hideDot: BooleanConstructor;
@@ -14259,14 +16488,14 @@ declare const VTimelineItem: vue.DefineComponent<{
         type: BooleanConstructor;
         default: undefined;
     };
-    icon: vue.PropType<IconValue>;
+    icon: PropType<IconValue>;
     iconColor: StringConstructor;
 }>>, {
     size: string | number;
     tag: string;
     rounded: string | number | boolean;
-    hideDot: boolean;
     fillDot: boolean;
+    hideDot: boolean;
     hideOpposite: boolean;
 }>;
 
@@ -14326,9 +16555,7 @@ declare const VToolbar: {
             title: StringConstructor;
         } & SlotsToProps<MakeSlots<{
             default: [];
-            image: [{
-                image: string;
-            }];
+            image: [];
             prepend: [];
             append: [];
             title: [];
@@ -14388,9 +16615,7 @@ declare const VToolbar: {
             title: StringConstructor;
         } & SlotsToProps<MakeSlots<{
             default: [];
-            image: [{
-                image: string;
-            }];
+            image: [];
             prepend: [];
             append: [];
             title: [];
@@ -14470,9 +16695,7 @@ declare const VToolbar: {
         title: StringConstructor;
     } & SlotsToProps<MakeSlots<{
         default: [];
-        image: [{
-            image: string;
-        }];
+        image: [];
         prepend: [];
         append: [];
         title: [];
@@ -14525,9 +16748,7 @@ declare const VToolbar: {
     title: StringConstructor;
 } & SlotsToProps<MakeSlots<{
     default: [];
-    image: [{
-        image: string;
-    }];
+    image: [];
     prepend: [];
     append: [];
     title: [];
@@ -14549,9 +16770,7 @@ declare const VToolbar: {
 }> & vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps & (new () => {
     $slots: MakeSlots<{
         default: [];
-        image: [{
-            image: string;
-        }];
+        image: [];
         prepend: [];
         append: [];
         title: [];
@@ -14655,19 +16874,17 @@ declare type VToolbarTitle = InstanceType<typeof VToolbarTitle>;
 declare const VToolbarItems: vue.DefineComponent<{
     color: StringConstructor;
     variant: Omit<{
-        type: vue.PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: vue.PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     }, "type" | "default"> & {
         type: vue.PropType<string>;
         default: string;
     };
-}, () => vue.VNode<vue.RendererNode, vue.RendererElement, {
-    [key: string]: any;
-}>[] | undefined, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
     color: StringConstructor;
     variant: Omit<{
-        type: vue.PropType<"text" | "outlined" | "plain" | "contained" | "contained-flat" | "contained-text">;
+        type: vue.PropType<"flat" | "text" | "elevated" | "tonal" | "outlined" | "plain">;
         default: string;
         validator: (v: any) => boolean;
     }, "type" | "default"> & {
@@ -14776,7 +16993,7 @@ declare const VTooltip: {
             }];
         }>>>> & {
             "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
-        }, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+        }, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
             'update:modelValue': (value: boolean) => boolean;
         }, string, {
             location: Anchor;
@@ -14841,7 +17058,7 @@ declare const VTooltip: {
         }];
     }>>>> & {
         "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
-    } & vue.ShallowUnwrapRef<() => JSX.Element> & {} & vue.ComponentCustomProperties;
+    } & vue.ShallowUnwrapRef<{}> & {} & vue.ComponentCustomProperties;
     __isFragment?: undefined;
     __isTeleport?: undefined;
     __isSuspense?: undefined;
@@ -14881,7 +17098,7 @@ declare const VTooltip: {
     }];
 }>>>> & {
     "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
     'update:modelValue': (value: boolean) => boolean;
 }, string, {
     location: Anchor;
@@ -14913,6 +17130,7 @@ declare const VValidation: vue.DefineComponent<{
         default: () => never[];
     };
     modelValue: null;
+    validationValue: null;
 }, () => vue.VNode<vue.RendererNode, vue.RendererElement, {
     [key: string]: any;
 }>[] | undefined, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, {
@@ -14935,6 +17153,7 @@ declare const VValidation: vue.DefineComponent<{
         default: () => never[];
     };
     modelValue: null;
+    validationValue: null;
 }>> & {
     "onUpdate:modelValue"?: ((val: any) => any) | undefined;
 }, {
@@ -15291,10 +17510,10 @@ declare const VWindow: {
 declare type VWindow = InstanceType<typeof VWindow>;
 
 declare const VWindowItem: vue.DefineComponent<{
+    eager: BooleanConstructor;
     value: null;
     disabled: BooleanConstructor;
     selectedClass: StringConstructor;
-    eager: BooleanConstructor;
     reverseTransition: {
         type: (StringConstructor | BooleanConstructor)[];
         default: undefined;
@@ -15303,11 +17522,11 @@ declare const VWindowItem: vue.DefineComponent<{
         type: (StringConstructor | BooleanConstructor)[];
         default: undefined;
     };
-}, () => JSX.Element, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+}, {}, unknown, {}, {}, vue.ComponentOptionsMixin, vue.ComponentOptionsMixin, Record<string, any>, string, vue.VNodeProps & vue.AllowedComponentProps & vue.ComponentCustomProps, Readonly<vue.ExtractPropTypes<{
+    eager: BooleanConstructor;
     value: null;
     disabled: BooleanConstructor;
     selectedClass: StringConstructor;
-    eager: BooleanConstructor;
     reverseTransition: {
         type: (StringConstructor | BooleanConstructor)[];
         default: undefined;
@@ -15952,8 +18171,6 @@ type index_d$1_VAvatar = VAvatar;
 type index_d$1_VBadge = VBadge;
 type index_d$1_VBanner = VBanner;
 declare const index_d$1_VBannerActions: typeof VBannerActions;
-declare const index_d$1_VBannerAvatar: typeof VBannerAvatar;
-declare const index_d$1_VBannerIcon: typeof VBannerIcon;
 declare const index_d$1_VBannerText: typeof VBannerText;
 type index_d$1_VBottomNavigation = VBottomNavigation;
 type index_d$1_VBreadcrumbs = VBreadcrumbs;
@@ -15964,17 +18181,14 @@ declare const index_d$1_VBtnGroup: typeof VBtnGroup;
 declare const index_d$1_VBtnToggle: typeof VBtnToggle;
 type index_d$1_VCard = VCard;
 declare const index_d$1_VCardActions: typeof VCardActions;
-declare const index_d$1_VCardAvatar: typeof VCardAvatar;
-declare const index_d$1_VCardContent: typeof VCardContent;
-declare const index_d$1_VCardHeader: typeof VCardHeader;
-declare const index_d$1_VCardHeaderText: typeof VCardHeaderText;
-declare const index_d$1_VCardImg: typeof VCardImg;
+declare const index_d$1_VCardItem: typeof VCardItem;
 declare const index_d$1_VCardSubtitle: typeof VCardSubtitle;
 declare const index_d$1_VCardText: typeof VCardText;
 declare const index_d$1_VCardTitle: typeof VCardTitle;
 declare const index_d$1_VCarousel: typeof VCarousel;
 type index_d$1_VCarouselItem = VCarouselItem;
 type index_d$1_VCheckbox = VCheckbox;
+type index_d$1_VCheckboxBtn = VCheckboxBtn;
 type index_d$1_VChip = VChip;
 type index_d$1_VChipGroup = VChipGroup;
 declare const index_d$1_VCode: typeof VCode;
@@ -16013,7 +18227,7 @@ type index_d$1_VLayout = VLayout;
 declare const index_d$1_VLayoutItem: typeof VLayoutItem;
 declare const index_d$1_VLazy: typeof VLazy;
 type index_d$1_VList = VList;
-declare const index_d$1_VListSubheader: typeof VListSubheader;
+declare const index_d$1_VListGroup: typeof VListGroup;
 declare const index_d$1_VListImg: typeof VListImg;
 type index_d$1_VListItem = VListItem;
 declare const index_d$1_VListItemAction: typeof VListItemAction;
@@ -16023,7 +18237,7 @@ declare const index_d$1_VListItemIcon: typeof VListItemIcon;
 declare const index_d$1_VListItemMedia: typeof VListItemMedia;
 declare const index_d$1_VListItemSubtitle: typeof VListItemSubtitle;
 declare const index_d$1_VListItemTitle: typeof VListItemTitle;
-declare const index_d$1_VListGroup: typeof VListGroup;
+declare const index_d$1_VListSubheader: typeof VListSubheader;
 declare const index_d$1_VLocaleProvider: typeof VLocaleProvider;
 declare const index_d$1_VMain: typeof VMain;
 type index_d$1_VMenu = VMenu;
@@ -16044,7 +18258,6 @@ type index_d$1_VSelect = VSelect;
 type index_d$1_VSelectionControl = VSelectionControl;
 type index_d$1_VSelectionControlGroup = VSelectionControlGroup;
 declare const index_d$1_VSheet: typeof VSheet;
-declare const index_d$1_VSlideGroupSymbol: typeof VSlideGroupSymbol;
 type index_d$1_VSlideGroup = VSlideGroup;
 declare const index_d$1_VSlideGroupItem: typeof VSlideGroupItem;
 type index_d$1_VSlider = VSlider;
@@ -16100,8 +18313,6 @@ declare namespace index_d$1 {
     index_d$1_VBadge as VBadge,
     index_d$1_VBanner as VBanner,
     index_d$1_VBannerActions as VBannerActions,
-    index_d$1_VBannerAvatar as VBannerAvatar,
-    index_d$1_VBannerIcon as VBannerIcon,
     index_d$1_VBannerText as VBannerText,
     index_d$1_VBottomNavigation as VBottomNavigation,
     index_d$1_VBreadcrumbs as VBreadcrumbs,
@@ -16112,17 +18323,14 @@ declare namespace index_d$1 {
     index_d$1_VBtnToggle as VBtnToggle,
     index_d$1_VCard as VCard,
     index_d$1_VCardActions as VCardActions,
-    index_d$1_VCardAvatar as VCardAvatar,
-    index_d$1_VCardContent as VCardContent,
-    index_d$1_VCardHeader as VCardHeader,
-    index_d$1_VCardHeaderText as VCardHeaderText,
-    index_d$1_VCardImg as VCardImg,
+    index_d$1_VCardItem as VCardItem,
     index_d$1_VCardSubtitle as VCardSubtitle,
     index_d$1_VCardText as VCardText,
     index_d$1_VCardTitle as VCardTitle,
     index_d$1_VCarousel as VCarousel,
     index_d$1_VCarouselItem as VCarouselItem,
     index_d$1_VCheckbox as VCheckbox,
+    index_d$1_VCheckboxBtn as VCheckboxBtn,
     index_d$1_VChip as VChip,
     index_d$1_VChipGroup as VChipGroup,
     index_d$1_VCode as VCode,
@@ -16161,7 +18369,7 @@ declare namespace index_d$1 {
     index_d$1_VLayoutItem as VLayoutItem,
     index_d$1_VLazy as VLazy,
     index_d$1_VList as VList,
-    index_d$1_VListSubheader as VListSubheader,
+    index_d$1_VListGroup as VListGroup,
     index_d$1_VListImg as VListImg,
     index_d$1_VListItem as VListItem,
     index_d$1_VListItemAction as VListItemAction,
@@ -16171,7 +18379,7 @@ declare namespace index_d$1 {
     index_d$1_VListItemMedia as VListItemMedia,
     index_d$1_VListItemSubtitle as VListItemSubtitle,
     index_d$1_VListItemTitle as VListItemTitle,
-    index_d$1_VListGroup as VListGroup,
+    index_d$1_VListSubheader as VListSubheader,
     index_d$1_VLocaleProvider as VLocaleProvider,
     index_d$1_VMain as VMain,
     index_d$1_VMenu as VMenu,
@@ -16192,7 +18400,6 @@ declare namespace index_d$1 {
     index_d$1_VSelectionControl as VSelectionControl,
     index_d$1_VSelectionControlGroup as VSelectionControlGroup,
     index_d$1_VSheet as VSheet,
-    index_d$1_VSlideGroupSymbol as VSlideGroupSymbol,
     index_d$1_VSlideGroup as VSlideGroup,
     index_d$1_VSlideGroupItem as VSlideGroupItem,
     index_d$1_VSlider as VSlider,
@@ -16441,6 +18648,7 @@ declare function useLayout(): LayoutProvide;
 
 interface VuetifyOptions {
     aliases?: Record<string, any>;
+    blueprint?: Blueprint;
     components?: Record<string, any>;
     directives?: Record<string, any>;
     defaults?: DefaultsOptions;
@@ -16448,6 +18656,8 @@ interface VuetifyOptions {
     theme?: ThemeOptions;
     icons?: IconOptions;
     locale?: (LocaleOptions & RtlOptions) | (LocaleAdapter & RtlOptions);
+}
+interface Blueprint extends Omit<VuetifyOptions, 'blueprint'> {
 }
 
 declare const createVuetify: (options?: VuetifyOptions) => {

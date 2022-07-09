@@ -18,7 +18,7 @@
 .v-alert--sticky {
   position: sticky;
 }
-.v-alert--variant-plain, .v-alert--variant-outlined, .v-alert--variant-text, .v-alert--variant-contained-text {
+.v-alert--variant-plain, .v-alert--variant-outlined, .v-alert--variant-text, .v-alert--variant-tonal {
   background: transparent;
   color: inherit;
 }
@@ -31,14 +31,14 @@
 .v-alert--variant-plain .v-alert__overlay {
   display: none;
 }
-.v-alert--variant-contained, .v-alert--variant-contained-flat {
+.v-alert--variant-elevated, .v-alert--variant-flat {
   background: rgb(var(--v-theme-on-surface-variant));
   color: rgba(var(--v-theme-on-surface), var(--v-high-emphasis-opacity));
 }
-.v-alert--variant-contained {
+.v-alert--variant-elevated {
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 }
-.v-alert--variant-contained-flat {
+.v-alert--variant-flat {
   box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
 }
 .v-alert--variant-outlined {
@@ -47,7 +47,7 @@
 .v-alert--variant-text .v-alert__overlay {
   background: currentColor;
 }
-.v-alert--variant-contained-text .v-alert__underlay {
+.v-alert--variant-tonal .v-alert__underlay {
   background: currentColor;
   opacity: var(--v-activated-opacity);
   border-radius: inherit;

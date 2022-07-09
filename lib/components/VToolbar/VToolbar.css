@@ -1,6 +1,7 @@
 .v-toolbar {
   align-items: flex-start;
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
   justify-content: space-between;
   max-width: 100%;
@@ -78,6 +79,15 @@
   width: 100%;
 }
 
+.v-toolbar__content > .v-btn:first-child {
+  margin-inline-start: -6px;
+}
+.v-toolbar__content > .v-btn:first-child + .v-toolbar-title {
+  padding-inline-start: 20px;
+}
+.v-toolbar__content > .v-btn:last-child {
+  margin-inline-end: -6px;
+}
 .v-toolbar--density-prominent .v-toolbar__content {
   align-items: flex-start;
 }
@@ -97,10 +107,8 @@
 }
 
 .v-toolbar__prepend {
+  margin-inline-start: -6px;
   margin-inline-end: auto;
-}
-.v-toolbar__prepend > .v-btn:first-child {
-  margin-inline-start: -12px;
 }
 .v-toolbar__prepend + .v-toolbar-title {
   padding-inline-start: 20px;
@@ -108,9 +116,7 @@
 
 .v-toolbar__append {
   margin-inline-start: auto;
-}
-.v-toolbar__append > .v-btn:last-child {
-  margin-inline-end: -12px;
+  margin-inline-end: -6px;
 }
 
 .v-toolbar-title {
@@ -142,4 +148,7 @@
 .v-toolbar-items {
   display: flex;
   height: inherit;
+}
+.v-toolbar-items > .v-btn {
+  border-radius: 0;
 }

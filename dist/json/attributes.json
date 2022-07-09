@@ -205,7 +205,7 @@
   },
   "v-alert/variant": {
     "type": "string",
-    "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**."
+    "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**."
   },
   "v-alert-title/tag": {
     "type": "string",
@@ -255,8 +255,16 @@
     "type": "boolean",
     "description": ""
   },
+  "v-autocomplete/menu": {
+    "type": "boolean",
+    "description": ""
+  },
   "v-autocomplete/menu-icon": {
     "type": "string|function|object",
+    "description": ""
+  },
+  "v-autocomplete/menu-props": {
+    "type": "object",
     "description": ""
   },
   "v-autocomplete/model-value": {
@@ -503,78 +511,6 @@
     "type": "any",
     "description": ""
   },
-  "v-banner-avatar/color": {
-    "type": "string",
-    "description": ""
-  },
-  "v-banner-avatar/start": {
-    "type": "boolean",
-    "description": ""
-  },
-  "v-banner-avatar/end": {
-    "type": "boolean",
-    "description": ""
-  },
-  "v-banner-avatar/icon": {
-    "type": "string|function|object",
-    "description": ""
-  },
-  "v-banner-avatar/image": {
-    "type": "string",
-    "description": ""
-  },
-  "v-banner-avatar/density": {
-    "type": "string",
-    "description": "Adjusts the spacing within the component. Available options are: **default**, **comfortable**, and **compact**."
-  },
-  "v-banner-avatar/rounded": {
-    "type": "boolean|number|string",
-    "description": ""
-  },
-  "v-banner-avatar/size": {
-    "type": "string|number",
-    "description": "Sets the height and width of the component. Default unit is px. Can also use the following predefined sizes: **x-small**, **small**, **default**, **large**, and **x-large**."
-  },
-  "v-banner-avatar/tag": {
-    "type": "string",
-    "description": "Specify a custom tag used on the root element."
-  },
-  "v-banner-icon/color": {
-    "type": "string",
-    "description": ""
-  },
-  "v-banner-icon/start": {
-    "type": "boolean",
-    "description": ""
-  },
-  "v-banner-icon/end": {
-    "type": "boolean",
-    "description": ""
-  },
-  "v-banner-icon/icon": {
-    "type": "string|function|object",
-    "description": ""
-  },
-  "v-banner-icon/image": {
-    "type": "string",
-    "description": ""
-  },
-  "v-banner-icon/density": {
-    "type": "string",
-    "description": "Adjusts the spacing within the component. Available options are: **default**, **comfortable**, and **compact**."
-  },
-  "v-banner-icon/rounded": {
-    "type": "boolean|number|string",
-    "description": ""
-  },
-  "v-banner-icon/size": {
-    "type": "string|number",
-    "description": "Sets the height and width of the component. Default unit is px. Can also use the following predefined sizes: **x-small**, **small**, **default**, **large**, and **x-large**."
-  },
-  "v-banner-icon/tag": {
-    "type": "string",
-    "description": "Specify a custom tag used on the root element."
-  },
   "v-banner-text/tag": {
     "type": "string",
     "description": ""
@@ -723,7 +659,7 @@
     "type": "any",
     "description": ""
   },
-  "v-breadcrumbs-item/text": {
+  "v-breadcrumbs-item/title": {
     "type": "any",
     "description": ""
   },
@@ -835,6 +771,10 @@
     "type": "string",
     "description": "Configure the active CSS class applied when the item is selected."
   },
+  "v-btn/loading": {
+    "type": "boolean",
+    "description": ""
+  },
   "v-btn/location": {
     "type": "string",
     "description": ""
@@ -873,7 +813,7 @@
   },
   "v-btn/variant": {
     "type": "string",
-    "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**."
+    "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**."
   },
   "v-btn-group/divided": {
     "type": "any",
@@ -909,7 +849,7 @@
   },
   "v-btn-group/variant": {
     "type": "string",
-    "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**."
+    "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**."
   },
   "v-btn-toggle/model-value": {
     "type": "any",
@@ -1027,6 +967,10 @@
     "type": "number|string",
     "description": "Designates an elevation applied to the component between 0 and 24. You can find more information on the [elevation page](/styles/elevation)."
   },
+  "v-card/loading": {
+    "type": "boolean",
+    "description": ""
+  },
   "v-card/location": {
     "type": "string",
     "description": ""
@@ -1061,27 +1005,35 @@
   },
   "v-card/variant": {
     "type": "string",
-    "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**."
+    "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**."
   },
-  "v-card-avatar/tag": {
-    "type": "string",
+  "v-card-item/append-avatar": {
+    "type": "any",
     "description": ""
   },
-  "v-card-content/tag": {
-    "type": "string",
+  "v-card-item/append-icon": {
+    "type": "any",
     "description": ""
   },
-  "v-card-header/tag": {
-    "type": "string",
+  "v-card-item/prepend-avatar": {
+    "type": "any",
     "description": ""
   },
-  "v-card-header-text/tag": {
-    "type": "string",
+  "v-card-item/prepend-icon": {
+    "type": "any",
     "description": ""
   },
-  "v-card-img/tag": {
-    "type": "string",
+  "v-card-item/subtitle": {
+    "type": "any",
     "description": ""
+  },
+  "v-card-item/title": {
+    "type": "any",
+    "description": ""
+  },
+  "v-card-item/density": {
+    "type": "string",
+    "description": "Adjusts the spacing within the component. Available options are: **default**, **comfortable**, and **compact**."
   },
   "v-card-subtitle/tag": {
     "type": "string",
@@ -1143,14 +1095,6 @@
     "type": "any",
     "description": ""
   },
-  "v-checkbox/indeterminate": {
-    "type": "any",
-    "description": "Sets an indeterminate state for the checkbox"
-  },
-  "v-checkbox/indeterminate-icon": {
-    "type": "string|function|object",
-    "description": "The icon used when in an indeterminate state"
-  },
   "v-checkbox/id": {
     "type": "string",
     "description": ""
@@ -1211,6 +1155,18 @@
     "type": "any",
     "description": ""
   },
+  "v-checkbox/validation-value": {
+    "type": "any",
+    "description": ""
+  },
+  "v-checkbox/indeterminate": {
+    "type": "boolean",
+    "description": "Sets an indeterminate state for the checkbox"
+  },
+  "v-checkbox/indeterminate-icon": {
+    "type": "string|function|object",
+    "description": "The icon used when in an indeterminate state"
+  },
   "v-checkbox/color": {
     "type": "string",
     "description": ""
@@ -1262,6 +1218,94 @@
   "v-checkbox/theme": {
     "type": "string",
     "description": "Specify a theme for this component and all of its children"
+  },
+  "v-checkbox-btn/indeterminate": {
+    "type": "boolean",
+    "description": ""
+  },
+  "v-checkbox-btn/indeterminate-icon": {
+    "type": "string|function|object",
+    "description": ""
+  },
+  "v-checkbox-btn/color": {
+    "type": "string",
+    "description": ""
+  },
+  "v-checkbox-btn/disabled": {
+    "type": "boolean",
+    "description": ""
+  },
+  "v-checkbox-btn/error": {
+    "type": "boolean",
+    "description": ""
+  },
+  "v-checkbox-btn/id": {
+    "type": "string",
+    "description": ""
+  },
+  "v-checkbox-btn/inline": {
+    "type": "boolean",
+    "description": ""
+  },
+  "v-checkbox-btn/label": {
+    "type": "string",
+    "description": ""
+  },
+  "v-checkbox-btn/false-icon": {
+    "type": "string|function|object",
+    "description": ""
+  },
+  "v-checkbox-btn/true-icon": {
+    "type": "string|function|object",
+    "description": ""
+  },
+  "v-checkbox-btn/ripple": {
+    "type": "boolean",
+    "description": ""
+  },
+  "v-checkbox-btn/multiple": {
+    "type": "boolean",
+    "description": ""
+  },
+  "v-checkbox-btn/name": {
+    "type": "string",
+    "description": ""
+  },
+  "v-checkbox-btn/readonly": {
+    "type": "boolean",
+    "description": ""
+  },
+  "v-checkbox-btn/true-value": {
+    "type": "any",
+    "description": "Sets value for truthy state"
+  },
+  "v-checkbox-btn/false-value": {
+    "type": "any",
+    "description": "Sets value for falsy state"
+  },
+  "v-checkbox-btn/model-value": {
+    "type": "any",
+    "description": ""
+  },
+  "v-checkbox-btn/type": {
+    "type": "string",
+    "description": ""
+  },
+  "v-checkbox-btn/value": {
+    "type": "any",
+    "description": ""
+  },
+  "v-checkbox-btn/value-comparator": {
+    "type": "function",
+    "description": ""
+  },
+  "v-checkbox-btn/theme": {
+    "type": "string",
+    "description": "Specify a theme for this component and all of its children"
+  },
+  "v-checkbox-btn/density": {
+    "type": "string",
+    "description": "Adjusts the spacing within the component. Available options are: **default**, **comfortable**, and **compact**."
   },
   "v-chip/active-class": {
     "type": "any",
@@ -1389,7 +1433,7 @@
   },
   "v-chip/variant": {
     "type": "string",
-    "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**."
+    "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**."
   },
   "v-chip-group/column": {
     "type": "any",
@@ -1441,7 +1485,7 @@
   },
   "v-chip-group/variant": {
     "type": "string",
-    "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**."
+    "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**."
   },
   "v-code/tag": {
     "type": "string",
@@ -1555,8 +1599,16 @@
     "type": "boolean",
     "description": ""
   },
+  "v-combobox/menu": {
+    "type": "boolean",
+    "description": ""
+  },
   "v-combobox/menu-icon": {
     "type": "string|function|object",
+    "description": ""
+  },
+  "v-combobox/menu-props": {
+    "type": "object",
     "description": ""
   },
   "v-combobox/model-value": {
@@ -2001,6 +2053,10 @@
   },
   "v-file-input/model-value": {
     "type": "array",
+    "description": ""
+  },
+  "v-file-input/validation-value": {
+    "type": "any",
     "description": ""
   },
   "v-file-input/append-inner-icon": {
@@ -2455,6 +2511,10 @@
     "type": "any",
     "description": ""
   },
+  "v-input/validation-value": {
+    "type": "any",
+    "description": ""
+  },
   "v-item-group/model-value": {
     "type": "any",
     "description": "Represents the selected item(s). Will be an array if **multiple** prop is used."
@@ -2701,25 +2761,29 @@
   },
   "v-list/variant": {
     "type": "string",
-    "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**."
+    "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**."
   },
-  "v-list-subheader/color": {
+  "v-list-group/active-color": {
     "type": "any",
     "description": ""
   },
-  "v-list-subheader/inset": {
+  "v-list-group/color": {
     "type": "any",
     "description": ""
   },
-  "v-list-subheader/sticky": {
-    "type": "any",
+  "v-list-group/collapse-icon": {
+    "type": "string|function|object",
     "description": ""
   },
-  "v-list-subheader/title": {
-    "type": "any",
+  "v-list-group/expand-icon": {
+    "type": "string|function|object",
     "description": ""
   },
-  "v-list-subheader/tag": {
+  "v-list-group/value": {
+    "type": "any",
+    "description": "Expands / Collapse the list-group"
+  },
+  "v-list-group/tag": {
     "type": "string",
     "description": "Specify a custom tag used on the root element."
   },
@@ -2849,7 +2913,7 @@
   },
   "v-list-item/variant": {
     "type": "string",
-    "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**."
+    "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**."
   },
   "v-list-item-action/start": {
     "type": "any",
@@ -2951,27 +3015,23 @@
     "type": "string",
     "description": ""
   },
-  "v-list-group/active-color": {
+  "v-list-subheader/color": {
     "type": "any",
     "description": ""
   },
-  "v-list-group/color": {
+  "v-list-subheader/inset": {
     "type": "any",
     "description": ""
   },
-  "v-list-group/collapse-icon": {
-    "type": "string|function|object",
-    "description": ""
-  },
-  "v-list-group/expand-icon": {
-    "type": "string|function|object",
-    "description": ""
-  },
-  "v-list-group/value": {
+  "v-list-subheader/sticky": {
     "type": "any",
-    "description": "Expands / Collapse the list-group"
+    "description": ""
   },
-  "v-list-group/tag": {
+  "v-list-subheader/title": {
+    "type": "any",
+    "description": ""
+  },
+  "v-list-subheader/tag": {
     "type": "string",
     "description": "Specify a custom tag used on the root element."
   },
@@ -3199,6 +3259,10 @@
     "type": "number|string",
     "description": "Sets the width for the component."
   },
+  "v-overlay/eager": {
+    "type": "boolean",
+    "description": ""
+  },
   "v-overlay/location-strategy": {
     "type": "string|function",
     "description": ""
@@ -3212,7 +3276,7 @@
     "description": ""
   },
   "v-overlay/offset": {
-    "type": "number|string",
+    "type": "number|string|array",
     "description": ""
   },
   "v-overlay/scroll-strategy": {
@@ -3225,10 +3289,6 @@
   },
   "v-overlay/transition": {
     "type": "boolean|string|object",
-    "description": ""
-  },
-  "v-overlay/eager": {
-    "type": "boolean",
     "description": ""
   },
   "v-pagination/start": {
@@ -3303,10 +3363,6 @@
     "type": "any",
     "description": "Show buttons for going to first and last page"
   },
-  "v-pagination/rounded": {
-    "type": "boolean|number|string",
-    "description": ""
-  },
   "v-pagination/border": {
     "type": "boolean|number|string",
     "description": "Applies border styles to component."
@@ -3318,6 +3374,10 @@
   "v-pagination/elevation": {
     "type": "number|string",
     "description": "Designates an elevation applied to the component between 0 and 24. You can find more information on the [elevation page](/styles/elevation)."
+  },
+  "v-pagination/rounded": {
+    "type": "boolean|number|string",
+    "description": ""
   },
   "v-pagination/size": {
     "type": "string|number",
@@ -3337,7 +3397,7 @@
   },
   "v-pagination/variant": {
     "type": "string",
-    "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**."
+    "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**."
   },
   "v-parallax/scale": {
     "type": "number|string",
@@ -3519,6 +3579,10 @@
     "type": "any",
     "description": ""
   },
+  "v-radio-group/validation-value": {
+    "type": "any",
+    "description": ""
+  },
   "v-radio-group/color": {
     "type": "string",
     "description": ""
@@ -3633,6 +3697,10 @@
   },
   "v-range-slider/model-value": {
     "type": "array",
+    "description": ""
+  },
+  "v-range-slider/validation-value": {
+    "type": "any",
     "description": ""
   },
   "v-range-slider/max": {
@@ -3835,9 +3903,17 @@
     "type": "boolean",
     "description": "Do not display in the select menu items that are already selected"
   },
+  "v-select/menu": {
+    "type": "boolean",
+    "description": ""
+  },
   "v-select/menu-icon": {
     "type": "string|function|object",
     "description": ""
+  },
+  "v-select/menu-props": {
+    "type": "object",
+    "description": "Pass props through to the `v-menu` component. Accepts either a string for boolean props `menu-props=\"auto, overflowY\"`, or an object `:menu-props=\"{ auto: true, overflowY: true }\"`"
   },
   "v-select/model-value": {
     "type": "any",
@@ -3857,7 +3933,7 @@
   },
   "v-select/items": {
     "type": "array",
-    "description": "Can be an array of objects or array of strings. When using objects, will look for a text, value and disabled keys. This can be changed using the **item-text**, **item-value** and **item-disabled** props.  Objects that have a **header** or **divider** property are considered special cases and generate a list header or divider; these items are not selectable."
+    "description": "Can be an array of objects or array of strings. When using objects, will look for a title, value and disabled keys. This can be changed using the **item-title**, **item-value** and **item-disabled** props.  Objects that have a **header** or **divider** property are considered special cases and generate a list header or divider; these items are not selectable."
   },
   "v-select/item-title": {
     "type": "string|array|function",
@@ -4251,6 +4327,10 @@
     "type": "number|string",
     "description": ""
   },
+  "v-slider/validation-value": {
+    "type": "any",
+    "description": ""
+  },
   "v-snackbar/app": {
     "type": "any",
     "description": "Respects boundaries of—and will not overlap with—other `app` components like `v-app-bar`, `v-navigation-drawer`, and `v-footer`."
@@ -4293,7 +4373,7 @@
   },
   "v-snackbar/variant": {
     "type": "string",
-    "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**."
+    "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**."
   },
   "v-snackbar/transition": {
     "type": "boolean|string|object",
@@ -4372,6 +4452,10 @@
     "description": ""
   },
   "v-switch/model-value": {
+    "type": "any",
+    "description": ""
+  },
+  "v-switch/validation-value": {
     "type": "any",
     "description": ""
   },
@@ -4627,13 +4711,13 @@
     "type": "string",
     "description": "Adjusts the spacing within the component. Available options are: **default**, **comfortable**, and **compact**."
   },
-  "v-table/theme": {
-    "type": "string",
-    "description": "Specify a theme for this component and all of its children"
-  },
   "v-table/tag": {
     "type": "string",
     "description": "Specify a custom tag used on the root element."
+  },
+  "v-table/theme": {
+    "type": "string",
+    "description": "Specify a theme for this component and all of its children"
   },
   "v-textarea/auto-grow": {
     "type": "any",
@@ -4748,6 +4832,10 @@
     "description": ""
   },
   "v-textarea/model-value": {
+    "type": "any",
+    "description": ""
+  },
+  "v-textarea/validation-value": {
     "type": "any",
     "description": ""
   },
@@ -4915,6 +5003,10 @@
     "type": "any",
     "description": ""
   },
+  "v-text-field/validation-value": {
+    "type": "any",
+    "description": ""
+  },
   "v-text-field/append-inner-icon": {
     "type": "string|function|object",
     "description": ""
@@ -5026,6 +5118,10 @@
   "v-timeline/theme": {
     "type": "string",
     "description": "Specify a theme for this component and all of its children"
+  },
+  "v-timeline-item/density": {
+    "type": "any",
+    "description": ""
   },
   "v-timeline-item/dot-color": {
     "type": "any",
@@ -5169,7 +5265,7 @@
   },
   "v-toolbar-items/variant": {
     "type": "string",
-    "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**."
+    "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**."
   },
   "v-tooltip/id": {
     "type": "any",
@@ -5224,6 +5320,10 @@
     "description": ""
   },
   "v-validation/model-value": {
+    "type": "any",
+    "description": ""
+  },
+  "v-validation/validation-value": {
     "type": "any",
     "description": ""
   },
@@ -5287,10 +5387,6 @@
     "type": "boolean|string",
     "description": "The transition used when the component progressing through items. Can be one of the [built in transitions](/styles/transitions) or one your own."
   },
-  "v-window-item/eager": {
-    "type": "boolean",
-    "description": ""
-  },
   "v-window-item/value": {
     "type": "any",
     "description": "The value used when the component is selected in a group. If not provided, a unique ID will be used."
@@ -5302,5 +5398,9 @@
   "v-window-item/selected-class": {
     "type": "string",
     "description": "Configure the active CSS class applied when the item is selected."
+  },
+  "v-window-item/eager": {
+    "type": "boolean",
+    "description": ""
   }
 }

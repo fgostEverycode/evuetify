@@ -43,13 +43,17 @@ interface OnColors {
     'on-info': string;
 }
 interface ThemeInstance {
-    isDisabled: boolean;
-    name: Ref<string>;
-    themes: Ref<Record<string, InternalThemeDefinition>>;
+    readonly isDisabled: boolean;
+    readonly themes: Ref<Record<string, InternalThemeDefinition>>;
+    readonly name: Readonly<Ref<string>>;
     readonly current: DeepReadonly<Ref<InternalThemeDefinition>>;
     readonly computedThemes: DeepReadonly<Ref<Record<string, InternalThemeDefinition>>>;
-    themeClasses: Readonly<Ref<string | undefined>>;
-    styles: Readonly<Ref<string>>;
+    readonly themeClasses: Readonly<Ref<string | undefined>>;
+    readonly styles: Readonly<Ref<string>>;
+    readonly global: {
+        readonly name: Ref<string>;
+        readonly current: DeepReadonly<Ref<InternalThemeDefinition>>;
+    };
 }
 declare function useTheme(): ThemeInstance;
 
@@ -239,18 +243,20 @@ interface LayoutProvide {
 }
 declare function useLayout(): LayoutProvide;
 
-interface FormValidationResult {
+interface FieldValidationResult {
     id: number | string;
     errorMessages: string[];
 }
-interface SubmitEventPromise extends SubmitEvent, Promise<{
+interface FormValidationResult {
     valid: boolean;
-    errorMessages: FormValidationResult[];
-}> {
+    errors: FieldValidationResult[];
+}
+interface SubmitEventPromise extends SubmitEvent, Promise<FormValidationResult> {
 }
 
 interface VuetifyOptions {
     aliases?: Record<string, any>;
+    blueprint?: Blueprint;
     components?: Record<string, any>;
     directives?: Record<string, any>;
     defaults?: DefaultsOptions;
@@ -259,11 +265,13 @@ interface VuetifyOptions {
     icons?: IconOptions;
     locale?: (LocaleOptions & RtlOptions) | (LocaleAdapter & RtlOptions);
 }
-declare const createVuetify: (options?: VuetifyOptions) => {
+interface Blueprint extends Omit<VuetifyOptions, 'blueprint'> {
+}
+declare const createVuetify: (vuetify?: VuetifyOptions) => {
     install: (app: App) => void;
 };
 
-export { DefaultsInstance, DisplayBreakpoint, DisplayInstance, DisplayThresholds, IconAliases, IconOptions, IconProps, IconSet, LocaleAdapter, RtlInstance, SubmitEventPromise, ThemeDefinition, ThemeInstance, VuetifyOptions, createVuetify, provideRtl, useDisplay, useLayout, useRtl, useTheme };
+export { Blueprint, DefaultsInstance, DisplayBreakpoint, DisplayInstance, DisplayThresholds, IconAliases, IconOptions, IconProps, IconSet, LocaleAdapter, RtlInstance, SubmitEventPromise, ThemeDefinition, ThemeInstance, VuetifyOptions, createVuetify, provideRtl, useDisplay, useLayout, useRtl, useTheme };
 
 import type { ComponentPublicInstance, FunctionalComponent, VNodeChild } from 'vue'
 
@@ -304,19 +312,16 @@ declare module '@vue/runtime-core' {
   }
 
   export interface GlobalComponents {
-    VApp: typeof import('vuetify/components')['VApp']
     VAppBar: typeof import('vuetify/components')['VAppBar']
     VAppBarNavIcon: typeof import('vuetify/components')['VAppBarNavIcon']
     VAppBarTitle: typeof import('vuetify/components')['VAppBarTitle']
-    VAlert: typeof import('vuetify/components')['VAlert']
-    VAlertTitle: typeof import('vuetify/components')['VAlertTitle']
     VAutocomplete: typeof import('vuetify/components')['VAutocomplete']
     VAvatar: typeof import('vuetify/components')['VAvatar']
+    VAlert: typeof import('vuetify/components')['VAlert']
+    VAlertTitle: typeof import('vuetify/components')['VAlertTitle']
     VBadge: typeof import('vuetify/components')['VBadge']
     VBanner: typeof import('vuetify/components')['VBanner']
     VBannerActions: typeof import('vuetify/components')['VBannerActions']
-    VBannerAvatar: typeof import('vuetify/components')['VBannerAvatar']
-    VBannerIcon: typeof import('vuetify/components')['VBannerIcon']
     VBannerText: typeof import('vuetify/components')['VBannerText']
     VBottomNavigation: typeof import('vuetify/components')['VBottomNavigation']
     VBreadcrumbs: typeof import('vuetify/components')['VBreadcrumbs']
@@ -327,24 +332,20 @@ declare module '@vue/runtime-core' {
     VBtnToggle: typeof import('vuetify/components')['VBtnToggle']
     VCard: typeof import('vuetify/components')['VCard']
     VCardActions: typeof import('vuetify/components')['VCardActions']
-    VCardAvatar: typeof import('vuetify/components')['VCardAvatar']
-    VCardContent: typeof import('vuetify/components')['VCardContent']
-    VCardHeader: typeof import('vuetify/components')['VCardHeader']
-    VCardHeaderText: typeof import('vuetify/components')['VCardHeaderText']
-    VCardImg: typeof import('vuetify/components')['VCardImg']
+    VCardItem: typeof import('vuetify/components')['VCardItem']
     VCardSubtitle: typeof import('vuetify/components')['VCardSubtitle']
     VCardText: typeof import('vuetify/components')['VCardText']
     VCardTitle: typeof import('vuetify/components')['VCardTitle']
     VCarousel: typeof import('vuetify/components')['VCarousel']
     VCarouselItem: typeof import('vuetify/components')['VCarouselItem']
     VCheckbox: typeof import('vuetify/components')['VCheckbox']
+    VCheckboxBtn: typeof import('vuetify/components')['VCheckboxBtn']
     VChip: typeof import('vuetify/components')['VChip']
     VChipGroup: typeof import('vuetify/components')['VChipGroup']
     VCode: typeof import('vuetify/components')['VCode']
     VColorPicker: typeof import('vuetify/components')['VColorPicker']
-    VCombobox: typeof import('vuetify/components')['VCombobox']
     VCounter: typeof import('vuetify/components')['VCounter']
-    VDefaultsProvider: typeof import('vuetify/components')['VDefaultsProvider']
+    VCombobox: typeof import('vuetify/components')['VCombobox']
     VDialog: typeof import('vuetify/components')['VDialog']
     VDivider: typeof import('vuetify/components')['VDivider']
     VExpansionPanels: typeof import('vuetify/components')['VExpansionPanels']
@@ -355,12 +356,6 @@ declare module '@vue/runtime-core' {
     VFieldLabel: typeof import('vuetify/components')['VFieldLabel']
     VFileInput: typeof import('vuetify/components')['VFileInput']
     VFooter: typeof import('vuetify/components')['VFooter']
-    VForm: typeof import('vuetify/components')['VForm']
-    VContainer: typeof import('vuetify/components')['VContainer']
-    VCol: typeof import('vuetify/components')['VCol']
-    VRow: typeof import('vuetify/components')['VRow']
-    VSpacer: typeof import('vuetify/components')['VSpacer']
-    VHover: typeof import('vuetify/components')['VHover']
     VIcon: typeof import('vuetify/components')['VIcon']
     VComponentIcon: typeof import('vuetify/components')['VComponentIcon']
     VSvgIcon: typeof import('vuetify/components')['VSvgIcon']
@@ -372,11 +367,8 @@ declare module '@vue/runtime-core' {
     VItem: typeof import('vuetify/components')['VItem']
     VKbd: typeof import('vuetify/components')['VKbd']
     VLabel: typeof import('vuetify/components')['VLabel']
-    VLayout: typeof import('vuetify/components')['VLayout']
-    VLayoutItem: typeof import('vuetify/components')['VLayoutItem']
-    VLazy: typeof import('vuetify/components')['VLazy']
     VList: typeof import('vuetify/components')['VList']
-    VListSubheader: typeof import('vuetify/components')['VListSubheader']
+    VListGroup: typeof import('vuetify/components')['VListGroup']
     VListImg: typeof import('vuetify/components')['VListImg']
     VListItem: typeof import('vuetify/components')['VListItem']
     VListItemAction: typeof import('vuetify/components')['VListItemAction']
@@ -386,27 +378,23 @@ declare module '@vue/runtime-core' {
     VListItemMedia: typeof import('vuetify/components')['VListItemMedia']
     VListItemSubtitle: typeof import('vuetify/components')['VListItemSubtitle']
     VListItemTitle: typeof import('vuetify/components')['VListItemTitle']
-    VListGroup: typeof import('vuetify/components')['VListGroup']
-    VLocaleProvider: typeof import('vuetify/components')['VLocaleProvider']
+    VListSubheader: typeof import('vuetify/components')['VListSubheader']
     VMain: typeof import('vuetify/components')['VMain']
     VMenu: typeof import('vuetify/components')['VMenu']
     VMessages: typeof import('vuetify/components')['VMessages']
     VNavigationDrawer: typeof import('vuetify/components')['VNavigationDrawer']
-    VNoSsr: typeof import('vuetify/components')['VNoSsr']
     VOverlay: typeof import('vuetify/components')['VOverlay']
     VPagination: typeof import('vuetify/components')['VPagination']
-    VParallax: typeof import('vuetify/components')['VParallax']
     VProgressCircular: typeof import('vuetify/components')['VProgressCircular']
     VProgressLinear: typeof import('vuetify/components')['VProgressLinear']
-    VRadio: typeof import('vuetify/components')['VRadio']
     VRadioGroup: typeof import('vuetify/components')['VRadioGroup']
-    VRangeSlider: typeof import('vuetify/components')['VRangeSlider']
     VRating: typeof import('vuetify/components')['VRating']
-    VResponsive: typeof import('vuetify/components')['VResponsive']
     VSelect: typeof import('vuetify/components')['VSelect']
     VSelectionControl: typeof import('vuetify/components')['VSelectionControl']
     VSelectionControlGroup: typeof import('vuetify/components')['VSelectionControlGroup']
     VSheet: typeof import('vuetify/components')['VSheet']
+    VSlideGroup: typeof import('vuetify/components')['VSlideGroup']
+    VSlideGroupItem: typeof import('vuetify/components')['VSlideGroupItem']
     VSlider: typeof import('vuetify/components')['VSlider']
     VSnackbar: typeof import('vuetify/components')['VSnackbar']
     VSwitch: typeof import('vuetify/components')['VSwitch']
@@ -416,16 +404,33 @@ declare module '@vue/runtime-core' {
     VTable: typeof import('vuetify/components')['VTable']
     VTextarea: typeof import('vuetify/components')['VTextarea']
     VTextField: typeof import('vuetify/components')['VTextField']
-    VThemeProvider: typeof import('vuetify/components')['VThemeProvider']
     VTimeline: typeof import('vuetify/components')['VTimeline']
     VTimelineItem: typeof import('vuetify/components')['VTimelineItem']
     VToolbar: typeof import('vuetify/components')['VToolbar']
     VToolbarTitle: typeof import('vuetify/components')['VToolbarTitle']
     VToolbarItems: typeof import('vuetify/components')['VToolbarItems']
     VTooltip: typeof import('vuetify/components')['VTooltip']
-    VValidation: typeof import('vuetify/components')['VValidation']
     VWindow: typeof import('vuetify/components')['VWindow']
     VWindowItem: typeof import('vuetify/components')['VWindowItem']
+    VApp: typeof import('vuetify/components')['VApp']
+    VDefaultsProvider: typeof import('vuetify/components')['VDefaultsProvider']
+    VForm: typeof import('vuetify/components')['VForm']
+    VContainer: typeof import('vuetify/components')['VContainer']
+    VCol: typeof import('vuetify/components')['VCol']
+    VRow: typeof import('vuetify/components')['VRow']
+    VSpacer: typeof import('vuetify/components')['VSpacer']
+    VHover: typeof import('vuetify/components')['VHover']
+    VLayout: typeof import('vuetify/components')['VLayout']
+    VLayoutItem: typeof import('vuetify/components')['VLayoutItem']
+    VLazy: typeof import('vuetify/components')['VLazy']
+    VLocaleProvider: typeof import('vuetify/components')['VLocaleProvider']
+    VNoSsr: typeof import('vuetify/components')['VNoSsr']
+    VParallax: typeof import('vuetify/components')['VParallax']
+    VRadio: typeof import('vuetify/components')['VRadio']
+    VRangeSlider: typeof import('vuetify/components')['VRangeSlider']
+    VResponsive: typeof import('vuetify/components')['VResponsive']
+    VThemeProvider: typeof import('vuetify/components')['VThemeProvider']
+    VValidation: typeof import('vuetify/components')['VValidation']
     VCarouselTransition: typeof import('vuetify/components')['VCarouselTransition']
     VCarouselReverseTransition: typeof import('vuetify/components')['VCarouselReverseTransition']
     VTabTransition: typeof import('vuetify/components')['VTabTransition']

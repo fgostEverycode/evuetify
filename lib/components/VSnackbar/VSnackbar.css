@@ -22,7 +22,7 @@
   position: relative;
   border-radius: 4px;
 }
-.v-snackbar--variant-plain, .v-snackbar--variant-outlined, .v-snackbar--variant-text, .v-snackbar--variant-contained-text {
+.v-snackbar--variant-plain, .v-snackbar--variant-outlined, .v-snackbar--variant-text, .v-snackbar--variant-tonal {
   background: transparent;
   color: inherit;
 }
@@ -35,14 +35,14 @@
 .v-snackbar--variant-plain .v-snackbar__overlay {
   display: none;
 }
-.v-snackbar--variant-contained, .v-snackbar--variant-contained-flat {
+.v-snackbar--variant-elevated, .v-snackbar--variant-flat {
   background: #333333;
   color: rgb(var(--v-theme-on-surface-variant));
 }
-.v-snackbar--variant-contained {
+.v-snackbar--variant-elevated {
   box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
 }
-.v-snackbar--variant-contained-flat {
+.v-snackbar--variant-flat {
   box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
 }
 .v-snackbar--variant-outlined {
@@ -51,7 +51,7 @@
 .v-snackbar--variant-text .v-snackbar__overlay {
   background: currentColor;
 }
-.v-snackbar--variant-contained-text .v-snackbar__underlay {
+.v-snackbar--variant-tonal .v-snackbar__underlay {
   background: currentColor;
   opacity: var(--v-activated-opacity);
   border-radius: inherit;

@@ -2,7 +2,7 @@
   "$schema": "http://json.schemastore.org/web-types",
   "framework": "vue",
   "name": "vuetify",
-  "version": "3.0.0-beta.3",
+  "version": "3.0.0-beta.5",
   "contributions": {
     "html": {
       "types-syntax": "typescript",
@@ -686,9 +686,9 @@
             },
             {
               "name": "variant",
-              "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**.",
+              "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**.",
               "doc-url": "https://vuetifyjs.com/api/v-alert#props",
-              "default": "'contained-flat'",
+              "default": "'flat'",
               "value": {
                 "kind": "expression",
                 "type": "string"
@@ -904,6 +904,17 @@
               "type": "boolean"
             },
             {
+              "name": "menu",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-autocomplete#props",
+              "default": "false",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "type": "boolean"
+            },
+            {
               "name": "menu-icon",
               "description": "",
               "doc-url": "https://vuetifyjs.com/api/v-autocomplete#props",
@@ -915,6 +926,15 @@
                   "function",
                   "object"
                 ]
+              }
+            },
+            {
+              "name": "menu-props",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-autocomplete#props",
+              "value": {
+                "kind": "expression",
+                "type": "object"
               }
             },
             {
@@ -1076,6 +1096,16 @@
             },
             {
               "name": "update:modelValue",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-autocomplete#events",
+              "arguments": [
+                {
+                  "name": "argument"
+                }
+              ]
+            },
+            {
+              "name": "update:menu",
               "description": "",
               "doc-url": "https://vuetifyjs.com/api/v-autocomplete#events",
               "arguments": [
@@ -1694,240 +1724,6 @@
           }
         },
         {
-          "name": "VBannerAvatar",
-          "source": {
-            "module": "./src/components/index.ts",
-            "symbol": "VBannerAvatar"
-          },
-          "description": "",
-          "doc-url": "https://vuetifyjs.com/api/v-banner-avatar",
-          "attributes": [
-            {
-              "name": "color",
-              "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-banner-avatar#props",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
-            },
-            {
-              "name": "start",
-              "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-banner-avatar#props",
-              "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              },
-              "type": "boolean"
-            },
-            {
-              "name": "end",
-              "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-banner-avatar#props",
-              "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              },
-              "type": "boolean"
-            },
-            {
-              "name": "icon",
-              "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-banner-avatar#props",
-              "value": {
-                "kind": "expression",
-                "type": [
-                  "string",
-                  "function",
-                  "object"
-                ]
-              }
-            },
-            {
-              "name": "image",
-              "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-banner-avatar#props",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
-            },
-            {
-              "name": "density",
-              "description": "Adjusts the spacing within the component. Available options are: **default**, **comfortable**, and **compact**.",
-              "doc-url": "https://vuetifyjs.com/api/v-banner-avatar#props",
-              "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
-            },
-            {
-              "name": "rounded",
-              "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-banner-avatar#props",
-              "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": [
-                  "boolean",
-                  "number",
-                  "string"
-                ]
-              }
-            },
-            {
-              "name": "size",
-              "description": "Sets the height and width of the component. Default unit is px. Can also use the following predefined sizes: **x-small**, **small**, **default**, **large**, and **x-large**.",
-              "doc-url": "https://vuetifyjs.com/api/v-banner-avatar#props",
-              "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": [
-                  "string",
-                  "number"
-                ]
-              }
-            },
-            {
-              "name": "tag",
-              "description": "Specify a custom tag used on the root element.",
-              "doc-url": "https://vuetifyjs.com/api/v-banner-avatar#props",
-              "default": "'div'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
-            }
-          ],
-          "events": [],
-          "slots": [],
-          "vue-model": {
-            "prop": "modelValue",
-            "event": "update:modelValue"
-          }
-        },
-        {
-          "name": "VBannerIcon",
-          "source": {
-            "module": "./src/components/index.ts",
-            "symbol": "VBannerIcon"
-          },
-          "description": "",
-          "doc-url": "https://vuetifyjs.com/api/v-banner-icon",
-          "attributes": [
-            {
-              "name": "color",
-              "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-banner-icon#props",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
-            },
-            {
-              "name": "start",
-              "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-banner-icon#props",
-              "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              },
-              "type": "boolean"
-            },
-            {
-              "name": "end",
-              "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-banner-icon#props",
-              "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              },
-              "type": "boolean"
-            },
-            {
-              "name": "icon",
-              "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-banner-icon#props",
-              "value": {
-                "kind": "expression",
-                "type": [
-                  "string",
-                  "function",
-                  "object"
-                ]
-              }
-            },
-            {
-              "name": "image",
-              "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-banner-icon#props",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
-            },
-            {
-              "name": "density",
-              "description": "Adjusts the spacing within the component. Available options are: **default**, **comfortable**, and **compact**.",
-              "doc-url": "https://vuetifyjs.com/api/v-banner-icon#props",
-              "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
-            },
-            {
-              "name": "rounded",
-              "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-banner-icon#props",
-              "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": [
-                  "boolean",
-                  "number",
-                  "string"
-                ]
-              }
-            },
-            {
-              "name": "size",
-              "description": "Sets the height and width of the component. Default unit is px. Can also use the following predefined sizes: **x-small**, **small**, **default**, **large**, and **x-large**.",
-              "doc-url": "https://vuetifyjs.com/api/v-banner-icon#props",
-              "default": "'default'",
-              "value": {
-                "kind": "expression",
-                "type": [
-                  "string",
-                  "number"
-                ]
-              }
-            },
-            {
-              "name": "tag",
-              "description": "Specify a custom tag used on the root element.",
-              "doc-url": "https://vuetifyjs.com/api/v-banner-icon#props",
-              "default": "'div'",
-              "value": {
-                "kind": "expression",
-                "type": "string"
-              }
-            }
-          ],
-          "events": [],
-          "slots": [],
-          "vue-model": {
-            "prop": "modelValue",
-            "event": "update:modelValue"
-          }
-        },
-        {
           "name": "VBannerText",
           "source": {
             "module": "./src/components/index.ts",
@@ -2428,7 +2224,7 @@
               }
             },
             {
-              "name": "text",
+              "name": "title",
               "description": "",
               "doc-url": "https://vuetifyjs.com/api/v-breadcrumbs-item#props",
               "value": {
@@ -2763,6 +2559,17 @@
               }
             },
             {
+              "name": "loading",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-btn#props",
+              "default": "false",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "type": "boolean"
+            },
+            {
               "name": "location",
               "description": "",
               "doc-url": "https://vuetifyjs.com/api/v-btn#props",
@@ -2855,9 +2662,9 @@
             },
             {
               "name": "variant",
-              "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**.",
+              "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**.",
               "doc-url": "https://vuetifyjs.com/api/v-btn#props",
-              "default": "'contained'",
+              "default": "'elevated'",
               "value": {
                 "kind": "expression",
                 "type": "string"
@@ -2992,9 +2799,9 @@
             },
             {
               "name": "variant",
-              "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**.",
+              "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**.",
               "doc-url": "https://vuetifyjs.com/api/v-btn-group#props",
-              "default": "'contained'",
+              "default": "'elevated'",
               "value": {
                 "kind": "expression",
                 "type": "string"
@@ -3360,6 +3167,17 @@
               }
             },
             {
+              "name": "loading",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-card#props",
+              "default": "false",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "type": "boolean"
+            },
+            {
               "name": "location",
               "description": "",
               "doc-url": "https://vuetifyjs.com/api/v-card#props",
@@ -3444,9 +3262,9 @@
             },
             {
               "name": "variant",
-              "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**.",
+              "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**.",
               "doc-url": "https://vuetifyjs.com/api/v-card#props",
-              "default": "'contained'",
+              "default": "'elevated'",
               "value": {
                 "kind": "expression",
                 "type": "string"
@@ -3531,127 +3349,73 @@
           }
         },
         {
-          "name": "VCardAvatar",
+          "name": "VCardItem",
           "source": {
             "module": "./src/components/index.ts",
-            "symbol": "VCardAvatar"
+            "symbol": "VCardItem"
           },
           "description": "",
-          "doc-url": "https://vuetifyjs.com/api/v-card-avatar",
+          "doc-url": "https://vuetifyjs.com/api/v-card-item",
           "attributes": [
             {
-              "name": "tag",
+              "name": "append-avatar",
               "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-card-avatar#props",
-              "default": "'div'",
+              "doc-url": "https://vuetifyjs.com/api/v-card-item#props",
               "value": {
                 "kind": "expression",
-                "type": "string"
+                "type": "any"
               }
-            }
-          ],
-          "events": [],
-          "slots": [],
-          "vue-model": {
-            "prop": "modelValue",
-            "event": "update:modelValue"
-          }
-        },
-        {
-          "name": "VCardContent",
-          "source": {
-            "module": "./src/components/index.ts",
-            "symbol": "VCardContent"
-          },
-          "description": "",
-          "doc-url": "https://vuetifyjs.com/api/v-card-content",
-          "attributes": [
+            },
             {
-              "name": "tag",
+              "name": "append-icon",
               "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-card-content#props",
-              "default": "'div'",
+              "doc-url": "https://vuetifyjs.com/api/v-card-item#props",
               "value": {
                 "kind": "expression",
-                "type": "string"
+                "type": "any"
               }
-            }
-          ],
-          "events": [],
-          "slots": [],
-          "vue-model": {
-            "prop": "modelValue",
-            "event": "update:modelValue"
-          }
-        },
-        {
-          "name": "VCardHeader",
-          "source": {
-            "module": "./src/components/index.ts",
-            "symbol": "VCardHeader"
-          },
-          "description": "",
-          "doc-url": "https://vuetifyjs.com/api/v-card-header",
-          "attributes": [
+            },
             {
-              "name": "tag",
+              "name": "prepend-avatar",
               "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-card-header#props",
-              "default": "'div'",
+              "doc-url": "https://vuetifyjs.com/api/v-card-item#props",
               "value": {
                 "kind": "expression",
-                "type": "string"
+                "type": "any"
               }
-            }
-          ],
-          "events": [],
-          "slots": [],
-          "vue-model": {
-            "prop": "modelValue",
-            "event": "update:modelValue"
-          }
-        },
-        {
-          "name": "VCardHeaderText",
-          "source": {
-            "module": "./src/components/index.ts",
-            "symbol": "VCardHeaderText"
-          },
-          "description": "",
-          "doc-url": "https://vuetifyjs.com/api/v-card-header-text",
-          "attributes": [
+            },
             {
-              "name": "tag",
+              "name": "prepend-icon",
               "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-card-header-text#props",
-              "default": "'div'",
+              "doc-url": "https://vuetifyjs.com/api/v-card-item#props",
               "value": {
                 "kind": "expression",
-                "type": "string"
+                "type": "any"
               }
-            }
-          ],
-          "events": [],
-          "slots": [],
-          "vue-model": {
-            "prop": "modelValue",
-            "event": "update:modelValue"
-          }
-        },
-        {
-          "name": "VCardImg",
-          "source": {
-            "module": "./src/components/index.ts",
-            "symbol": "VCardImg"
-          },
-          "description": "",
-          "doc-url": "https://vuetifyjs.com/api/v-card-img",
-          "attributes": [
+            },
             {
-              "name": "tag",
+              "name": "subtitle",
               "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-card-img#props",
-              "default": "'div'",
+              "doc-url": "https://vuetifyjs.com/api/v-card-item#props",
+              "value": {
+                "kind": "expression",
+                "type": "any"
+              }
+            },
+            {
+              "name": "title",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-card-item#props",
+              "value": {
+                "kind": "expression",
+                "type": "any"
+              }
+            },
+            {
+              "name": "density",
+              "description": "Adjusts the spacing within the component. Available options are: **default**, **comfortable**, and **compact**.",
+              "doc-url": "https://vuetifyjs.com/api/v-card-item#props",
+              "default": "'default'",
               "value": {
                 "kind": "expression",
                 "type": "string"
@@ -3997,29 +3761,6 @@
           "doc-url": "https://vuetifyjs.com/api/v-checkbox",
           "attributes": [
             {
-              "name": "indeterminate",
-              "description": "Sets an indeterminate state for the checkbox",
-              "doc-url": "https://vuetifyjs.com/api/v-checkbox#props",
-              "value": {
-                "kind": "expression",
-                "type": "any"
-              }
-            },
-            {
-              "name": "indeterminate-icon",
-              "description": "The icon used when in an indeterminate state",
-              "doc-url": "https://vuetifyjs.com/api/v-checkbox#props",
-              "default": "'$checkboxIndeterminate'",
-              "value": {
-                "kind": "expression",
-                "type": [
-                  "string",
-                  "function",
-                  "object"
-                ]
-              }
-            },
-            {
               "name": "id",
               "description": "",
               "doc-url": "https://vuetifyjs.com/api/v-checkbox#props",
@@ -4188,6 +3929,40 @@
               }
             },
             {
+              "name": "validation-value",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox#props",
+              "value": {
+                "kind": "expression",
+                "type": "any"
+              }
+            },
+            {
+              "name": "indeterminate",
+              "description": "Sets an indeterminate state for the checkbox",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox#props",
+              "default": "false",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "type": "boolean"
+            },
+            {
+              "name": "indeterminate-icon",
+              "description": "The icon used when in an indeterminate state",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox#props",
+              "default": "'$checkboxIndeterminate'",
+              "value": {
+                "kind": "expression",
+                "type": [
+                  "string",
+                  "function",
+                  "object"
+                ]
+              }
+            },
+            {
               "name": "color",
               "description": "",
               "doc-url": "https://vuetifyjs.com/api/v-checkbox#props",
@@ -4321,11 +4096,266 @@
               }
             }
           ],
+          "events": [],
+          "slots": [],
+          "vue-model": {
+            "prop": "modelValue",
+            "event": "update:modelValue"
+          }
+        },
+        {
+          "name": "VCheckboxBtn",
+          "source": {
+            "module": "./src/components/index.ts",
+            "symbol": "VCheckboxBtn"
+          },
+          "description": "",
+          "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn",
+          "attributes": [
+            {
+              "name": "indeterminate",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "default": "false",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "type": "boolean"
+            },
+            {
+              "name": "indeterminate-icon",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "default": "'$checkboxIndeterminate'",
+              "value": {
+                "kind": "expression",
+                "type": [
+                  "string",
+                  "function",
+                  "object"
+                ]
+              }
+            },
+            {
+              "name": "color",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "default": "false",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "type": "boolean"
+            },
+            {
+              "name": "error",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "default": "false",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "type": "boolean"
+            },
+            {
+              "name": "id",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "inline",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "default": "false",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "type": "boolean"
+            },
+            {
+              "name": "label",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "false-icon",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "default": "'$checkboxOff'",
+              "value": {
+                "kind": "expression",
+                "type": [
+                  "string",
+                  "function",
+                  "object"
+                ]
+              }
+            },
+            {
+              "name": "true-icon",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "default": "'$checkboxOn'",
+              "value": {
+                "kind": "expression",
+                "type": [
+                  "string",
+                  "function",
+                  "object"
+                ]
+              }
+            },
+            {
+              "name": "ripple",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "default": "true",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "type": "boolean"
+            },
+            {
+              "name": "multiple",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "default": "false",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "type": "boolean"
+            },
+            {
+              "name": "name",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "default": "false",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "type": "boolean"
+            },
+            {
+              "name": "true-value",
+              "description": "Sets value for truthy state",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "value": {
+                "kind": "expression",
+                "type": "any"
+              }
+            },
+            {
+              "name": "false-value",
+              "description": "Sets value for falsy state",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "value": {
+                "kind": "expression",
+                "type": "any"
+              }
+            },
+            {
+              "name": "model-value",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "value": {
+                "kind": "expression",
+                "type": "any"
+              }
+            },
+            {
+              "name": "type",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "value",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "value": {
+                "kind": "expression",
+                "type": "any"
+              }
+            },
+            {
+              "name": "value-comparator",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "value": {
+                "kind": "expression",
+                "type": "function"
+              }
+            },
+            {
+              "name": "theme",
+              "description": "Specify a theme for this component and all of its children",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "density",
+              "description": "Adjusts the spacing within the component. Available options are: **default**, **comfortable**, and **compact**.",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#props",
+              "default": "'default'",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            }
+          ],
           "events": [
             {
+              "name": "update:modelValue",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#events",
+              "arguments": [
+                {
+                  "name": "argument"
+                }
+              ]
+            },
+            {
               "name": "update:indeterminate",
-              "description": "The **indeterminate.sync** event.",
-              "doc-url": "https://vuetifyjs.com/api/v-checkbox#events",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-checkbox-btn#events",
               "arguments": [
                 {
                   "name": "argument"
@@ -4666,9 +4696,9 @@
             },
             {
               "name": "variant",
-              "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**.",
+              "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**.",
               "doc-url": "https://vuetifyjs.com/api/v-chip#props",
-              "default": "'contained-text'",
+              "default": "'tonal'",
               "value": {
                 "kind": "expression",
                 "type": "string"
@@ -4872,9 +4902,9 @@
             },
             {
               "name": "variant",
-              "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**.",
+              "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**.",
               "doc-url": "https://vuetifyjs.com/api/v-chip-group#props",
-              "default": "'contained-text'",
+              "default": "'tonal'",
               "value": {
                 "kind": "expression",
                 "type": "string"
@@ -5303,6 +5333,17 @@
               "type": "boolean"
             },
             {
+              "name": "menu",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-combobox#props",
+              "default": "false",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "type": "boolean"
+            },
+            {
               "name": "menu-icon",
               "description": "",
               "doc-url": "https://vuetifyjs.com/api/v-combobox#props",
@@ -5314,6 +5355,15 @@
                   "function",
                   "object"
                 ]
+              }
+            },
+            {
+              "name": "menu-props",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-combobox#props",
+              "value": {
+                "kind": "expression",
+                "type": "object"
               }
             },
             {
@@ -5465,6 +5515,16 @@
             },
             {
               "name": "update:searchInput",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-combobox#events",
+              "arguments": [
+                {
+                  "name": "argument"
+                }
+              ]
+            },
+            {
+              "name": "update:menu",
               "description": "",
               "doc-url": "https://vuetifyjs.com/api/v-combobox#events",
               "arguments": [
@@ -6843,6 +6903,15 @@
               "value": {
                 "kind": "expression",
                 "type": "array"
+              }
+            },
+            {
+              "name": "validation-value",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-file-input#props",
+              "value": {
+                "kind": "expression",
+                "type": "any"
               }
             },
             {
@@ -8384,6 +8453,15 @@
                 "kind": "expression",
                 "type": "any"
               }
+            },
+            {
+              "name": "validation-value",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-input#props",
+              "value": {
+                "kind": "expression",
+                "type": "any"
+              }
             }
           ],
           "events": [
@@ -9283,7 +9361,7 @@
             },
             {
               "name": "variant",
-              "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**.",
+              "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**.",
               "doc-url": "https://vuetifyjs.com/api/v-list#props",
               "default": "'text'",
               "value": {
@@ -9347,45 +9425,64 @@
           }
         },
         {
-          "name": "VListSubheader",
+          "name": "VListGroup",
           "source": {
             "module": "./src/components/index.ts",
-            "symbol": "VListSubheader"
+            "symbol": "VListGroup"
           },
           "description": "",
-          "doc-url": "https://vuetifyjs.com/api/v-list-subheader",
+          "doc-url": "https://vuetifyjs.com/api/v-list-group",
           "attributes": [
+            {
+              "name": "active-color",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-list-group#props",
+              "value": {
+                "kind": "expression",
+                "type": "any"
+              }
+            },
             {
               "name": "color",
               "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-list-subheader#props",
+              "doc-url": "https://vuetifyjs.com/api/v-list-group#props",
               "value": {
                 "kind": "expression",
                 "type": "any"
               }
             },
             {
-              "name": "inset",
+              "name": "collapse-icon",
               "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-list-subheader#props",
+              "doc-url": "https://vuetifyjs.com/api/v-list-group#props",
+              "default": "'$collapse'",
               "value": {
                 "kind": "expression",
-                "type": "any"
+                "type": [
+                  "string",
+                  "function",
+                  "object"
+                ]
               }
             },
             {
-              "name": "sticky",
+              "name": "expand-icon",
               "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-list-subheader#props",
+              "doc-url": "https://vuetifyjs.com/api/v-list-group#props",
+              "default": "'$expand'",
               "value": {
                 "kind": "expression",
-                "type": "any"
+                "type": [
+                  "string",
+                  "function",
+                  "object"
+                ]
               }
             },
             {
-              "name": "title",
-              "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-list-subheader#props",
+              "name": "value",
+              "description": "Expands / Collapse the list-group",
+              "doc-url": "https://vuetifyjs.com/api/v-list-group#props",
               "value": {
                 "kind": "expression",
                 "type": "any"
@@ -9394,7 +9491,7 @@
             {
               "name": "tag",
               "description": "Specify a custom tag used on the root element.",
-              "doc-url": "https://vuetifyjs.com/api/v-list-subheader#props",
+              "doc-url": "https://vuetifyjs.com/api/v-list-group#props",
               "default": "'div'",
               "value": {
                 "kind": "expression",
@@ -9402,8 +9499,41 @@
               }
             }
           ],
-          "events": [],
-          "slots": [],
+          "events": [
+            {
+              "name": "click",
+              "description": "Event that is emitted when the component is clicked",
+              "doc-url": "https://vuetifyjs.com/api/v-list-group#events",
+              "arguments": [
+                {
+                  "name": "argument",
+                  "type": "MouseEvent"
+                }
+              ]
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "The default Vue slot.",
+              "doc-url": "https://vuetifyjs.com/api/v-list-group#slots"
+            },
+            {
+              "name": "activator",
+              "description": "When used, will activate the component when clicked (or hover for specific components). This manually stops the event propagation. Without this slot, if you open the component through its model, you will need to manually stop the event propagation",
+              "doc-url": "https://vuetifyjs.com/api/v-list-group#slots"
+            },
+            {
+              "name": "appendIcon",
+              "description": "Appends an icon to the component, uses the same syntax as `v-icon`",
+              "doc-url": "https://vuetifyjs.com/api/v-list-group#slots"
+            },
+            {
+              "name": "prependIcon",
+              "description": "Prepends an icon to the component, uses the same syntax as `v-icon`",
+              "doc-url": "https://vuetifyjs.com/api/v-list-group#slots"
+            }
+          ],
           "vue-model": {
             "prop": "modelValue",
             "event": "update:modelValue"
@@ -9755,7 +9885,7 @@
             },
             {
               "name": "variant",
-              "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**.",
+              "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**.",
               "doc-url": "https://vuetifyjs.com/api/v-list-item#props",
               "default": "'text'",
               "value": {
@@ -10222,64 +10352,45 @@
           }
         },
         {
-          "name": "VListGroup",
+          "name": "VListSubheader",
           "source": {
             "module": "./src/components/index.ts",
-            "symbol": "VListGroup"
+            "symbol": "VListSubheader"
           },
           "description": "",
-          "doc-url": "https://vuetifyjs.com/api/v-list-group",
+          "doc-url": "https://vuetifyjs.com/api/v-list-subheader",
           "attributes": [
-            {
-              "name": "active-color",
-              "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-list-group#props",
-              "value": {
-                "kind": "expression",
-                "type": "any"
-              }
-            },
             {
               "name": "color",
               "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-list-group#props",
+              "doc-url": "https://vuetifyjs.com/api/v-list-subheader#props",
               "value": {
                 "kind": "expression",
                 "type": "any"
               }
             },
             {
-              "name": "collapse-icon",
+              "name": "inset",
               "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-list-group#props",
-              "default": "'$collapse'",
+              "doc-url": "https://vuetifyjs.com/api/v-list-subheader#props",
               "value": {
                 "kind": "expression",
-                "type": [
-                  "string",
-                  "function",
-                  "object"
-                ]
+                "type": "any"
               }
             },
             {
-              "name": "expand-icon",
+              "name": "sticky",
               "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-list-group#props",
-              "default": "'$expand'",
+              "doc-url": "https://vuetifyjs.com/api/v-list-subheader#props",
               "value": {
                 "kind": "expression",
-                "type": [
-                  "string",
-                  "function",
-                  "object"
-                ]
+                "type": "any"
               }
             },
             {
-              "name": "value",
-              "description": "Expands / Collapse the list-group",
-              "doc-url": "https://vuetifyjs.com/api/v-list-group#props",
+              "name": "title",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-list-subheader#props",
               "value": {
                 "kind": "expression",
                 "type": "any"
@@ -10288,7 +10399,7 @@
             {
               "name": "tag",
               "description": "Specify a custom tag used on the root element.",
-              "doc-url": "https://vuetifyjs.com/api/v-list-group#props",
+              "doc-url": "https://vuetifyjs.com/api/v-list-subheader#props",
               "default": "'div'",
               "value": {
                 "kind": "expression",
@@ -10296,41 +10407,8 @@
               }
             }
           ],
-          "events": [
-            {
-              "name": "click",
-              "description": "Event that is emitted when the component is clicked",
-              "doc-url": "https://vuetifyjs.com/api/v-list-group#events",
-              "arguments": [
-                {
-                  "name": "argument",
-                  "type": "MouseEvent"
-                }
-              ]
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "The default Vue slot.",
-              "doc-url": "https://vuetifyjs.com/api/v-list-group#slots"
-            },
-            {
-              "name": "activator",
-              "description": "When used, will activate the component when clicked (or hover for specific components). This manually stops the event propagation. Without this slot, if you open the component through its model, you will need to manually stop the event propagation",
-              "doc-url": "https://vuetifyjs.com/api/v-list-group#slots"
-            },
-            {
-              "name": "appendIcon",
-              "description": "Appends an icon to the component, uses the same syntax as `v-icon`",
-              "doc-url": "https://vuetifyjs.com/api/v-list-group#slots"
-            },
-            {
-              "name": "prependIcon",
-              "description": "Prepends an icon to the component, uses the same syntax as `v-icon`",
-              "doc-url": "https://vuetifyjs.com/api/v-list-group#slots"
-            }
-          ],
+          "events": [],
+          "slots": [],
           "vue-model": {
             "prop": "modelValue",
             "event": "update:modelValue"
@@ -11141,6 +11219,17 @@
               }
             },
             {
+              "name": "eager",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-overlay#props",
+              "default": "false",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "type": "boolean"
+            },
+            {
               "name": "location-strategy",
               "description": "",
               "doc-url": "https://vuetifyjs.com/api/v-overlay#props",
@@ -11181,7 +11270,8 @@
                 "kind": "expression",
                 "type": [
                   "number",
-                  "string"
+                  "string",
+                  "array"
                 ]
               }
             },
@@ -11220,17 +11310,6 @@
                   "object"
                 ]
               }
-            },
-            {
-              "name": "eager",
-              "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-overlay#props",
-              "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              },
-              "type": "boolean"
             }
           ],
           "events": [
@@ -11485,20 +11564,6 @@
               }
             },
             {
-              "name": "rounded",
-              "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-pagination#props",
-              "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": [
-                  "boolean",
-                  "number",
-                  "string"
-                ]
-              }
-            },
-            {
               "name": "border",
               "description": "Applies border styles to component.",
               "doc-url": "https://vuetifyjs.com/api/v-pagination#props",
@@ -11529,6 +11594,20 @@
               "value": {
                 "kind": "expression",
                 "type": [
+                  "number",
+                  "string"
+                ]
+              }
+            },
+            {
+              "name": "rounded",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-pagination#props",
+              "default": "false",
+              "value": {
+                "kind": "expression",
+                "type": [
+                  "boolean",
                   "number",
                   "string"
                 ]
@@ -11577,7 +11656,7 @@
             },
             {
               "name": "variant",
-              "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**.",
+              "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**.",
               "doc-url": "https://vuetifyjs.com/api/v-pagination#props",
               "default": "'text'",
               "value": {
@@ -12280,6 +12359,15 @@
               }
             },
             {
+              "name": "validation-value",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-radio-group#props",
+              "value": {
+                "kind": "expression",
+                "type": "any"
+              }
+            },
+            {
               "name": "color",
               "description": "",
               "doc-url": "https://vuetifyjs.com/api/v-radio-group#props",
@@ -12608,6 +12696,15 @@
               "value": {
                 "kind": "expression",
                 "type": "array"
+              }
+            },
+            {
+              "name": "validation-value",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-range-slider#props",
+              "value": {
+                "kind": "expression",
+                "type": "any"
               }
             },
             {
@@ -13425,6 +13522,17 @@
               "type": "boolean"
             },
             {
+              "name": "menu",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-select#props",
+              "default": "false",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "type": "boolean"
+            },
+            {
               "name": "menu-icon",
               "description": "",
               "doc-url": "https://vuetifyjs.com/api/v-select#props",
@@ -13436,6 +13544,15 @@
                   "function",
                   "object"
                 ]
+              }
+            },
+            {
+              "name": "menu-props",
+              "description": "Pass props through to the `v-menu` component. Accepts either a string for boolean props `menu-props=\"auto, overflowY\"`, or an object `:menu-props=\"{ auto: true, overflowY: true }\"`",
+              "doc-url": "https://vuetifyjs.com/api/v-select#props",
+              "value": {
+                "kind": "expression",
+                "type": "object"
               }
             },
             {
@@ -13482,7 +13599,7 @@
             },
             {
               "name": "items",
-              "description": "Can be an array of objects or array of strings. When using objects, will look for a text, value and disabled keys. This can be changed using the **item-text**, **item-value** and **item-disabled** props.  Objects that have a **header** or **divider** property are considered special cases and generate a list header or divider; these items are not selectable.",
+              "description": "Can be an array of objects or array of strings. When using objects, will look for a title, value and disabled keys. This can be changed using the **item-title**, **item-value** and **item-disabled** props.  Objects that have a **header** or **divider** property are considered special cases and generate a list header or divider; these items are not selectable.",
               "doc-url": "https://vuetifyjs.com/api/v-select#props",
               "default": "[]",
               "value": {
@@ -13577,6 +13694,16 @@
           "events": [
             {
               "name": "update:modelValue",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-select#events",
+              "arguments": [
+                {
+                  "name": "argument"
+                }
+              ]
+            },
+            {
+              "name": "update:menu",
               "description": "",
               "doc-url": "https://vuetifyjs.com/api/v-select#events",
               "arguments": [
@@ -14109,22 +14236,6 @@
               }
             }
           ],
-          "events": [],
-          "slots": [],
-          "vue-model": {
-            "prop": "modelValue",
-            "event": "update:modelValue"
-          }
-        },
-        {
-          "name": "VSlideGroupSymbol",
-          "source": {
-            "module": "./src/components/index.ts",
-            "symbol": "VSlideGroupSymbol"
-          },
-          "description": "",
-          "doc-url": "https://vuetifyjs.com/api/v-slide-group-symbol",
-          "attributes": [],
           "events": [],
           "slots": [],
           "vue-model": {
@@ -14778,6 +14889,15 @@
                   "string"
                 ]
               }
+            },
+            {
+              "name": "validation-value",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-slider#props",
+              "value": {
+                "kind": "expression",
+                "type": "any"
+              }
             }
           ],
           "events": [
@@ -14920,9 +15040,9 @@
             },
             {
               "name": "variant",
-              "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**.",
+              "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**.",
               "doc-url": "https://vuetifyjs.com/api/v-snackbar#props",
-              "default": "'contained'",
+              "default": "'elevated'",
               "value": {
                 "kind": "expression",
                 "type": "string"
@@ -15193,6 +15313,15 @@
             },
             {
               "name": "model-value",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-switch#props",
+              "value": {
+                "kind": "expression",
+                "type": "any"
+              }
+            },
+            {
+              "name": "validation-value",
               "description": "",
               "doc-url": "https://vuetifyjs.com/api/v-switch#props",
               "value": {
@@ -15964,19 +16093,19 @@
               }
             },
             {
-              "name": "theme",
-              "description": "Specify a theme for this component and all of its children",
+              "name": "tag",
+              "description": "Specify a custom tag used on the root element.",
               "doc-url": "https://vuetifyjs.com/api/v-table#props",
+              "default": "'div'",
               "value": {
                 "kind": "expression",
                 "type": "string"
               }
             },
             {
-              "name": "tag",
-              "description": "Specify a custom tag used on the root element.",
+              "name": "theme",
+              "description": "Specify a theme for this component and all of its children",
               "doc-url": "https://vuetifyjs.com/api/v-table#props",
-              "default": "'div'",
               "value": {
                 "kind": "expression",
                 "type": "string"
@@ -16293,6 +16422,15 @@
             },
             {
               "name": "model-value",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-textarea#props",
+              "value": {
+                "kind": "expression",
+                "type": "any"
+              }
+            },
+            {
+              "name": "validation-value",
               "description": "",
               "doc-url": "https://vuetifyjs.com/api/v-textarea#props",
               "value": {
@@ -16780,6 +16918,15 @@
               }
             },
             {
+              "name": "validation-value",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-text-field#props",
+              "value": {
+                "kind": "expression",
+                "type": "any"
+              }
+            },
+            {
               "name": "append-inner-icon",
               "description": "",
               "doc-url": "https://vuetifyjs.com/api/v-text-field#props",
@@ -17171,6 +17318,15 @@
           "doc-url": "https://vuetifyjs.com/api/v-timeline-item",
           "attributes": [
             {
+              "name": "density",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-timeline-item#props",
+              "value": {
+                "kind": "expression",
+                "type": "any"
+              }
+            },
+            {
               "name": "dot-color",
               "description": "",
               "doc-url": "https://vuetifyjs.com/api/v-timeline-item#props",
@@ -17481,7 +17637,7 @@
               "name": "height",
               "description": "Designates a specific height for the toolbar. Overrides the heights imposed by other props, e.g. **prominent**, **dense**, **extended**, etc.",
               "doc-url": "https://vuetifyjs.com/api/v-toolbar#props",
-              "default": "56",
+              "default": "64",
               "value": {
                 "kind": "expression",
                 "type": [
@@ -17659,9 +17815,9 @@
             },
             {
               "name": "variant",
-              "description": "Applies one of 6 styles, **contained** (default), **contained-flat**, **contained-text**, **outlined**, **plain**, and **text**.",
+              "description": "Applies one of 6 styles: **elevated**(default), **flat**, **tonal**, **outlined**, **text**, and **plain**.",
               "doc-url": "https://vuetifyjs.com/api/v-toolbar-items#props",
-              "default": "'contained-text'",
+              "default": "'text'",
               "value": {
                 "kind": "expression",
                 "type": "string"
@@ -17880,6 +18036,15 @@
             },
             {
               "name": "model-value",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-validation#props",
+              "value": {
+                "kind": "expression",
+                "type": "any"
+              }
+            },
+            {
+              "name": "validation-value",
               "description": "",
               "doc-url": "https://vuetifyjs.com/api/v-validation#props",
               "value": {
@@ -18158,17 +18323,6 @@
               }
             },
             {
-              "name": "eager",
-              "description": "",
-              "doc-url": "https://vuetifyjs.com/api/v-window-item#props",
-              "default": "false",
-              "value": {
-                "kind": "expression",
-                "type": "boolean"
-              },
-              "type": "boolean"
-            },
-            {
               "name": "value",
               "description": "The value used when the component is selected in a group. If not provided, a unique ID will be used.",
               "doc-url": "https://vuetifyjs.com/api/v-window-item#props",
@@ -18196,6 +18350,17 @@
                 "kind": "expression",
                 "type": "string"
               }
+            },
+            {
+              "name": "eager",
+              "description": "",
+              "doc-url": "https://vuetifyjs.com/api/v-window-item#props",
+              "default": "false",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "type": "boolean"
             }
           ],
           "events": [],
